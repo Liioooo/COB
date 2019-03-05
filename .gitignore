@@ -2,8 +2,15 @@
 
 # compiled output
 /dist
+/electron/dist
 /tmp
 /out-tsc
+/app-builds
+/release
+main.js
+src/**/*.js
+*.js.map
+
 # Only exists if Bazel was run
 /bazel-out
 
