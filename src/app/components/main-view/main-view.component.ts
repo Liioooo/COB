@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SidebarService} from '../../services/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-main-view',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(public sidebarService: SidebarService) { }
 
   ngOnInit() {
   }

@@ -1,5 +1,16 @@
-<main>
-    <app-left-sidebar></app-left-sidebar>
-    <app-main-view></app-main-view>
-</main>
-<app-right-sidebar></app-right-sidebar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" position="end" [(opened)]="sidebarService.state"
+               (keydown.escape)="sidenav.close()"
+               >
+    Sidenav content
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main>
+      <app-left-sidebar></app-left-sidebar>
+      <app-main-view></app-main-view>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
