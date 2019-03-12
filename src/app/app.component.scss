@@ -1,5 +1,13 @@
-main {
-  display: grid;
-  grid-template-columns: 50px auto;
+.all {
   height: 100%;
+
+  main {
+    display: grid;
+    grid-template-columns: 50px auto;
+    height: 100%;
+
+    app-main-view {
+      overflow: auto;
+    }
+  }
 }

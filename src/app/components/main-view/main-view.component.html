@@ -1,4 +1,5 @@
-<p>
-  <button mat-raised-button (click)="sidebarService.toggle()">toggle</button>
-
-</p>
+<div class="pages-boundary">
+  <div class="drag-page" cdkDragBoundary=".pages-boundary" cdkDrag>
+    <app-small-page-preview></app-small-page-preview>
+  </div>
+</div>
