@@ -1,16 +1,16 @@
-<ng-sidebar-container>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" position="end" [(opened)]="sidebarService.state"
+               (keydown.escape)="sidenav.close()"
+               >
+    Sidenav content
+  </mat-sidenav>
 
-  <!-- A sidebar -->
-  <ng-sidebar [(opened)]="_opened">
-    <div>
-      <button (click)="_toggleSidebar()">Toggle sidebar</button>
-    </div>
-  </ng-sidebar>
+  <mat-sidenav-content>
+    <main>
+      <app-left-sidebar></app-left-sidebar>
+      <app-main-view></app-main-view>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
 
-  <main ng-sidebar-content>
-    <app-left-sidebar></app-left-sidebar>
-    <app-main-view></app-main-view>
-  </main>
-
-</ng-sidebar-container>
