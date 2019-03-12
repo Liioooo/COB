@@ -1,5 +1,16 @@
-<main>
+<ng-sidebar-container>
+
+  <!-- A sidebar -->
+  <ng-sidebar [(opened)]="_opened">
+    <div>
+      <button (click)="_toggleSidebar()">Toggle sidebar</button>
+    </div>
+  </ng-sidebar>
+
+
+  <main ng-sidebar-content>
     <app-left-sidebar></app-left-sidebar>
     <app-main-view></app-main-view>
-</main>
-<app-right-sidebar></app-right-sidebar>
+  </main>
+
+</ng-sidebar-container>
