@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
+import {Page} from '../../models/page-interface';
+import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 
 @Component({
   selector: 'app-main-view',
@@ -8,9 +10,16 @@ import {PageStructureService} from '../../services/PageStructure/page-structure.
 })
 export class MainViewComponent implements OnInit {
 
-  constructor(public pageStructure: PageStructureService) { }
+    constructor(public pageStructure: PageStructureService, private pageViewGrid: PageViewGridService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
+
+    dragEnded(event, page: Page) {
+      const pos = this.pageViewGrid.convertPixelPosToGridPos(event.posX, event.posY);
+      page.posX = pos.x;
+      page.posY = pos.y;
+      console.log(page);
+    }
 
 }

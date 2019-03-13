@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Page} from '../../models/page-interface';
 
 @Component({
   selector: 'app-small-page-preview',
@@ -8,10 +9,16 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class SmallPagePreviewComponent implements OnInit {
 
     @Input()
-    page: any; // TODO: use correct type
+    page: Page;
 
     @Output()
-    selectedPage = new EventEmitter<any>(); // same as input
+    selectedPage = new EventEmitter<Page>();
+
+    @Output()
+    mouseEnter = new EventEmitter<Page>();
+
+    @Output()
+    mouseLeave = new EventEmitter<Page>();
 
     private mouseDownStartTime: number;
 
@@ -24,10 +31,9 @@ export class SmallPagePreviewComponent implements OnInit {
       this.mouseDownStartTime = performance.now();
    }
 
-   onMouseUp() {
-      if (performance.now() - this.mouseDownStartTime < 300) {
-        this.selectedPage.emit(this.page);
-      }
-   }
-
+    onMouseUp() {
+       if (performance.now() - this.mouseDownStartTime < 300) {
+         this.selectedPage.emit(this.page);
+       }
+    }
 }

@@ -10,24 +10,18 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 })
 export class LeftSidebarComponent implements OnInit {
 
-  constructor(
-      public sidebarService: SidebarService,
-      private pageStructure: PageStructureService,
-      private pageViewGrid: PageViewGridService
-  ) { }
+    constructor(
+        public sidebarService: SidebarService,
+        private pageStructure: PageStructureService,
+        private pageViewGrid: PageViewGridService
+    ) {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  addPage() {
-    const pos = this.pageViewGrid.getPosForNewPage();
-    this.pageStructure.addPage({
-      questionId: '' + Math.random(),
-      templateType: 'AdvisorLogin',
-      connections: [],
-      posX: pos.x,
-      posY: pos.y
-    });
-  }
-
+    addPage() {
+        const pos = this.pageViewGrid.getPosForNewPage();
+        this.pageStructure.addEmptyPage(1, 0);
+    }
 }

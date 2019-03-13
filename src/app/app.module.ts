@@ -8,6 +8,7 @@ import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.com
 import { MainViewComponent } from './components/main-view/main-view.component';
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
 import {SmallPagePreviewComponent} from './components/small-page-preview/small-page-preview.component';
+import { DragableDirective } from './directives/dragable.directive';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {SmallPagePreviewComponent} from './components/small-page-preview/small-p
     LeftSidebarComponent,
     MainViewComponent,
     RightSidebarComponent,
-    SmallPagePreviewComponent
+    SmallPagePreviewComponent,
+    DragableDirective
   ],
   imports: [
     BrowserModule,
