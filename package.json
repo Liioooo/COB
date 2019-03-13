@@ -27,8 +27,7 @@
     "@angular/animations": ">=7.0.0",
     "@angular/cdk": "~7.3.4",
     "@angular/material": "~7.3.4",
-    "hammerjs": "^2.0.8",
-    "ng-sidebar": "^8.0.0"
+    "hammerjs": "^2.0.8"
   },
   "devDependencies": {
     "@angular/animations": "~7.2.0",
