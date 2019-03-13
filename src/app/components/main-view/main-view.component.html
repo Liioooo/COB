@@ -1,5 +1,5 @@
 <div class="pages-boundary">
-  <div class="drag-page" cdkDragBoundary=".pages-boundary" cdkDrag>
+  <div *ngFor="let page of pageStructure.pages" class="drag-page" cdkDragBoundary=".pages-boundary" cdkDrag>
     <app-small-page-preview></app-small-page-preview>
   </div>
 </div>

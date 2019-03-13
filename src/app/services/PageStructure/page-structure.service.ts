@@ -9,7 +9,9 @@ export class PageStructureService {
   private _startPage: Page;
   private _pages: Page[] = [];
 
-  constructor() { }
+  constructor() {
+    this._pages = [];
+  }
 
 
 
