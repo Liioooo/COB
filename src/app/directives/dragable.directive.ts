@@ -1,4 +1,4 @@
-import {Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {Page} from '../models/page-interface';
 import {PageViewGridService} from '../services/page-view-grid/page-view-grid.service';
 
@@ -7,33 +7,33 @@ import {PageViewGridService} from '../services/page-view-grid/page-view-grid.ser
 })
 export class DragableDirective implements OnInit, DoCheck {
 
-  private pos1; pos2; pos3; pos4;
+    private pos1; pos2; pos3; pos4;
 
-  private lastXGridPos: number;
-  private lastYGridPos: number;
+    private lastXGridPos: number;
+    private lastYGridPos: number;
 
-  @Output()
-  dragEnded = new EventEmitter<{posX: number, posY: number}>();
+    private lastDragPos;
+    private mouseDown: boolean;
 
-  @Input()
-  appDragablePage: Page;
+    @Output()
+    dragEnded = new EventEmitter<{posX: number, posY: number}>();
 
-  constructor(private el: ElementRef<HTMLDivElement>, private pageViewGrid: PageViewGridService) { }
+    @Input()
+    appDragablePage: Page;
+
+    constructor(private el: ElementRef<HTMLDivElement>, private pageViewGrid: PageViewGridService) { }
 
     ngOnInit(): void {
-      this.lastXGridPos = this.appDragablePage.posX;
-      this.lastYGridPos = this.appDragablePage.posY;
       const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
-      this.el.nativeElement.style.top = pos.y + 'px';
-      this.el.nativeElement.style.left = pos.x + 'px';
+      this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+      this.lastDragPos = pos;
     }
 
     ngDoCheck() {
-        console.log('changes');
-        if (this.lastXGridPos !== this.appDragablePage.posX || this.lastYGridPos !== this.appDragablePage.posY) {
+        if (!this.mouseDown && (this.lastXGridPos !== this.appDragablePage.posX || this.lastYGridPos !== this.appDragablePage.posY)) {
             const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
-            this.el.nativeElement.style.top = pos.y + 'px';
-            this.el.nativeElement.style.left = pos.x + 'px';
+            this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+            this.lastDragPos = pos;
             this.lastXGridPos = this.appDragablePage.posX;
             this.lastYGridPos = this.appDragablePage.posY;
         }
@@ -41,32 +41,43 @@ export class DragableDirective implements OnInit, DoCheck {
 
     @HostListener('mousedown', ['$event'])
     onMouseDown(event: MouseEvent) {
-        this.pos3 = event.clientX;
-        this.pos4 = event.clientY;
+        if (event.button === 0) {
+            this.mouseDown = true;
+            this.pos3 = event.clientX;
+            this.pos4 = event.clientY;
+            this.el.nativeElement.style.zIndex = '2';
+        }
     }
 
     @HostListener('mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {
-      if (event.buttons === 1) {
+      if (this.mouseDown) {
           this.pos1 = this.pos3 - event.clientX;
           this.pos2 = this.pos4 - event.clientY;
           this.pos3 = event.clientX;
           this.pos4 = event.clientY;
-          if ((this.el.nativeElement.offsetTop - this.pos2) >= 0) {
-              this.el.nativeElement.style.top = (this.el.nativeElement.offsetTop - this.pos2) + 'px';
+          const pos: {y: number, x: number} = {x: 0, y: 0};
+          if ((this.lastDragPos.y - this.pos2) >= 0) {
+              pos.y = (this.lastDragPos.y - this.pos2);
           }
-          if ((this.el.nativeElement.offsetLeft - this.pos1) >= 0) {
-            this.el.nativeElement.style.left = (this.el.nativeElement.offsetLeft - this.pos1) + 'px';
+          if ((this.lastDragPos.x - this.pos1) >= 0) {
+                pos.x = (this.lastDragPos.x - this.pos1);
           }
-      }
+          this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+          this.lastDragPos = pos;
     }
+  }
 
     @HostListener('mouseup')
     onMouseUp() {
-        this.dragEnded.emit({
-            posX: parseInt(this.el.nativeElement.style.top, 10),
-            posY:  parseInt(this.el.nativeElement.style.left, 10)
-        });
+        if (this.mouseDown) {
+            this.el.nativeElement.style.zIndex = '1';
+            this.dragEnded.emit({
+                posX: this.lastDragPos.x,
+                posY: this.lastDragPos.y
+            });
+        }
+        this.mouseDown = false;
     }
 
 }

@@ -43,8 +43,8 @@ export class PageViewGridService {
 
     public convertPixelPosToGridPos(px: number, py: number): {x: number, y: number} {
         return {
-            x: px / 300,
-            y: py / 200
+            x: Math.round(px / 300),
+            y: Math.round(py / 200)
         };
     }
 }

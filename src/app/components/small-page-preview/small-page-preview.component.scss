@@ -2,12 +2,14 @@ p {
     text-align: center;
     margin: 0;
     padding-bottom: 0.3rem;
-  }
+    user-select: none;
+}
 
   mat-card {
-    height: 150px;
+    height: 144px;
 
     mat-card-content {
+      user-select: none;
       display: flex;
       flex-direction: row;
       align-items: center;
