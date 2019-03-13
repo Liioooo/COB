@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
 @Component({
   selector: 'app-main-view',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(public pageStructure: PageStructureService) { }
 
   ngOnInit() {
   }
