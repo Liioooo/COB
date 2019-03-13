@@ -10,9 +10,14 @@ export class PageViewGridService {
     private _GRID_HEIGHT = 250;
     private _GRID_WIDTH = 400;
 
+    private _zoomLevel = 40;
 
     // TODO: implement all functions correctly
     constructor(private pageStructure: PageStructureService) { }
+
+    get zoomLevel(): number {
+        return this._zoomLevel / 10;
+    }
 
     public getNextGridPosition(droppedX: number, droppedY: number): {x: number, y: number} {
       return {x: 0, y: 0};
@@ -36,16 +41,28 @@ export class PageViewGridService {
 
     public convertGridPosToPixelPos(gx: number, gy: number): {x: number, y: number} {
       return {
-        x: gx * 300,
-        y: gy * 200
+        x: gx * 100,
+        y: gy * 66
       };
     }
 
     public convertPixelPosToGridPos(px: number, py: number): {x: number, y: number} {
         return {
-            x: Math.round(px / 300),
-            y: Math.round(py / 200)
+            x: Math.round(px / 100),
+            y: Math.round(py / 66)
         };
+    }
+
+    public zoomLarger() {
+        if (this._zoomLevel + 1 < 80) {
+            this._zoomLevel += 1;
+        }
+    }
+
+    public zoomSmaller() {
+        if (this._zoomLevel - 1 >= 10) {
+            this._zoomLevel -= 1;
+        }
     }
 }
 

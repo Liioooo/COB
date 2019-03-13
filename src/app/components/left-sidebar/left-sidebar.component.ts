@@ -13,7 +13,7 @@ export class LeftSidebarComponent implements OnInit {
     constructor(
         public sidebarService: SidebarService,
         private pageStructure: PageStructureService,
-        private pageViewGrid: PageViewGridService
+        public pageViewGrid: PageViewGridService
     ) {
     }
 
@@ -22,6 +22,6 @@ export class LeftSidebarComponent implements OnInit {
 
     addPage() {
         const pos = this.pageViewGrid.getPosForNewPage();
-        this.pageStructure.addEmptyPage(1, 0);
+        this.pageStructure.addEmptyPage(0, 0);
     }
 }

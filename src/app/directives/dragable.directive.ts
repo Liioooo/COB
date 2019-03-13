@@ -49,7 +49,7 @@ export class DragableDirective implements OnInit, DoCheck {
         }
     }
 
-    @HostListener('mousemove', ['$event'])
+    @HostListener('window:mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {
       if (this.mouseDown) {
           this.pos1 = this.pos3 - event.clientX;
@@ -68,7 +68,7 @@ export class DragableDirective implements OnInit, DoCheck {
     }
   }
 
-    @HostListener('mouseup')
+    @HostListener('window:mouseup')
     onMouseUp() {
         if (this.mouseDown) {
             this.el.nativeElement.style.zIndex = '1';
