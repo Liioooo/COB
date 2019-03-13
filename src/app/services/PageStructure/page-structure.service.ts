@@ -7,13 +7,56 @@ import {Page} from '../../models/page-interface';
 export class PageStructureService {
 
   private _startPage: Page;
-  private _pages: Page[] = [];
+  private _pages: Page[];
+  private _clipboard: Page[] = [];
 
   constructor() {
     this._pages = [];
   }
 
+  public pasteClipboard(posX?: number, posY?: number): void {
+    for (const page of this._clipboard) {
+      const newPage = {...page};
+      let num: number = 1;
+      let newId: string;
+      do {
+        newId = page.questionId + `(${num++})`;
+      } while (this.pageIdExists(newId));
 
+      newPage.questionId = newId;
+
+      this.addPage(newPage);
+    }
+  }
+
+  public addToClipboard(pages: Page[]): boolean {
+    for (const page of pages) {
+      if (!this.pageIdExists(page.questionId)) {
+        return false;
+      }
+    }
+    this._clipboard = pages;
+    return true;
+  }
+
+  public addEmptyPage(posX?: number, posY?: number): Page {
+    let num: number = this._pages.length;
+    let newId: string;
+    do {
+      newId = `step${num++}`;
+    } while (this.pageIdExists(newId));
+
+    const newPage: Page = {
+      questionId: newId,
+      connections: [],
+      templateType: 'none',
+      posX,
+      posY
+    };
+
+    this.addPage(newPage);
+    return newPage;
+  }
 
   public addPage(newPage: Page): boolean {
     if (this.pageIdExists(newPage.questionId)) {
@@ -63,5 +106,9 @@ export class PageStructureService {
 
   get pages(): Page[] {
     return this._pages;
+  }
+
+  get clipboard(): Page[] {
+    return this._clipboard;
   }
 }
