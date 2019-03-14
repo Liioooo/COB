@@ -20,8 +20,17 @@ export class PageStructureService {
   public clearSelection(): void {
     this._selectedPages = [];
     for (const page of this._pages) {
-      this.updatePageById(page.questionId, {});
+      page.isSelected = false;
     }
+  }
+
+  public switchSelection(page: Page): void {
+    if (page.isSelected) {
+      this._selectedPages.filter(inPage => inPage.questionId !== page.questionId);
+    } else {
+      this._selectedPages.push(page);
+    }
+    page.isSelected = !page.isSelected;
   }
 
   public isSelected(checkPage: Page): boolean {
@@ -138,6 +147,12 @@ export class PageStructureService {
   }
 
   set selectedPages(value: Page[]) {
+    for (const page of this._selectedPages) {
+      page.isSelected = false;
+    }
     this._selectedPages = value;
+    for (const page of value) {
+      page.isSelected = true;
+    }
   }
 }

@@ -44,9 +44,9 @@ export class DragableDirective implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
-        this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-        this.lastDragPos = pos;
+      const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
+      this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+      this.lastDragPos = pos;
     }
 
     @HostListener('mousedown', ['$event'])
@@ -97,11 +97,6 @@ export class DragableDirective implements OnInit, OnChanges {
                     posX: this.appDragablePage.posX,
                     posY: this.appDragablePage.posY
                 });
-                // if (this.pageStructure.selectedPages.length !== 0) {
-                //   this.pageStructure.selectedPages = [];
-                // } else {
-                //   this.pageStructure.selectedPages = [this.appDragablePage];
-                // }
             }
         }
         this.mouseDown = false;

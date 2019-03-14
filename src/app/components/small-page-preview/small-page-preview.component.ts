@@ -24,29 +24,20 @@ export class SmallPagePreviewComponent implements OnInit {
     @Input()
     page: Page;
 
-    @Output()
-    selectedPage = new EventEmitter<Page>();
-
-    @Output()
-    mouseEnter = new EventEmitter<Page>();
-
-    @Output()
-    mouseLeave = new EventEmitter<Page>();
-
-    private mouseDownStartTime: number;
-
-    constructor(private ps: PageStructureService) { }
+    constructor(private pageStructure: PageStructureService) { }
 
     ngOnInit() {
     }
 
-    onMouseDown() {
-      this.mouseDownStartTime = performance.now();
-   }
-
-    onMouseUp() {
-       if (performance.now() - this.mouseDownStartTime < 300) {
-         this.selectedPage.emit(this.page);
-       }
+    onClick(event: MouseEvent) {
+        if (event.ctrlKey) {
+          this.pageStructure.switchSelection(this.page);
+        } else {
+          if (this.pageStructure.selectedPages.length === 1 && this.page.isSelected) {
+            this.pageStructure.switchSelection(this.page);
+          } else {
+            this.pageStructure.selectedPages = [this.page];
+          }
+        }
     }
 }

@@ -1,7 +1,8 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
+import {container} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-main-view',
@@ -10,7 +11,8 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 })
 export class MainViewComponent implements OnInit {
 
-    private mouseDown: boolean;
+    @ViewChild('container')
+    private container: ElementRef<HTMLDivElement>;
 
     constructor(
         public pageStructure: PageStructureService,
@@ -25,21 +27,13 @@ export class MainViewComponent implements OnInit {
       this.pageStructure.updatePageById(page.questionId, {posX: pos.x, posY: pos.y});
     }
 
-    pageSelected(page: Page) {
+    public update(index: number, item: Page): any {
+      return item.questionId + item.isSelected;
     }
 
-    // @HostListener('mousedown', ['$event'])
-    // onMouseDown(event: MouseEvent) {
-    //   if (event.button === 0) {
-    //     this.mouseDown = true;
-    //   }
-    // }
-    //
-    // @HostListener('window:mouseup', ['$event'])
-    // onMouseUp(event: MouseEvent) {
-    //   if (this.mouseDown) {
-    //     this.pageStructure.clearSelection();
-    //   }
-    //   this.mouseDown = false;
-    // }
+    public onClick(event: MouseEvent): void {
+      if (event.target === this.container.nativeElement) {
+        this.pageStructure.clearSelection();
+      }
+    }
 }
