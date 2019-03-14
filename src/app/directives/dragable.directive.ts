@@ -1,6 +1,5 @@
 import {
     Directive,
-    DoCheck,
     ElementRef,
     EventEmitter,
     HostListener,
@@ -18,9 +17,6 @@ import {PageViewGridService} from '../services/page-view-grid/page-view-grid.ser
 export class DragableDirective implements OnInit, OnChanges {
 
     private pos1; pos2; pos3; pos4;
-
-    private lastXGridPos: number;
-    private lastYGridPos: number;
 
     private lastDragPos;
     private mouseDown: boolean;
@@ -48,9 +44,10 @@ export class DragableDirective implements OnInit, OnChanges {
     @HostListener('mousedown', ['$event'])
     onMouseDown(event: MouseEvent) {
         if (event.button === 0) {
+            const zoom = this.pageViewGrid.zoomLevel;
             this.mouseDown = true;
-            this.pos3 = event.clientX;
-            this.pos4 = event.clientY;
+            this.pos3 = event.clientX / zoom;
+            this.pos4 = event.clientY / zoom;
             this.el.nativeElement.style.zIndex = '2';
         }
     }
@@ -58,16 +55,17 @@ export class DragableDirective implements OnInit, OnChanges {
     @HostListener('window:mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {
       if (this.mouseDown) {
-          this.pos1 = this.pos3 - event.clientX;
-          this.pos2 = this.pos4 - event.clientY;
-          this.pos3 = event.clientX;
-          this.pos4 = event.clientY;
+          const zoom = this.pageViewGrid.zoomLevel;
+          this.pos1 = this.pos3 - event.clientX / zoom;
+          this.pos2 = this.pos4 - event.clientY / zoom;
+          this.pos3 = event.clientX / zoom;
+          this.pos4 = event.clientY / zoom;
           const pos: {y: number, x: number} = {x: 0, y: 0};
           if ((this.lastDragPos.y - this.pos2) >= 0) {
               pos.y = (this.lastDragPos.y - this.pos2);
           }
           if ((this.lastDragPos.x - this.pos1) >= 0) {
-                pos.x = (this.lastDragPos.x - this.pos1);
+              pos.x = (this.lastDragPos.x - this.pos1);
           }
           this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
           this.lastDragPos = pos;

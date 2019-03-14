@@ -15,6 +15,16 @@ export class MainViewComponent implements OnInit {
     ngOnInit() {
     }
 
+    onScroll(event: WheelEvent) {
+        if (event.ctrlKey) {
+            if (event.deltaY < 0) {
+                this.pageViewGrid.zoomLarger();
+            } else {
+                this.pageViewGrid.zoomSmaller()
+            }
+        }
+    }
+
     dragEnded(event, page: Page) {
       const pos = this.pageViewGrid.convertPixelPosToGridPos(event.posX, event.posY);
       this.pageStructure.updatePageById(page.questionId, {posX: pos.x, posY: pos.y});

@@ -1,13 +1,14 @@
 p {
     text-align: center;
     margin: 0;
-    padding-bottom: 0.3rem;
+    padding-bottom: 0.25rem;
     user-select: none;
-    font-size: 10px;
+    font-size: 4px;
 }
 
   mat-card {
-    height: 48px;
+    height: 28px;
+    padding: 5px;
 
     mat-card-content {
       user-select: none;

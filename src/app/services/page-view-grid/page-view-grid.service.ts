@@ -41,27 +41,27 @@ export class PageViewGridService {
 
     public convertGridPosToPixelPos(gx: number, gy: number): {x: number, y: number} {
       return {
-        x: gx * 100,
-        y: gy * 66
+        x: gx * 50,
+        y: gy * 30
       };
     }
 
     public convertPixelPosToGridPos(px: number, py: number): {x: number, y: number} {
         return {
-            x: Math.round(px / 100),
-            y: Math.round(py / 66)
+            x: Math.round(px / 50),
+            y: Math.round(py / 30)
         };
     }
 
     public zoomLarger() {
-        if (this._zoomLevel + 1 < 80) {
-            this._zoomLevel += 1;
+        if (this._zoomLevel + 2 < 60) {
+            this._zoomLevel += 2;
         }
     }
 
     public zoomSmaller() {
-        if (this._zoomLevel - 1 >= 10) {
-            this._zoomLevel -= 1;
+        if (this._zoomLevel - 2 >= 10) {
+            this._zoomLevel -= 2;
         }
     }
 }
