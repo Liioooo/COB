@@ -7,8 +7,11 @@ import {PageStructureService} from '../PageStructure/page-structure.service';
 export class PageViewGridService {
 
     private _GRID_PADDING = 30;
-    private _GRID_HEIGHT = 250;
-    private _GRID_WIDTH = 400;
+    private _GRID_HEIGHT = 200;
+    private _GRID_WIDTH = 200;
+
+    private _PAGE_WIDTH = 4;
+    private _PAGE_HEIGHT = 3;
 
     private _zoomLevel = 40;
 
@@ -41,15 +44,15 @@ export class PageViewGridService {
 
     public convertGridPosToPixelPos(gx: number, gy: number): {x: number, y: number} {
       return {
-        x: gx * 50,
-        y: gy * 30
+        x: gx * this._GRID_WIDTH + (gx + 1) * this._GRID_PADDING,
+        y: gy * this._GRID_HEIGHT + (gy + 1) * this._GRID_PADDING
       };
     }
 
     public convertPixelPosToGridPos(px: number, py: number): {x: number, y: number} {
         return {
-            x: Math.round(px / 50),
-            y: Math.round(py / 30)
+            x: Math.round(px / (this._GRID_WIDTH + this._GRID_PADDING)),
+            y: Math.round(py / (this._GRID_HEIGHT + this._GRID_PADDING))
         };
     }
 
