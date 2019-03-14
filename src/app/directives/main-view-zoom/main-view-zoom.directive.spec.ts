@@ -1,8 +1,8 @@
-import { AdjustScrollOnZoomDirective } from './adjust-scroll-on-zoom.directive';
+import { AppMainViewZoomDirective } from './main-view-zoom.directive';
 
-describe('AdjustScrollOnZoomDirective', () => {
+describe('AppMainViewZoomDirective', () => {
   it('should create an instance', () => {
-    const directive = new AdjustScrollOnZoomDirective();
+    const directive = new AppMainViewZoomDirective();
     expect(directive).toBeTruthy();
   });
 });
