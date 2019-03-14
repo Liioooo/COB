@@ -1,7 +1,6 @@
- <p>{{page.questionId}}</p>
-  <mat-card (mousedown)="onMouseDown()" (mouseup)="onMouseUp()">
-    <mat-card-content>
-      <p>das ist ein tolles Preview</p>
-    </mat-card-content>
-  </mat-card>
-
+<p>{{page.questionId}}</p>
+<mat-card [class.selected]="ps.isSelected(page)" (mousedown)="onMouseDown()" (mouseup)="onMouseUp()">
+  <mat-card-content>
+    <p>das ist ein tolles Preview</p>
+  </mat-card-content>
+</mat-card>

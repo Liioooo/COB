@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
@@ -9,6 +9,8 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
   styleUrls: ['./main-view.component.scss']
 })
 export class MainViewComponent implements OnInit {
+
+    private mouseDown: boolean;
 
     constructor(
         public pageStructure: PageStructureService,
@@ -26,4 +28,18 @@ export class MainViewComponent implements OnInit {
     pageSelected(page: Page) {
     }
 
+    // @HostListener('mousedown', ['$event'])
+    // onMouseDown(event: MouseEvent) {
+    //   if (event.button === 0) {
+    //     this.mouseDown = true;
+    //   }
+    // }
+    //
+    // @HostListener('window:mouseup', ['$event'])
+    // onMouseUp(event: MouseEvent) {
+    //   if (this.mouseDown) {
+    //     this.pageStructure.clearSelection();
+    //   }
+    //   this.mouseDown = false;
+    // }
 }

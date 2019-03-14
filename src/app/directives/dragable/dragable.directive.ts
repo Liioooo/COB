@@ -31,7 +31,11 @@ export class DragableDirective implements OnInit, OnChanges {
     @Input()
     appDragablePage: Page;
 
-    constructor(private el: ElementRef<HTMLDivElement>, private pageViewGrid: PageViewGridService, private pageStructure: PageStructureService) { }
+    constructor(
+      private el: ElementRef<HTMLDivElement>,
+      private pageViewGrid: PageViewGridService,
+      private pageStructure: PageStructureService
+    ) { }
 
     ngOnInit(): void {
       const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
@@ -93,6 +97,11 @@ export class DragableDirective implements OnInit, OnChanges {
                     posX: this.appDragablePage.posX,
                     posY: this.appDragablePage.posY
                 });
+                // if (this.pageStructure.selectedPages.length !== 0) {
+                //   this.pageStructure.selectedPages = [];
+                // } else {
+                //   this.pageStructure.selectedPages = [this.appDragablePage];
+                // }
             }
         }
         this.mouseDown = false;

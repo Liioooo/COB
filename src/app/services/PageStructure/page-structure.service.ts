@@ -8,10 +8,24 @@ export class PageStructureService {
 
   private _startPage: Page;
   private _pages: Page[];
-  private _clipboard: Page[] = [];
+  private _clipboard: Page[];
+  private _selectedPages: Page[];
 
   constructor() {
     this._pages = [];
+    this._clipboard = [];
+    this._selectedPages = [];
+  }
+
+  public clearSelection(): void {
+    this._selectedPages = [];
+    for (const page of this._pages) {
+      this.updatePageById(page.questionId, {});
+    }
+  }
+
+  public isSelected(checkPage: Page): boolean {
+    return this._selectedPages.findIndex(page => page.questionId === checkPage.questionId) !== -1;
   }
 
   public pasteClipboard(posX?: number, posY?: number): void {
@@ -83,30 +97,21 @@ export class PageStructureService {
 
 
   public pageIdExists(idToCheck: string): boolean {
-    for (const page of this._pages) {
-      if (page.questionId === idToCheck) {
-        return true;
-      }
-    }
-    return false;
+    return this._pages.findIndex(page => page.questionId === idToCheck) !== -1;
   }
 
   public getPageById(id: string): Page {
     const index = this._pages.findIndex(page => page.questionId === id);
-    if (index === -1) {
-      return null;
-    }
-    return this._pages[index];
+    return index === -1 ? null : this._pages[index];
   }
 
-  public updatePageById(id: string, fieldsToUpdate: object) {
+  public updatePageById(id: string, fieldsToUpdate: object): void {
     const index = this._pages.findIndex(page => page.questionId === id);
     if (index === -1) {
       return;
     }
     this._pages[index] = {...this._pages[index], ...fieldsToUpdate};
   }
-
 
   get startPage(): Page {
     return this._startPage;
@@ -125,5 +130,14 @@ export class PageStructureService {
 
   get clipboard(): Page[] {
     return this._clipboard;
+  }
+
+
+  get selectedPages(): Page[] {
+    return this._selectedPages;
+  }
+
+  set selectedPages(value: Page[]) {
+    this._selectedPages = value;
   }
 }

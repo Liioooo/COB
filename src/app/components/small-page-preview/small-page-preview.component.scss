@@ -6,15 +6,20 @@ p {
     font-size: 4px;
 }
 
-  mat-card {
-    height: 44px;
-    padding: 5px;
+.selected {
+  border: red solid 1px;
+}
 
-    mat-card-content {
-      user-select: none;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-    }
+mat-card {
+  height: 44px;
+  padding: 5px;
+
+
+  mat-card-content {
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
+}

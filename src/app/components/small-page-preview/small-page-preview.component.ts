@@ -11,6 +11,7 @@ import {
     ViewChild
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
 @Component({
   selector: 'app-small-page-preview',
@@ -34,7 +35,7 @@ export class SmallPagePreviewComponent implements OnInit {
 
     private mouseDownStartTime: number;
 
-    constructor() { }
+    constructor(private ps: PageStructureService) { }
 
     ngOnInit() {
     }
