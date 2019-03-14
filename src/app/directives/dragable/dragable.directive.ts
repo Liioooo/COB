@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
-import {PageStructureService} from "../../services/PageStructure/page-structure.service";
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
 @Directive({
   selector: '[appDragable]'

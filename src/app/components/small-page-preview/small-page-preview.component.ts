@@ -1,10 +1,22 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {Page} from '../../models/page-interface';
 
 @Component({
   selector: 'app-small-page-preview',
   templateUrl: './small-page-preview.component.html',
-  styleUrls: ['./small-page-preview.component.scss']
+  styleUrls: ['./small-page-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmallPagePreviewComponent implements OnInit {
 

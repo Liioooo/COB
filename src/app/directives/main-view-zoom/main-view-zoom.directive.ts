@@ -21,6 +21,7 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
 
     ngOnInit(): void {
       this.el.nativeElement.style.zoom = this.zoomLevel + '';
+      this.setViewPos();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -30,13 +31,13 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
           this.el.nativeElement.scrollLeft + (this.oldSizeX - this.el.nativeElement.offsetWidth) / 2,
           this.el.nativeElement.scrollTop + (this.oldSizeY - this.el.nativeElement.offsetHeight) / 2
       );
-      this.setViewPos();
       this.oldSizeX = this.el.nativeElement.offsetWidth;
       this.oldSizeY = this.el.nativeElement.offsetHeight;
     }
 
     @HostListener('mousewheel', ['$event'])
     onZoom(event: WheelEvent) {
+      this.setViewPos();
       if (event.ctrlKey) {
         this.oldScrollX = this.el.nativeElement.scrollLeft;
         this.oldScrollY = this.el.nativeElement.scrollTop;
