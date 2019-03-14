@@ -155,4 +155,8 @@ export class PageStructureService {
       page.isSelected = true;
     }
   }
+
+  get isOneSelected(): boolean {
+    return this._selectedPages.length === 1;
+  }
 }

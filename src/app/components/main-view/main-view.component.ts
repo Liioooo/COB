@@ -1,8 +1,7 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
-import {container} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-main-view',
@@ -32,7 +31,7 @@ export class MainViewComponent implements OnInit {
     }
 
     public onClick(event: MouseEvent): void {
-      if (event.target === this.container.nativeElement) {
+      if (event.target === this.container.nativeElement && !event.altKey) {
         this.pageStructure.clearSelection();
       }
     }
