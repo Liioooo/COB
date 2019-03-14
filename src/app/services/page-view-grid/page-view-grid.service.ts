@@ -10,7 +10,7 @@ export class PageViewGridService {
     private _GRID_HEIGHT = 250;
     private _GRID_WIDTH = 400;
 
-    private _zoomLevel = 40;
+    private _zoomLevel = 35;
 
     // TODO: implement all functions correctly
     constructor(private pageStructure: PageStructureService) { }
@@ -51,6 +51,10 @@ export class PageViewGridService {
             x: Math.round(px / 50),
             y: Math.round(py / 30)
         };
+    }
+
+    public setZoomInitial() {
+        this._zoomLevel = 35;
     }
 
     public zoomLarger() {

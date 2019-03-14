@@ -8,8 +8,8 @@ import {
     OnInit,
     Output, SimpleChanges
 } from '@angular/core';
-import {Page} from '../models/page-interface';
-import {PageViewGridService} from '../services/page-view-grid/page-view-grid.service';
+import {Page} from '../../models/page-interface';
+import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 
 @Directive({
   selector: '[appDragable]'

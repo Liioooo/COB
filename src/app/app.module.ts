@@ -8,7 +8,8 @@ import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.com
 import { MainViewComponent } from './components/main-view/main-view.component';
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
 import {SmallPagePreviewComponent} from './components/small-page-preview/small-page-preview.component';
-import { DragableDirective } from './directives/dragable.directive';
+import { DragableDirective } from './directives/dragable/dragable.directive';
+import { AppMainViewZoomDirective } from './directives/main-view-zoom/main-view-zoom.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DragableDirective } from './directives/dragable.directive';
     MainViewComponent,
     RightSidebarComponent,
     SmallPagePreviewComponent,
-    DragableDirective
+    DragableDirective,
+    AppMainViewZoomDirective
   ],
   imports: [
     BrowserModule,

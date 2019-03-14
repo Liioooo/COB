@@ -1,4 +1,4 @@
-<div class="pages-boundary" [style.zoom]="pageViewGrid.zoomLevel" (mousewheel)="onScroll($event)">
+<div class="pages-boundary">
   <div *ngFor="let page of pageStructure.pages" appDragable [appDragablePage]="page" (dragEnded)="dragEnded($event, page)">
     <app-small-page-preview [page]="page">
     </app-small-page-preview>
