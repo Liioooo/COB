@@ -20,4 +20,7 @@ export class MainViewComponent implements OnInit {
       this.pageStructure.updatePageById(page.questionId, {posX: pos.x, posY: pos.y});
     }
 
+    pageSelected(page: Page) {
+    }
+
 }

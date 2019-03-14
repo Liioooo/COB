@@ -21,6 +21,9 @@ export class DragableDirective implements OnInit, OnChanges {
     private lastDragPos;
     private mouseDown: boolean;
 
+    private dragStartX: number;
+    private dragStartY: number;
+
     @Output()
     dragEnded = new EventEmitter<{posX: number, posY: number}>();
 
@@ -48,6 +51,8 @@ export class DragableDirective implements OnInit, OnChanges {
             this.mouseDown = true;
             this.pos3 = event.clientX / zoom;
             this.pos4 = event.clientY / zoom;
+            this.dragStartX = this.pos3;
+            this.dragStartY = this.pos4;
             this.el.nativeElement.style.zIndex = '2';
         }
     }
@@ -72,16 +77,23 @@ export class DragableDirective implements OnInit, OnChanges {
     }
   }
 
-    @HostListener('window:mouseup')
-    onMouseUp() {
+    @HostListener('window:mouseup', ['$event'])
+    onMouseUp(event: MouseEvent) {
         if (this.mouseDown) {
             this.el.nativeElement.style.zIndex = '1';
-            this.dragEnded.emit({
-                posX: this.lastDragPos.x,
-                posY: this.lastDragPos.y
-            });
+            const zoom = this.pageViewGrid.zoomLevel;
+            if (this.distance(this.dragStartX, this.dragStartY, event.clientX / zoom, event.clientY / zoom) > 5) {
+                this.dragEnded.emit({
+                    posX: this.lastDragPos.x,
+                    posY: this.lastDragPos.y
+                });
+            }
         }
         this.mouseDown = false;
+    }
+
+    private distance(x1: number, y1: number, x2: number,  y2: number): number {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
 }
