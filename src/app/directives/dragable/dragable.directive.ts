@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
+import {PageStructureService} from "../../services/PageStructure/page-structure.service";
 
 @Directive({
   selector: '[appDragable]'
@@ -30,7 +31,7 @@ export class DragableDirective implements OnInit, OnChanges {
     @Input()
     appDragablePage: Page;
 
-    constructor(private el: ElementRef<HTMLDivElement>, private pageViewGrid: PageViewGridService) { }
+    constructor(private el: ElementRef<HTMLDivElement>, private pageViewGrid: PageViewGridService, private pageStructure: PageStructureService) { }
 
     ngOnInit(): void {
       const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
@@ -86,6 +87,11 @@ export class DragableDirective implements OnInit, OnChanges {
                 this.dragEnded.emit({
                     posX: this.lastDragPos.x,
                     posY: this.lastDragPos.y
+                });
+            } else {
+                this.pageStructure.updatePageById(this.appDragablePage.questionId, {
+                    posX: this.appDragablePage.posX,
+                    posY: this.appDragablePage.posY
                 });
             }
         }
