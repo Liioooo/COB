@@ -6,9 +6,9 @@ import {PageStructureService} from '../PageStructure/page-structure.service';
 })
 export class PageViewGridService {
 
-    private _GRID_PADDING = 30;
-    private _GRID_HEIGHT = 200;
-    private _GRID_WIDTH = 200;
+    private _GRID_PADDING = 5;
+    private _GRID_HEIGHT = 20;
+    private _GRID_WIDTH = 20;
 
     private _PAGE_WIDTH = 4;
     private _PAGE_HEIGHT = 3;
@@ -22,8 +22,40 @@ export class PageViewGridService {
         return this._zoomLevel / 10;
     }
 
-    public getNextGridPosition(droppedX: number, droppedY: number): {x: number, y: number} {
-      return {x: 0, y: 0};
+    public getNextGridPosition(droppedXPix: number, droppedYPix: number): {x: number, y: number} {
+      const {x: dropX, y: dropY} = this.convertPixelPosToGridPos(droppedXPix, droppedYPix);
+      for (let iteration = 1; true; iteration++) {
+        for (let x = -iteration; x <= iteration; x++) {
+          if (this.isPointFree(dropX + x, dropY + 1)) {
+            return {x: dropX + x, y: dropY + 1};
+          }
+        }
+        for (let x = -iteration; x <= iteration; x++) {
+          if (this.isPointFree(dropX + x, dropY - 1)) {
+            return {x: dropX + x, y: dropY - 1};
+          }
+        }
+        for (let y = -iteration + 1; y < iteration; y++) {
+          if (this.isPointFree(dropX + 1, dropY + y)) {
+            return {x: dropX + 1, y: dropY + y};
+          }
+        }
+        for (let y = -iteration + 1; y < iteration; y++) {
+          if (this.isPointFree(dropX - 1, dropY + y)) {
+            return {x: dropX - 1, y: dropY + y};
+          }
+        }
+      }
+    }
+
+    public isPointFree(x: number, y: number): boolean {
+      for (const page of this.pageStructure.pages) {
+        if (x > page.posX - this._PAGE_WIDTH  && x < page.posX + this._PAGE_WIDTH &&
+          y > page.posY - this._PAGE_HEIGHT && y < page.posY + this._PAGE_HEIGHT) {
+          return false;
+        }
+      }
+      return true;
     }
 
     public getPosForNewPage(): {x: number, y: number} {
