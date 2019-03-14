@@ -17,9 +17,7 @@ export class MainViewComponent implements OnInit {
 
     dragEnded(event, page: Page) {
       const pos = this.pageViewGrid.convertPixelPosToGridPos(event.posX, event.posY);
-      page.posX = pos.x;
-      page.posY = pos.y;
-      console.log(page);
+      this.pageStructure.updatePageById(page.questionId, {posX: pos.x, posY: pos.y});
     }
 
 }

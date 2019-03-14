@@ -91,6 +91,21 @@ export class PageStructureService {
     return false;
   }
 
+  public getPageById(id: string): Page {
+    const index = this._pages.findIndex(page => page.questionId === id);
+    if (index === -1) {
+      return null;
+    }
+    return this._pages[index];
+  }
+
+  public updatePageById(id: string, fieldsToUpdate: object) {
+    const index = this._pages.findIndex(page => page.questionId === id);
+    if (index === -1) {
+      return;
+    }
+    this._pages[index] = {...this._pages[index], ...fieldsToUpdate};
+  }
 
 
   get startPage(): Page {

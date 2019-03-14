@@ -1,11 +1,21 @@
-import {Directive, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {
+    Directive,
+    DoCheck,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnChanges,
+    OnInit,
+    Output, SimpleChanges
+} from '@angular/core';
 import {Page} from '../models/page-interface';
 import {PageViewGridService} from '../services/page-view-grid/page-view-grid.service';
 
 @Directive({
   selector: '[appDragable]'
 })
-export class DragableDirective implements OnInit, DoCheck {
+export class DragableDirective implements OnInit, OnChanges {
 
     private pos1; pos2; pos3; pos4;
 
@@ -29,14 +39,10 @@ export class DragableDirective implements OnInit, DoCheck {
       this.lastDragPos = pos;
     }
 
-    ngDoCheck() {
-        if (!this.mouseDown && (this.lastXGridPos !== this.appDragablePage.posX || this.lastYGridPos !== this.appDragablePage.posY)) {
-            const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
-            this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-            this.lastDragPos = pos;
-            this.lastXGridPos = this.appDragablePage.posX;
-            this.lastYGridPos = this.appDragablePage.posY;
-        }
+    ngOnChanges(changes: SimpleChanges): void {
+        const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
+        this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+        this.lastDragPos = pos;
     }
 
     @HostListener('mousedown', ['$event'])
