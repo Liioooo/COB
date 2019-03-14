@@ -1,14 +1,22 @@
 p {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+    text-align: center;
+    margin: 0;
+    padding-bottom: 0.25rem;
+    user-select: none;
+    font-size: 4px;
+}
+
+.selected {
+  outline: red auto 1px;
 }
 
 mat-card {
-  height: 80%;
+  height: 44px;
+  padding: 5px;
+
 
   mat-card-content {
-    height: 100%;
+    user-select: none;
     display: flex;
     flex-direction: row;
     align-items: center;

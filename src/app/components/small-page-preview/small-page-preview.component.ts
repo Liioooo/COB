@@ -1,33 +1,43 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
+import {Page} from '../../models/page-interface';
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
 @Component({
   selector: 'app-small-page-preview',
   templateUrl: './small-page-preview.component.html',
-  styleUrls: ['./small-page-preview.component.scss']
+  styleUrls: ['./small-page-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmallPagePreviewComponent implements OnInit {
 
     @Input()
-    page: any; // TODO: use correct type
+    page: Page;
 
-    @Output()
-    selectedPage = new EventEmitter<any>(); // same as input
-
-    private mouseDownStartTime: number;
-
-    constructor() { }
+    constructor(private pageStructure: PageStructureService) { }
 
     ngOnInit() {
     }
 
-    onMouseDown() {
-      this.mouseDownStartTime = performance.now();
-   }
-
-   onMouseUp() {
-      if (performance.now() - this.mouseDownStartTime < 300) {
-        this.selectedPage.emit(this.page);
-      }
-   }
-
+    onClick(event: MouseEvent) {
+        if (event.ctrlKey) {
+          this.pageStructure.switchSelection(this.page);
+        } else {
+          if (this.pageStructure.selectedPages.length === 1 && this.page.isSelected) {
+            this.pageStructure.switchSelection(this.page);
+          } else {
+            this.pageStructure.selectedPages = [this.page];
+          }
+        }
+    }
 }
