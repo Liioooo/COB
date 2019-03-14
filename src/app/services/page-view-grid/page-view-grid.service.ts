@@ -16,7 +16,7 @@ export class PageViewGridService {
 
     private _zoomLevel = 35;
 
-    private _currentViewPosition: {x: number, y: number};
+    private _currentViewCenterPos: {x: number, y: number};
 
     // TODO: implement all functions correctly
     constructor(private pageStructure: PageStructureService) { }
@@ -25,7 +25,7 @@ export class PageViewGridService {
         return this._zoomLevel / 10;
     }
 
-    public getNextGridPosition(droppedXPix: number, droppedYPix: number, page: Page): {x: number, y: number} {
+    public getNextGridPosition(droppedXPix: number, droppedYPix: number, page?: Page): {x: number, y: number} {
       const {x: dropX, y: dropY} = this.convertPixelPosToGridPos(droppedXPix, droppedYPix);
       if (this.isPointFree(dropX, dropY, page)) {
         if (dropX > 0 && dropY > 0) {
@@ -35,43 +35,43 @@ export class PageViewGridService {
 
       for (let iteration = 1; true; iteration++) {
         for (let x = -iteration; x <= iteration; x++) {
-          if (dropX + x < 0 || dropY + 1 < 0) {
+          if (dropX + x < 0 || dropY + iteration < 0) {
             continue;
           }
-          if (this.isPointFree(dropX + x, dropY + 1, page)) {
-            return {x: dropX + x, y: dropY + 1};
+          if (this.isPointFree(dropX + x, dropY + iteration, page)) {
+            return {x: dropX + x, y: dropY + iteration};
           }
         }
         for (let x = -iteration; x <= iteration; x++) {
-          if (dropX + x < 0 || dropY - 1 < 0) {
+          if (dropX + x < 0 || dropY - iteration < 0) {
             continue;
           }
-          if (this.isPointFree(dropX + x, dropY - 1, page)) {
-            return {x: dropX + x, y: dropY - 1};
+          if (this.isPointFree(dropX + x, dropY - iteration, page)) {
+            return {x: dropX + x, y: dropY - iteration};
+          }
+        }
+        for (let y = -iteration + 1; y <= iteration; y++) {
+          if (dropY + y < 0 || dropX + iteration < 0) {
+            continue;
+          }
+          if (this.isPointFree(dropX + iteration, dropY + y, page)) {
+            return {x: dropX + iteration, y: dropY + y};
           }
         }
         for (let y = -iteration + 1; y < iteration; y++) {
-          if (dropY + y < 0 || dropX + 1 < 0) {
+          if (dropY + y < 0 || dropX - iteration < 0) {
             continue;
           }
-          if (this.isPointFree(dropX + 1, dropY + y, page)) {
-            return {x: dropX + 1, y: dropY + y};
-          }
-        }
-        for (let y = -iteration + 1; y < iteration; y++) {
-          if (dropY + y < 0 || dropX - 1 < 0) {
-            continue;
-          }
-          if (this.isPointFree(dropX - 1, dropY + y, page)) {
-            return {x: dropX - 1, y: dropY + y};
+          if (this.isPointFree(dropX - iteration, dropY + y, page)) {
+            return {x: dropX - iteration, y: dropY + y};
           }
         }
       }
     }
 
-    public isPointFree(x: number, y: number, exceptPage: Page): boolean {
+    public isPointFree(x: number, y: number, exceptPage?: Page): boolean {
       for (const page of this.pageStructure.pages) {
-        if (page.questionId === exceptPage.questionId) {
+        if (exceptPage && page.questionId === exceptPage.questionId) {
           continue;
         }
         if (x > page.posX - this._PAGE_WIDTH  && x < page.posX + this._PAGE_WIDTH &&
@@ -83,7 +83,7 @@ export class PageViewGridService {
     }
 
     public getPosForNewPage(): {x: number, y: number} {
-      return {x: 0, y: 0};
+      return this.getNextGridPosition(this._currentViewCenterPos.x, this._currentViewCenterPos.y);
     }
 
     public convertGridPosToPixelPos(gx: number, gy: number): {x: number, y: number} {
@@ -117,7 +117,7 @@ export class PageViewGridService {
     }
 
     public setViewPosition(vp: {x: number, y: number}) {
-        this._currentViewPosition = vp;
+        this._currentViewCenterPos = vp;
     }
 }
 
