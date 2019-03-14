@@ -1,5 +1,6 @@
 <mat-sidenav-container class="all">
-  <mat-sidenav #sidenav mode="side" position="end" [(opened)]="sidebarService.state"
+  <mat-sidenav #sidenav mode="side" position="end"
+               [(opened)]="sidebarService.state"
                (keydown.escape)="sidenav.close()">
     <app-right-sidebar></app-right-sidebar>
   </mat-sidenav>

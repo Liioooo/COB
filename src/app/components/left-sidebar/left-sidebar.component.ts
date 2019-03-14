@@ -22,6 +22,6 @@ export class LeftSidebarComponent implements OnInit {
 
     addPage() {
         const pos = this.pageViewGrid.getPosForNewPage();
-        this.pageStructure.addEmptyPage(0, 0);
+        this.pageStructure.addEmptyPage(pos.x, pos.y);
     }
 }

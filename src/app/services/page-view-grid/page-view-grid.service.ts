@@ -16,6 +16,8 @@ export class PageViewGridService {
 
     private _zoomLevel = 35;
 
+    private _currentViewPosition: {x: number, y: number};
+
     // TODO: implement all functions correctly
     constructor(private pageStructure: PageStructureService) { }
 
@@ -81,19 +83,7 @@ export class PageViewGridService {
     }
 
     public getPosForNewPage(): {x: number, y: number} {
-      let mostX = this._GRID_PADDING;
-      let mostY = this._GRID_PADDING;
-
-      this.pageStructure.pages.forEach(page => {
-        if (page.posX + 300 > mostX) {
-          mostX = page.posX + this._GRID_WIDTH;
-        }
-        if (page.posY + 200 > mostY) {
-          mostY = page.posY + this._GRID_HEIGHT;
-        }
-      });
-
-      return {x: mostX, y: mostY};
+      return {x: 0, y: 0};
     }
 
     public convertGridPosToPixelPos(gx: number, gy: number): {x: number, y: number} {
@@ -124,6 +114,10 @@ export class PageViewGridService {
         if (this._zoomLevel - 2 >= 10) {
             this._zoomLevel -= 2;
         }
+    }
+
+    public setViewPosition(vp: {x: number, y: number}) {
+        this._currentViewPosition = vp;
     }
 }
 

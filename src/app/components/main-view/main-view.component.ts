@@ -10,7 +10,10 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 })
 export class MainViewComponent implements OnInit {
 
-    constructor(public pageStructure: PageStructureService, public pageViewGrid: PageViewGridService) { }
+    constructor(
+        public pageStructure: PageStructureService,
+        public pageViewGrid: PageViewGridService
+    ) { }
 
     ngOnInit() {
     }
