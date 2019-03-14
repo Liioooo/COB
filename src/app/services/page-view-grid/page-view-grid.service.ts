@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {PageStructureService} from '../PageStructure/page-structure.service';
+import {Page} from '../../models/page-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,34 +23,55 @@ export class PageViewGridService {
         return this._zoomLevel / 10;
     }
 
-    public getNextGridPosition(droppedXPix: number, droppedYPix: number): {x: number, y: number} {
+    public getNextGridPosition(droppedXPix: number, droppedYPix: number, page: Page): {x: number, y: number} {
       const {x: dropX, y: dropY} = this.convertPixelPosToGridPos(droppedXPix, droppedYPix);
+      if (this.isPointFree(dropX, dropY, page)) {
+        if (dropX > 0 && dropY > 0) {
+          return {x: dropX, y: dropY};
+        }
+      }
+
       for (let iteration = 1; true; iteration++) {
         for (let x = -iteration; x <= iteration; x++) {
-          if (this.isPointFree(dropX + x, dropY + 1)) {
+          if (dropX + x < 0 || dropY + 1 < 0) {
+            continue;
+          }
+          if (this.isPointFree(dropX + x, dropY + 1, page)) {
             return {x: dropX + x, y: dropY + 1};
           }
         }
         for (let x = -iteration; x <= iteration; x++) {
-          if (this.isPointFree(dropX + x, dropY - 1)) {
+          if (dropX + x < 0 || dropY - 1 < 0) {
+            continue;
+          }
+          if (this.isPointFree(dropX + x, dropY - 1, page)) {
             return {x: dropX + x, y: dropY - 1};
           }
         }
         for (let y = -iteration + 1; y < iteration; y++) {
-          if (this.isPointFree(dropX + 1, dropY + y)) {
+          if (dropY + y < 0 || dropX + 1 < 0) {
+            continue;
+          }
+          if (this.isPointFree(dropX + 1, dropY + y, page)) {
             return {x: dropX + 1, y: dropY + y};
           }
         }
         for (let y = -iteration + 1; y < iteration; y++) {
-          if (this.isPointFree(dropX - 1, dropY + y)) {
+          if (dropY + y < 0 || dropX - 1 < 0) {
+            continue;
+          }
+          if (this.isPointFree(dropX - 1, dropY + y, page)) {
             return {x: dropX - 1, y: dropY + y};
           }
         }
       }
     }
 
-    public isPointFree(x: number, y: number): boolean {
+    public isPointFree(x: number, y: number, exceptPage: Page): boolean {
       for (const page of this.pageStructure.pages) {
+        if (page.questionId === exceptPage.questionId) {
+          continue;
+        }
         if (x > page.posX - this._PAGE_WIDTH  && x < page.posX + this._PAGE_WIDTH &&
           y > page.posY - this._PAGE_HEIGHT && y < page.posY + this._PAGE_HEIGHT) {
           return false;
