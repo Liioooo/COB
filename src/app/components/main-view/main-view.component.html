@@ -1,5 +1,7 @@
-<div class="pages-boundary" #container (click)="onClick($event)">
-  <div *ngFor="let page of pageStructure.pages; trackBy update"
+<div class="pages-boundary"
+     #container
+     (mousedown)="onMouseDown($event)">
+  <div *ngFor="let page of pageStructure.pages; trackBy: update"
        appDragable
        [appDragablePage]="page"
        (dragEnded)="dragEnded($event, page)"
