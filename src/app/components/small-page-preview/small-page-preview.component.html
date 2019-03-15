@@ -1,4 +1,4 @@
 <p>{{page.questionId}}</p>
-<div [class.selected]="page.isSelected" (click)="onClick($event)">
+<div [class.selected]="page.isSelected" (mousedown)="mouseDown($event)" (mouseup)="mouseUp($event)">
     <p>das ist ein tolles Preview</p>
 </div>
