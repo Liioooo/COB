@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
@@ -34,5 +34,21 @@ export class MainViewComponent implements OnInit {
       if (event.target === this.container.nativeElement && !event.altKey) {
         this.pageStructure.clearSelection();
       }
+    }
+
+    @HostListener('document:keyup', ['$event'])
+    onKeyPressed(event: KeyboardEvent) {
+        if (event.ctrlKey) {
+            if (event.code === 'KeyC') {
+
+            } else if (event.code === 'KeyV') {
+
+            } else if (event.code === 'KeyA') {
+                // select all
+            }
+        }
+        if (event.code === 'Delete') {
+            this.pageStructure.removeSelectedPages();
+        }
     }
 }
