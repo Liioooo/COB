@@ -10,6 +10,7 @@ import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.
 import {SmallPagePreviewComponent} from './components/small-page-preview/small-page-preview.component';
 import { DragableDirective } from './directives/dragable/dragable.directive';
 import { AppMainViewZoomDirective } from './directives/main-view-zoom/main-view-zoom.directive';
+import { SelectRectDirective } from './directives/select-rect/select-rect.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AppMainViewZoomDirective } from './directives/main-view-zoom/main-view-
     RightSidebarComponent,
     SmallPagePreviewComponent,
     DragableDirective,
-    AppMainViewZoomDirective
+    AppMainViewZoomDirective,
+    SelectRectDirective
   ],
   imports: [
     BrowserModule,

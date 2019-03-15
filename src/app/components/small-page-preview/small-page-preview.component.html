@@ -1,6 +1,4 @@
 <p>{{page.questionId}}</p>
-<mat-card [class.selected]="page.isSelected" (click)="onClick($event)">
-  <mat-card-content>
+<div [class.selected]="page.isSelected" (mousedown)="mouseDown($event)" (mouseup)="mouseUp($event)">
     <p>das ist ein tolles Preview</p>
-  </mat-card-content>
-</mat-card>
+</div>

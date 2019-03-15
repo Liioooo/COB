@@ -30,7 +30,7 @@ export class MainViewComponent implements OnInit {
       return item.questionId + item.isSelected;
     }
 
-    public onClick(event: MouseEvent): void {
+    public onMouseDown(event: MouseEvent): void {
       if (event.target === this.container.nativeElement && !event.altKey) {
         this.pageStructure.clearSelection();
       }

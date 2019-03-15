@@ -10,16 +10,14 @@ p {
   outline: red auto 1px;
 }
 
-mat-card {
+div {
   height: 44px;
   padding: 5px;
-
-
-  mat-card-content {
-    user-select: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: darken(white, 10);
+  border-radius: 2px;
 }
