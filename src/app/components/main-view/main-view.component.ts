@@ -35,20 +35,4 @@ export class MainViewComponent implements OnInit {
         this.pageStructure.clearSelection();
       }
     }
-
-    @HostListener('document:keyup', ['$event'])
-    onKeyPressed(event: KeyboardEvent) {
-        if (event.ctrlKey) {
-            if (event.code === 'KeyC') {
-
-            } else if (event.code === 'KeyV') {
-
-            } else if (event.code === 'KeyA') {
-                // select all
-            }
-        }
-        if (event.code === 'Delete') {
-            this.pageStructure.removeSelectedPages();
-        }
-    }
 }

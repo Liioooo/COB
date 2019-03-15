@@ -33,10 +33,6 @@ export class PageStructureService {
     page.isSelected = !page.isSelected;
   }
 
-  public isSelected(checkPage: Page): boolean {
-    return this._selectedPages.findIndex(page => page.questionId === checkPage.questionId) !== -1;
-  }
-
   public pasteClipboard(posX?: number, posY?: number): void {
     for (const page of this._clipboard) {
       const newPage = {...page};
