@@ -92,6 +92,15 @@ export class PageStructureService {
     return true;
   }
 
+  public removeSelectedPages(): boolean {
+    while (this._selectedPages.length > 0) {
+      this.removePageById(this._selectedPages[0].questionId);
+      delete this._selectedPages[0];
+      this._selectedPages = this._selectedPages.slice(1, this._selectedPages.length);
+    }
+    return true;
+  }
+
   public removePage(rmPage: Page): boolean {
     return this.removePageById(rmPage.questionId);
   }

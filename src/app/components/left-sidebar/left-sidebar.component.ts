@@ -18,8 +18,12 @@ export class LeftSidebarComponent implements OnInit {
     ngOnInit() {
     }
 
-    addPage() {
+    public addPage(): void {
         const pos = this.pageViewGrid.getPosForNewPage();
         this.pageStructure.addEmptyPage(pos.x, pos.y);
+    }
+
+    public removeSelection(): void {
+        this.pageStructure.removeSelectedPages();
     }
 }

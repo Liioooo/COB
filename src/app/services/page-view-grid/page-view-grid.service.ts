@@ -18,7 +18,6 @@ export class PageViewGridService {
 
     private _currentViewCenterPos: {x: number, y: number};
 
-    // TODO: implement all functions correctly
     constructor(private pageStructure: PageStructureService) { }
 
     get zoomLevel(): number {
