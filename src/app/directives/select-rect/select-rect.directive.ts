@@ -33,7 +33,7 @@ export class SelectRectDirective implements OnInit {
 
     @HostListener('mousedown', ['$event'])
     onMouseDown(event: MouseEvent) {
-        if (event.target === this.el.nativeElement.firstChild && !event.altKey) {
+        if (event.target === this.el.nativeElement.firstChild && !event.altKey && event.button === 0) {
             this.mouseDown = true;
             this.selectRect.style.display = 'block';
             const zoom = this.pageViewGrid.zoomLevel;
