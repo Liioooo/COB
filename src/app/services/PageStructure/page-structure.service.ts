@@ -26,7 +26,7 @@ export class PageStructureService {
 
   public switchSelection(page: Page): void {
     if (page.isSelected) {
-      this._selectedPages.filter(inPage => inPage.questionId !== page.questionId);
+      this._selectedPages = this._selectedPages.filter(inPage => inPage.questionId !== page.questionId);
     } else {
       this._selectedPages.push(page);
     }
