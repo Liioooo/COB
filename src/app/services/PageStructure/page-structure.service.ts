@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Page} from '../../models/page-interface';
+import {PageViewGridService} from '../page-view-grid/page-view-grid.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +32,6 @@ export class PageStructureService {
       this._selectedPages.push(page);
     }
     page.isSelected = !page.isSelected;
-  }
-
-  public isSelected(checkPage: Page): boolean {
-    return this._selectedPages.findIndex(page => page.questionId === checkPage.questionId) !== -1;
   }
 
   public pasteClipboard(posX?: number, posY?: number): void {

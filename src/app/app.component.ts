@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {PageViewGridService} from './services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from './services/PageStructure/page-structure.service';
 
@@ -12,4 +12,12 @@ export class AppComponent {
 
   constructor(public pageStructure: PageStructureService, public pageViewGrid: PageViewGridService) {}
 
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'c') {
+      this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
+    } else if (event.ctrlKey && event.key === 'v') {
+      this.pageStructure.pasteClipboard(0, 0);
+    }
+  }
 }
