@@ -162,4 +162,8 @@ export class PageStructureService {
   get isOneSelected(): boolean {
     return this._selectedPages.length === 1;
   }
+
+  public setCurrentlySelectedDrag() {
+      this.selectedPages.forEach(page => page.currentlyDragged = true);
+  }
 }

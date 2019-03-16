@@ -25,8 +25,10 @@ export class DragableDirective implements OnInit, OnChanges {
     private dragStartX: number;
     private dragStartY: number;
 
+    private startedDraggingExternal = false;
+
     @Output()
-    dragEnded = new EventEmitter<{posX: number, posY: number}>();
+    dragEnded = new EventEmitter<{x: number, y: number}>();
 
     @Input()
     appDragablePage: Page;
@@ -52,6 +54,8 @@ export class DragableDirective implements OnInit, OnChanges {
     @HostListener('mousedown', ['$event'])
     onMouseDown(event: MouseEvent) {
         if (event.button === 0 && this.appDragablePage.isSelected) {
+            this.startedDraggingExternal = false;
+            this.pageStructure.setCurrentlySelectedDrag();
             const zoom = this.pageViewGrid.zoomLevel;
             this.mouseDown = true;
             this.pos3 = event.clientX / zoom;
@@ -64,8 +68,16 @@ export class DragableDirective implements OnInit, OnChanges {
 
     @HostListener('window:mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {
-      if (this.mouseDown) {
+      if (this.appDragablePage.currentlyDragged) {
           const zoom = this.pageViewGrid.zoomLevel;
+          if (!this.mouseDown && !this.startedDraggingExternal) {
+              this.startedDraggingExternal = true;
+              this.pos3 = event.clientX / zoom;
+              this.pos4 = event.clientY / zoom;
+              this.dragStartX = this.pos3;
+              this.dragStartY = this.pos4;
+              this.el.nativeElement.style.zIndex = '2';
+          }
           this.pos1 = this.pos3 - event.clientX / zoom;
           this.pos2 = this.pos4 - event.clientY / zoom;
           this.pos3 = event.clientX / zoom;
@@ -85,13 +97,20 @@ export class DragableDirective implements OnInit, OnChanges {
     @HostListener('window:mouseup', ['$event'])
     onMouseUp(event: MouseEvent) {
         if (this.mouseDown) {
+            this.pageStructure.selectedPages.forEach(page => page.currentlyDragged = false);
             this.el.nativeElement.style.zIndex = '1';
             const zoom = this.pageViewGrid.zoomLevel;
             if (this.distance(this.dragStartX, this.dragStartY, event.clientX / zoom, event.clientY / zoom) > 5) {
-                this.dragEnded.emit({
-                    posX: this.lastDragPos.x,
-                    posY: this.lastDragPos.y
-                });
+                if (!this.startedDraggingExternal) {
+                    // this.dragEnded.emit({
+                    //     posX: this.lastDragPos.x,
+                    //     posY: this.lastDragPos.y
+                    // });
+                    this.dragEnded.emit({
+                        x: this.lastDragPos.x - this.dragStartX,
+                        y: this.lastDragPos.y - this.dragStartY
+                    });
+                }
             } else {
                 this.pageStructure.updatePageById(this.appDragablePage.questionId, {
                     posX: this.appDragablePage.posX,
@@ -101,6 +120,7 @@ export class DragableDirective implements OnInit, OnChanges {
             }
         }
         this.mouseDown = false;
+        this.startedDraggingExternal = false;
     }
 
     private distance(x1: number, y1: number, x2: number,  y2: number): number {
