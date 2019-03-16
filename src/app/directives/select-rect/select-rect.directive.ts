@@ -1,5 +1,6 @@
 import {Directive, ElementRef, HostListener, Input, OnInit, Renderer2} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
 @Directive({
   selector: '[appSelectRect]'
@@ -20,7 +21,8 @@ export class SelectRectDirective implements OnInit {
     constructor(
         private el: ElementRef<HTMLDivElement>,
         private renderer: Renderer2,
-        private pageViewGrid: PageViewGridService
+        private pageViewGrid: PageViewGridService,
+        private pageStructure: PageStructureService
     ) { }
 
     ngOnInit(): void {
@@ -71,9 +73,22 @@ export class SelectRectDirective implements OnInit {
       }
     }
 
-    @HostListener('window:mouseup', ['$event'])
-    onMouseUp(event: MouseEvent) {
-      this.mouseDown = false;
-      this.selectRect.style.display = 'none';
+    @HostListener('window:mouseup')
+    onMouseUp() {
+        if (this.mouseDown) {
+          if (this.rectWidth < 0) {
+              this.rectWidth = -this.rectWidth;
+              this.rectPosX = this.rectPosX - this.rectWidth;
+          }
+          if (this.rectHeight < 0) {
+                this.rectHeight = -this.rectHeight;
+                this.rectPosY = this.rectPosY - this.rectHeight;
+          }
+          this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50, this.rectPosY, this.rectWidth, this.rectHeight);
+        }
+        this.rectWidth = 0;
+        this.rectHeight = 0;
+        this.mouseDown = false;
+        this.selectRect.style.display = 'none';
     }
 }
