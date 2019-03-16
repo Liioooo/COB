@@ -22,10 +22,11 @@ export class MainViewComponent implements OnInit {
     }
 
     dragEnded(event, page: Page) {
-      // use correct function
-      const pos = this.pageViewGrid.getNextGridPosition(event.posX, event.posY, page);
-      page.posX = pos.x;
-      page.posY = pos.y;
+      const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, event.x, event.y);
+      this.pageStructure.selectedPages.forEach(selPage => {
+          selPage.posX += pos.x;
+          selPage.posY += pos.y;
+      });
     }
 
     public update(index: number, item: Page): any {
