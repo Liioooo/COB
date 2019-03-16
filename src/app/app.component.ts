@@ -17,12 +17,12 @@ export class AppComponent {
         if (event.ctrlKey) {
             if (event.code === 'KeyC') {
                 this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
-                console.log('c');
+            } else if (event.code === 'KeyX') {
+                this.pageStructure.cut(this.pageStructure.selectedPages);
             } else if (event.code === 'KeyV') {
-                console.log('v');
                 this.pageStructure.pasteClipboard(0, 0);
             } else if (event.code === 'KeyA') {
-                // select all
+                this.pageStructure.selectedPages = this.pageStructure.pages;
             }
         }
         if (event.code === 'Delete') {

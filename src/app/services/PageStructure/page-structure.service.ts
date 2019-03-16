@@ -58,6 +58,16 @@ export class PageStructureService {
     return true;
   }
 
+  public cut(pages: Page[]): boolean {
+    if (!this.addToClipboard(pages)) {
+      return false;
+    }
+    for (const page of pages) {
+      this.removePage(page);
+    }
+    return true;
+  }
+
   public addEmptyPage(posX?: number, posY?: number): Page {
     let num: number = this._pages.length;
     let newId: string;
