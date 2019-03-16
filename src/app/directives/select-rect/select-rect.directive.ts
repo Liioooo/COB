@@ -84,7 +84,7 @@ export class SelectRectDirective implements OnInit {
                 this.rectHeight = -this.rectHeight;
                 this.rectPosY = this.rectPosY - this.rectHeight;
           }
-          this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX, this.rectPosY, this.rectWidth, this.rectHeight);
+          this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50, this.rectPosY, this.rectWidth, this.rectHeight);
         }
         this.rectWidth = 0;
         this.rectHeight = 0;

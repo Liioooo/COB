@@ -97,6 +97,7 @@ export class DragableDirective implements OnInit, OnChanges {
                     posX: this.appDragablePage.posX,
                     posY: this.appDragablePage.posY
                 });
+                this.ngOnChanges(null);
             }
         }
         this.mouseDown = false;
