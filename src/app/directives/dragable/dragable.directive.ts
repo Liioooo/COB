@@ -22,10 +22,12 @@ export class DragableDirective implements OnInit, OnChanges {
     private lastDragPos;
     private mouseDown: boolean;
 
-    private dragStartX: number;
-    private dragStartY: number;
+    private dragStartMouseX: number;
+    private dragStartMouseY: number;
+    private lastDragMouseX: number;
+    private lastDragMouseY: number;
 
-    private startedDraggingExternal = false;
+    private firstTimeExternalDrag = true;
 
     @Output()
     dragEnded = new EventEmitter<{x: number, y: number}>();
@@ -54,14 +56,13 @@ export class DragableDirective implements OnInit, OnChanges {
     @HostListener('mousedown', ['$event'])
     onMouseDown(event: MouseEvent) {
         if (event.button === 0 && this.appDragablePage.isSelected) {
-            this.startedDraggingExternal = false;
             this.pageStructure.setCurrentlySelectedDrag();
             const zoom = this.pageViewGrid.zoomLevel;
             this.mouseDown = true;
             this.pos3 = event.clientX / zoom;
             this.pos4 = event.clientY / zoom;
-            this.dragStartX = this.pos3;
-            this.dragStartY = this.pos4;
+            this.dragStartMouseX = this.pos3;
+            this.dragStartMouseY = this.pos4;
             this.el.nativeElement.style.zIndex = '2';
         }
     }
@@ -70,18 +71,18 @@ export class DragableDirective implements OnInit, OnChanges {
     onMouseMove(event: MouseEvent) {
       if (this.appDragablePage.currentlyDragged) {
           const zoom = this.pageViewGrid.zoomLevel;
-          if (!this.mouseDown && !this.startedDraggingExternal) {
-              this.startedDraggingExternal = true;
+          if (!this.mouseDown && this.firstTimeExternalDrag) {
+              this.firstTimeExternalDrag = false;
               this.pos3 = event.clientX / zoom;
               this.pos4 = event.clientY / zoom;
-              this.dragStartX = this.pos3;
-              this.dragStartY = this.pos4;
               this.el.nativeElement.style.zIndex = '2';
           }
           this.pos1 = this.pos3 - event.clientX / zoom;
           this.pos2 = this.pos4 - event.clientY / zoom;
           this.pos3 = event.clientX / zoom;
           this.pos4 = event.clientY / zoom;
+          this.lastDragMouseY = this.pos4;
+          this.lastDragMouseX = this.pos3;
           const pos: {y: number, x: number} = {x: 0, y: 0};
           if ((this.lastDragPos.y - this.pos2) >= 0) {
               pos.y = (this.lastDragPos.y - this.pos2);
@@ -96,21 +97,15 @@ export class DragableDirective implements OnInit, OnChanges {
 
     @HostListener('window:mouseup', ['$event'])
     onMouseUp(event: MouseEvent) {
+        this.el.nativeElement.style.zIndex = '1';
+        this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
         if (this.mouseDown) {
-            this.pageStructure.selectedPages.forEach(page => page.currentlyDragged = false);
-            this.el.nativeElement.style.zIndex = '1';
             const zoom = this.pageViewGrid.zoomLevel;
-            if (this.distance(this.dragStartX, this.dragStartY, event.clientX / zoom, event.clientY / zoom) > 5) {
-                if (!this.startedDraggingExternal) {
-                    // this.dragEnded.emit({
-                    //     posX: this.lastDragPos.x,
-                    //     posY: this.lastDragPos.y
-                    // });
+            if (this.distance(this.dragStartMouseX, this.dragStartMouseY, event.clientX + 50 / zoom, event.clientY / zoom) > 5) {
                     this.dragEnded.emit({
-                        x: this.lastDragPos.x - this.dragStartX,
-                        y: this.lastDragPos.y - this.dragStartY
+                        x: this.lastDragMouseX - this.dragStartMouseX,
+                        y: this.lastDragMouseY - this.dragStartMouseY
                     });
-                }
             } else {
                 this.pageStructure.updatePageById(this.appDragablePage.questionId, {
                     posX: this.appDragablePage.posX,
@@ -120,7 +115,7 @@ export class DragableDirective implements OnInit, OnChanges {
             }
         }
         this.mouseDown = false;
-        this.startedDraggingExternal = false;
+        this.firstTimeExternalDrag = true;
     }
 
     private distance(x1: number, y1: number, x2: number,  y2: number): number {
