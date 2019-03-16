@@ -23,11 +23,12 @@ export class MainViewComponent implements OnInit {
 
     dragEnded(event, page: Page) {
       const pos = this.pageViewGrid.getNextGridPosition(event.posX, event.posY, page);
-      this.pageStructure.updatePageById(page.questionId, {posX: pos.x, posY: pos.y});
+      page.posX = pos.x;
+      page.posY = pos.y;
     }
 
     public update(index: number, item: Page): any {
-      return item.questionId + item.isSelected;
+      return item.questionId + item.isSelected + item.posX + item.posY;
     }
 
     public onMouseDown(event: MouseEvent): void {
