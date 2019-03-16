@@ -152,9 +152,7 @@ export class PageStructureService {
   }
 
   set selectedPages(value: Page[]) {
-    for (const page of this._selectedPages) {
-      page.isSelected = false;
-    }
+    this.clearSelection();
     this._selectedPages = value;
     for (const page of value) {
       page.isSelected = true;

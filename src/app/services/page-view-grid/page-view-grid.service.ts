@@ -118,5 +118,16 @@ export class PageViewGridService {
     public setViewPosition(vp: {x: number, y: number}) {
         this._currentViewCenterPos = vp;
     }
+
+    public getPagesInRect(posX: number, posY: number, width: number, height: number): Page[] {
+        const pages = [];
+        this.pageStructure.pages.forEach(page => {
+            const {x, y} = this.convertGridPosToPixelPos(page.posX, page.posY);
+            if (x >= posX && x <= posX + width && y >= posY && y <= posY + height) {
+                pages.push(page);
+            }
+        });
+        return pages;
+    }
 }
 
