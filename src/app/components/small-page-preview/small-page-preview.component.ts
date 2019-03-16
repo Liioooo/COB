@@ -1,14 +1,8 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    ElementRef,
-    EventEmitter,
     Input,
-    OnChanges,
-    OnInit,
-    Output,
-    SimpleChanges,
-    ViewChild
+    OnInit
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';

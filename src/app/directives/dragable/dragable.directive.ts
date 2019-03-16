@@ -97,29 +97,19 @@ export class DragableDirective implements OnInit, OnChanges {
 
     @HostListener('window:mouseup', ['$event'])
     onMouseUp(event: MouseEvent) {
-        this.el.nativeElement.style.zIndex = '1';
-        this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
-        if (this.mouseDown) {
-            const zoom = this.pageViewGrid.zoomLevel;
-            if (this.distance(this.dragStartMouseX, this.dragStartMouseY, event.clientX + 50 / zoom, event.clientY / zoom) > 5) {
-                    this.dragEnded.emit({
-                        x: this.lastDragMouseX - this.dragStartMouseX,
-                        y: this.lastDragMouseY - this.dragStartMouseY
-                    });
-            } else {
-                this.pageStructure.updatePageById(this.appDragablePage.questionId, {
-                    posX: this.appDragablePage.posX,
-                    posY: this.appDragablePage.posY
-                });
-                this.ngOnChanges(null);
-            }
-        }
-        this.mouseDown = false;
-        this.firstTimeExternalDrag = true;
+      this.el.nativeElement.style.zIndex = '1';
+      this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
+      if (this.mouseDown) {
+      // if (this.mouseDown && this.lastDragMouseX && this.lastDragMouseY && this.dragStartMouseX && this.dragStartMouseY) {
+        this.dragEnded.emit({
+            x: this.lastDragMouseX - this.dragStartMouseX,
+            y: this.lastDragMouseY - this.dragStartMouseY
+        });
+      }
+      if (this.appDragablePage.isSelected) {
+        this.ngOnChanges(null);
+      }
+      this.mouseDown = false;
+      this.firstTimeExternalDrag = true;
     }
-
-    private distance(x1: number, y1: number, x2: number,  y2: number): number {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-
 }

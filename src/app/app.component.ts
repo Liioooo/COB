@@ -12,7 +12,7 @@ export class AppComponent {
 
   constructor(public pageStructure: PageStructureService, public pageViewGrid: PageViewGridService) {}
 
-    @HostListener('document:keyup', ['$event'])
+    @HostListener('document:keydown', ['$event'])
     onKeyPressed(event: KeyboardEvent) {
         if (event.ctrlKey) {
             if (event.code === 'KeyC') {
@@ -23,6 +23,9 @@ export class AppComponent {
                 this.pageStructure.pasteClipboard(0, 0);
             } else if (event.code === 'KeyA') {
                 this.pageStructure.selectedPages = this.pageStructure.pages;
+            } else if (event.code === 'KeyN') {
+              const pos = this.pageViewGrid.getPosForNewPage();
+              this.pageStructure.addEmptyPage(pos.x, pos.y);
             }
         }
         if (event.code === 'Delete') {
