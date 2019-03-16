@@ -68,6 +68,65 @@ export class PageViewGridService {
       }
     }
 
+  public getNextGridPositionMulti(pages: Page[], inDifX: number, inDifY: number): { x: number, y: number } {
+    const { x: difX, y: difY } = this.convertPixelPosToGridPos(inDifX, inDifY)
+
+    const points: {x: number, y: number}[] = [];
+    for (const page of pages) {
+      points.push({ x: page.posX + difX, y: page.posY + difY });
+    }
+    if (this.allPointsFree(points, pages)) {
+      return {x: difX, y: difY};
+    }
+
+    for (let iteration = 1; true; iteration++) {
+      for (let x = -iteration; x <= iteration; x++) {
+        if (this.allPointsFree(this.vectorSum(points, { x, y: iteration }), pages)) {
+          return {x: difX + x, y: difY + iteration};
+        }
+      }
+      for (let x = -iteration; x <= iteration; x++) {
+        if (this.allPointsFree(this.vectorSum(points, { x, y: -iteration }), pages)) {
+          return {x: difX + x, y: difY - iteration};
+        }
+      }
+      for (let y = -iteration + 1; y <= iteration; y++) {
+        if (this.allPointsFree(this.vectorSum(points, { x: iteration, y }), pages)) {
+          return {x: difX + iteration, y: difY + y};
+        }
+      }
+      for (let y = -iteration + 1; y < iteration; y++) {
+        if (this.allPointsFree(this.vectorSum(points, { x: -iteration, y }), pages)) {
+          return {x: difX - iteration, y: difY + y};
+        }
+      }
+    }
+  }
+
+  private vectorSum(points: { x: number, y: number }[], vec: { x: number, y: number }): { x: number, y: number }[] {
+    const out: { x: number, y: number }[] = [];
+    for (const point of points) {
+      out.push({ x: point.x + vec.x, y: point.y + vec.y });
+    }
+    return out;
+  }
+
+  private allPointsFree(points: { x: number, y: number }[], exceptPages?: Page[]): boolean {
+    for (const page of this.pageStructure.pages) {
+      if (exceptPages && exceptPages.findIndex(p => p.questionId === page.questionId) !== -1) {
+        continue;
+      }
+      for (const point of points) {
+        if (point.x > page.posX - this._PAGE_WIDTH && point.x < page.posX + this._PAGE_WIDTH &&
+          point.y > page.posY - this._PAGE_HEIGHT && point.y < page.posY + this._PAGE_HEIGHT ||
+          point.x < 0 || point.y < 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
     public isPointFree(x: number, y: number, exceptPage?: Page): boolean {
       for (const page of this.pageStructure.pages) {
         if (exceptPage && page.questionId === exceptPage.questionId) {
