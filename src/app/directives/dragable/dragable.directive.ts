@@ -22,11 +22,15 @@ export class DragableDirective implements OnInit, OnChanges {
     private lastDragPos;
     private mouseDown: boolean;
 
-    private dragStartX: number;
-    private dragStartY: number;
+    private dragStartMouseX: number;
+    private dragStartMouseY: number;
+    private lastDragMouseX: number;
+    private lastDragMouseY: number;
+
+    private firstTimeExternalDrag = true;
 
     @Output()
-    dragEnded = new EventEmitter<{posX: number, posY: number}>();
+    dragEnded = new EventEmitter<{x: number, y: number}>();
 
     @Input()
     appDragablePage: Page;
@@ -51,25 +55,34 @@ export class DragableDirective implements OnInit, OnChanges {
 
     @HostListener('mousedown', ['$event'])
     onMouseDown(event: MouseEvent) {
-        if (event.button === 0) {
+        if (event.button === 0 && this.appDragablePage.isSelected) {
+            this.pageStructure.setCurrentlySelectedDrag();
             const zoom = this.pageViewGrid.zoomLevel;
             this.mouseDown = true;
             this.pos3 = event.clientX / zoom;
             this.pos4 = event.clientY / zoom;
-            this.dragStartX = this.pos3;
-            this.dragStartY = this.pos4;
+            this.dragStartMouseX = this.pos3;
+            this.dragStartMouseY = this.pos4;
             this.el.nativeElement.style.zIndex = '2';
         }
     }
 
     @HostListener('window:mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {
-      if (this.mouseDown) {
+      if (this.appDragablePage.currentlyDragged) {
           const zoom = this.pageViewGrid.zoomLevel;
+          if (!this.mouseDown && this.firstTimeExternalDrag) {
+              this.firstTimeExternalDrag = false;
+              this.pos3 = event.clientX / zoom;
+              this.pos4 = event.clientY / zoom;
+              this.el.nativeElement.style.zIndex = '2';
+          }
           this.pos1 = this.pos3 - event.clientX / zoom;
           this.pos2 = this.pos4 - event.clientY / zoom;
           this.pos3 = event.clientX / zoom;
           this.pos4 = event.clientY / zoom;
+          this.lastDragMouseY = this.pos4;
+          this.lastDragMouseX = this.pos3;
           const pos: {y: number, x: number} = {x: 0, y: 0};
           if ((this.lastDragPos.y - this.pos2) >= 0) {
               pos.y = (this.lastDragPos.y - this.pos2);
@@ -84,26 +97,19 @@ export class DragableDirective implements OnInit, OnChanges {
 
     @HostListener('window:mouseup', ['$event'])
     onMouseUp(event: MouseEvent) {
-        if (this.mouseDown) {
-            this.el.nativeElement.style.zIndex = '1';
-            const zoom = this.pageViewGrid.zoomLevel;
-            if (this.distance(this.dragStartX, this.dragStartY, event.clientX / zoom, event.clientY / zoom) > 5) {
-                this.dragEnded.emit({
-                    posX: this.lastDragPos.x,
-                    posY: this.lastDragPos.y
-                });
-            } else {
-                this.pageStructure.updatePageById(this.appDragablePage.questionId, {
-                    posX: this.appDragablePage.posX,
-                    posY: this.appDragablePage.posY
-                });
-            }
-        }
-        this.mouseDown = false;
+      this.el.nativeElement.style.zIndex = '1';
+      this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
+      if (this.mouseDown) {
+      // if (this.mouseDown && this.lastDragMouseX && this.lastDragMouseY && this.dragStartMouseX && this.dragStartMouseY) {
+        this.dragEnded.emit({
+            x: this.lastDragMouseX - this.dragStartMouseX,
+            y: this.lastDragMouseY - this.dragStartMouseY
+        });
+      }
+      if (this.appDragablePage.isSelected) {
+        this.ngOnChanges(null);
+      }
+      this.mouseDown = false;
+      this.firstTimeExternalDrag = true;
     }
-
-    private distance(x1: number, y1: number, x2: number,  y2: number): number {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-
 }

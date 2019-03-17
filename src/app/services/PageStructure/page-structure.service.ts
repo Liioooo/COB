@@ -33,11 +33,8 @@ export class PageStructureService {
     page.isSelected = !page.isSelected;
   }
 
-  public isSelected(checkPage: Page): boolean {
-    return this._selectedPages.findIndex(page => page.questionId === checkPage.questionId) !== -1;
-  }
-
   public pasteClipboard(posX?: number, posY?: number): void {
+    this.clearSelection();
     for (const page of this._clipboard) {
       const newPage = {...page};
       let num: number = 1;
@@ -48,6 +45,8 @@ export class PageStructureService {
 
       newPage.questionId = newId;
 
+      newPage.isSelected = true;
+      this._selectedPages.push(newPage);
       this.addPage(newPage);
     }
   }
@@ -59,6 +58,16 @@ export class PageStructureService {
       }
     }
     this._clipboard = pages;
+    return true;
+  }
+
+  public cut(pages: Page[]): boolean {
+    if (!this.addToClipboard(pages)) {
+      return false;
+    }
+    for (const page of pages) {
+      this.removePage(page);
+    }
     return true;
   }
 
@@ -156,9 +165,7 @@ export class PageStructureService {
   }
 
   set selectedPages(value: Page[]) {
-    for (const page of this._selectedPages) {
-      page.isSelected = false;
-    }
+    this.clearSelection();
     this._selectedPages = value;
     for (const page of value) {
       page.isSelected = true;
@@ -167,5 +174,9 @@ export class PageStructureService {
 
   get isOneSelected(): boolean {
     return this._selectedPages.length === 1;
+  }
+
+  public setCurrentlySelectedDrag() {
+      this.selectedPages.forEach(page => page.currentlyDragged = true);
   }
 }

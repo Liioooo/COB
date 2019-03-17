@@ -7,6 +7,7 @@ export interface Page {
   posX?: number;
   posY?: number;
   isSelected?: boolean;
+  currentlyDragged?: boolean;
 
   // nextQuestion: string;
   shortName?: string;
