@@ -36,7 +36,7 @@ export class PageStructureService {
   public pasteClipboard(posX?: number, posY?: number): void {
     this.clearSelection();
     for (const page of this._clipboard) {
-      const newPage = {...page};
+      const newPage: Page = {...page};
       let num: number = 1;
       let newId: string;
       do {

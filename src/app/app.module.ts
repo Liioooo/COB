@@ -11,6 +11,7 @@ import {SmallPagePreviewComponent} from './components/small-page-preview/small-p
 import { DragableDirective } from './directives/dragable/dragable.directive';
 import { AppMainViewZoomDirective } from './directives/main-view-zoom/main-view-zoom.directive';
 import { SelectRectDirective } from './directives/select-rect/select-rect.directive';
+import {NgxElectronModule} from 'ngx-electron';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SelectRectDirective } from './directives/select-rect/select-rect.direct
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    NgxElectronModule
   ],
   providers: [],
   bootstrap: [AppComponent]
