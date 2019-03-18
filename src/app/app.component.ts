@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
                     this.pageStructure.pasteClipboard(0, 0);
                     break;
                 case 'KeyA':
-                    this.pageStructure.selectedPages = this.pageStructure.pages;
+                    this.pageStructure.selectedPages = [...this.pageStructure.pages];
                     break;
             }
         } else {
