@@ -63,6 +63,8 @@ export class DragableDirective implements OnInit, OnChanges {
             this.pos4 = event.clientY / zoom;
             this.dragStartMouseX = this.pos3;
             this.dragStartMouseY = this.pos4;
+            this.lastDragMouseX = this.pos3;
+            this.lastDragMouseY = this.pos4;
             this.el.nativeElement.style.zIndex = '2';
         }
     }
