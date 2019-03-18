@@ -46,6 +46,8 @@ export class PageStructureService {
       newPage.questionId = newId;
 
       newPage.isSelected = true;
+      newPage.posX += posX;
+      newPage.posY += posY;
       this._selectedPages.push(newPage);
       this.addPage(newPage);
     }

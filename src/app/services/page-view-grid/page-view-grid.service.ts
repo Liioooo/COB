@@ -68,12 +68,15 @@ export class PageViewGridService {
       }
     }
 
-  public getNextGridPositionMulti(pages: Page[], inDifX: number, inDifY: number): { x: number, y: number } {
-    const { x: difX, y: difY } = this.convertPixelPosToGridPos(inDifX, inDifY)
+  public getNextGridPositionMulti(pages: Page[], inDifX: number, inDifY: number, collideSelf?: boolean): { x: number, y: number } {
+    const { x: difX, y: difY } = this.convertPixelPosToGridPos(inDifX, inDifY);
 
     const points: {x: number, y: number}[] = [];
     for (const page of pages) {
       points.push({ x: page.posX + difX, y: page.posY + difY });
+    }
+    if (!collideSelf) {
+      pages = [];
     }
     if (this.allPointsFree(points, pages)) {
       return {x: difX, y: difY};

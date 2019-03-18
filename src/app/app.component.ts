@@ -37,7 +37,8 @@ export class AppComponent implements OnInit {
                     this.pageStructure.cut(this.pageStructure.selectedPages);
                     break;
                 case 'KeyV':
-                    this.pageStructure.pasteClipboard(0, 0);
+                    const pos0 = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.clipboard, 0, 0, false);
+                    this.pageStructure.pasteClipboard(pos0.x, pos0.y);
                     break;
                 case 'KeyA':
                     this.pageStructure.selectedPages = [...this.pageStructure.pages];
@@ -67,7 +68,8 @@ export class AppComponent implements OnInit {
                 this.pageStructure.cut(this.pageStructure.selectedPages);
                 break;
             case 'pastePage':
-                this.pageStructure.pasteClipboard(0, 0);
+                const pos0 = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.clipboard, 0, 0, false);
+                this.pageStructure.pasteClipboard(pos0.x, pos0.y);
                 break;
             case 'selectAll':
                 this.pageStructure.selectedPages = this.pageStructure.pages;
