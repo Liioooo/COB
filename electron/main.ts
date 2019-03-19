@@ -11,6 +11,13 @@ function createWindow() {
     win = new BrowserWindow({
         width: 800,
         height: 600,
+        minWidth: 750,
+        minHeight: 500,
+        webPreferences: {
+            // devTools: false should be set in production
+            // devTools: false
+            nodeIntegration: true
+        }
     });
 
     if (serve) {
