@@ -1,20 +1,27 @@
 <mat-toolbar>
   <button mat-icon-button (click)="addPage()">
-    <mat-icon>add</mat-icon>
+    <mat-icon fontSet="fontawesome" fontIcon="fa-plus" class="fa-lg"></mat-icon>
   </button>
-  <button mat-icon-button  (click)="removeSelection()">
-    <mat-icon>delete</mat-icon>
+  <button mat-icon-button  (click)="pageStructure.removeSelectedPages()">
+    <mat-icon fontSet="fontawesome" fontIcon="fa-trash" class="fa-lg"></mat-icon>
   </button>
+  <button mat-icon-button (click)="pageStructure.addToClipboard(pageStructure.selectedPages)">
+    <mat-icon fontSet="fontawesome" fontIcon="fa-copy" class="fa-lg"></mat-icon>
+  </button>
+  <button mat-icon-button (click)="pageStructure.cut(pageStructure.selectedPages)">
+    <mat-icon fontSet="fontawesome" fontIcon="fa-cut" class="fa-lg"></mat-icon>
+  </button>
+  <button mat-icon-button (click)="pasteClipboard()">
+    <mat-icon fontSet="fontawesome" fontIcon="fa-paste" class="fa-lg"></mat-icon>
+  </button>
+   <!--to-to implement search-->
   <button mat-icon-button>
-    <mat-icon>search</mat-icon>
+    <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg"></mat-icon>
   </button>
   <button mat-icon-button (click)="pageViewGrid.zoomLarger()">
-    <mat-icon>zoom_in</mat-icon>
+    <mat-icon fontSet="fontawesome" fontIcon="fa-search-plus" class="fa-lg"></mat-icon>
   </button>
   <button mat-icon-button (click)="pageViewGrid.zoomSmaller()">
-    <mat-icon>zoom_out</mat-icon>
-  </button>
-  <button mat-icon-button (click)="pageViewGrid.setZoomInitial()">
-    <mat-icon>zoom_out_map</mat-icon>
+    <mat-icon fontSet="fontawesome" fontIcon="fa-search-minus" class="fa-lg"></mat-icon>
   </button>
 </mat-toolbar>
