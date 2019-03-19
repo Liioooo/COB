@@ -1,10 +1,12 @@
 @import "variables";
 
+* {
+  user-select: none;
+
 p {
     text-align: center;
     margin: 0;
     padding-bottom: 0.25rem;
-    user-select: none;
     font-size: 4px;
 }
 
@@ -15,11 +17,15 @@ p {
 div {
   height: 44px;
   padding: 5px;
-  user-select: none;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   background-color: $small-page-preview-color;
   border-radius: 2px;
+}
+
+app-mini-page-menu {
+  position: absolute;
+  transform: translate(80px, -54px);
 }
