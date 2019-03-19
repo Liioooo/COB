@@ -5,3 +5,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; user-select: none;}
+
+// Temporary workaround -> Fix needed!
+.mat-tooltip {
+  margin: 0 !important;
+}

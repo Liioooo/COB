@@ -1,11 +1,9 @@
 <ng-content *ngIf="!state; else editForm" (click)="state = !state"></ng-content>
 <ng-template #editForm>
-    <mat-form-field (keydown.enter)="saveChanges()">
-      <input matInput [style]="elemStyles" [(ngModel)]="tempVal">
-    </mat-form-field>
-    <button mat-mini-fab>
-      <mat-icon>favorite</mat-icon>
-    </button>  <button mat-mini-fab>
-    <mat-icon>favorite</mat-icon>
-    </button>
+  <mat-form-field (keydown.enter)="saveChanges()">
+    <input matInput [style]="elemStyles" [(ngModel)]="tempVal">
+  </mat-form-field>
+  <button mat-mini-fab class="accept">
+    <mat-icon fontSet="fontawesome" fontIcon="fa-check" class="fa-xs action"></mat-icon>
+  </button>
 </ng-template>
