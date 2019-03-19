@@ -1,42 +1,67 @@
-import { MenuItemConstructorOptions, WebContents } from 'electron';
+import { MenuItemConstructorOptions, BrowserWindow } from 'electron';
 
-export function getTemplate(webContents: WebContents): MenuItemConstructorOptions[] {
+export function getTemplate(win: BrowserWindow): MenuItemConstructorOptions[] {
     return [
         {
             label: 'Datei',
             submenu: [
                 {
                     label: 'Öffnen',
-                    // accelerator: process.platform === 'darwin' ? 'Command+O' : 'Ctrl+O',
+                    accelerator: process.platform === 'darwin' ? 'Command+O' : 'Ctrl+O',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'openFile');
+                        win.webContents.send('menuClick', 'openFile');
                     }
                 },
                 {
                     label: 'Neu',
+                    accelerator: process.platform === 'darwin' ? 'Command+shift+N' : 'Ctrl+shift+N',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'newFile');
+                        win.webContents.send('menuClick', 'newFile');
                     }
                 },
                 {
                     label: 'Speichern',
-                    // accelerator: process.platform === 'darwin' ? 'Command+S' : 'Ctrl+S',
+                    accelerator: process.platform === 'darwin' ? 'Command+S' : 'Ctrl+S',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'save');
+                        win.webContents.send('menuClick', 'save');
                     }
                 },
                 {
                     label: 'Speichern unter',
-                    // accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+                    accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'saveAs');
+                        win.webContents.send('menuClick', 'saveAs');
+                    }
+                },
+                { type: 'separator' },
+                {
+                    label: 'Minimieren',
+                    click: () => {
+                        win.minimize();
+                    }
+                },
+                {
+                    label: 'Maximieren',
+                    click: () => {
+                        win.maximize();
+                    }
+                },
+                {
+                    label: 'Verkleinern',
+                    click: () => {
+                        win.unmaximize();
                     }
                 },
                 {
                     label: 'Schließen',
-                    // accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Alt+F4',
+                    accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Alt+F4',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'close');
+                        win.webContents.send('menuClick', 'close');
                     }
                 }
             ]
@@ -46,37 +71,42 @@ export function getTemplate(webContents: WebContents): MenuItemConstructorOption
             submenu: [
                 {
                     label: 'Neue Seite',
-                    // accelerator: 'CmdOrCtrl+N',
+                    accelerator: 'CmdOrCtrl+N',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'newPage');
+                        win.webContents.send('menuClick', 'newPage');
                     }
                 },
                 {
                     label: 'Löschen',
-                    // accelerator: process.platform === 'darwin' ? 'Command+backspace' : 'delete',
+                    accelerator: process.platform === 'darwin' ? 'Command+backspace' : 'delete',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'deletePage');
+                        win.webContents.send('menuClick', 'deletePage');
                     }
                 },
                 {
                     label: 'Kopieren',
-                    // accelerator: 'CmdOrCtrl+C',
+                    accelerator: 'CmdOrCtrl+C',
+                    registerAccelerator: false,
                     click: () =>  {
-                        webContents.send('menuClick', 'copyPage');
+                        win.webContents.send('menuClick', 'copyPage');
                     }
                 },
                 {
                     label: 'Ausschneiden',
-                    // accelerator: 'CmdOrCtrl+X',
+                    accelerator: 'CmdOrCtrl+X',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'cutPage');
+                        win.webContents.send('menuClick', 'cutPage');
                     }
                 },
                 {
                     label: 'Einfügen',
-                    // accelerator: 'CmdOrCtrl+V',
+                    accelerator: 'CmdOrCtrl+V',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'pastePage');
+                        win.webContents.send('menuClick', 'pastePage');
                     }
                 }
             ]
@@ -86,15 +116,16 @@ export function getTemplate(webContents: WebContents): MenuItemConstructorOption
             submenu: [
                 {
                     label: 'Alles Auswählen',
-                    // accelerator: process.platform === 'darwin' ? 'Command+A' : 'Ctrl+A',
+                    accelerator: 'CmdOrCtrl+A',
+                    registerAccelerator: false,
                     click: () => {
-                        webContents.send('menuClick', 'selectAll');
+                        win.webContents.send('menuClick', 'selectAll');
                     }
                 },
                 {
                     label: 'Auswahl aufheben',
                     click: () => {
-                        webContents.send('menuClick', 'clearSelection');
+                        win.webContents.send('menuClick', 'clearSelection');
                     }
                 }
             ]

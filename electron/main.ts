@@ -31,7 +31,7 @@ function createWindow() {
         win = null;
     });
 
-    const menu = Menu.buildFromTemplate(getTemplate(win.webContents));
+    const menu = Menu.buildFromTemplate(getTemplate(win));
     Menu.setApplicationMenu(menu);
 }
 
