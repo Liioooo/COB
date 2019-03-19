@@ -12,7 +12,8 @@ import { AppMainViewZoomDirective } from './directives/main-view-zoom/main-view-
 import { SelectRectDirective } from './directives/select-rect/select-rect.directive';
 import { NgxElectronModule } from 'ngx-electron';
 import { EditComponent } from './components/edit/edit.component';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { MiniPageMenuComponent } from './components/mini-page-menu/mini-page-menu.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {FormsModule} from '@angular/forms';
     AppMainViewZoomDirective,
     SelectRectDirective,
     EditComponent
+    MiniPageMenuComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,8 @@
-import {ApplicationRef, ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
 import {PageViewGridService} from './services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from './services/PageStructure/page-structure.service';
 import {ElectronService} from 'ngx-electron';
+import {MatIconRegistry} from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,12 @@ export class AppComponent implements OnInit {
         public pageStructure: PageStructureService,
         public pageViewGrid: PageViewGridService,
         private electronService: ElectronService,
-        private changeRef: ChangeDetectorRef
-    ) {}
+        private changeRef: ChangeDetectorRef,
+        matIconRegistry: MatIconRegistry
+    ) {
+        matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
+        matIconRegistry.registerFontClassAlias('fontawesomeRegular', 'far');
+    }
 
     ngOnInit(): void {
         this.electronService.ipcRenderer.on('menuClick', (event, response) => this.handleMenuClick(event, response));
@@ -43,6 +48,9 @@ export class AppComponent implements OnInit {
                 case 'KeyA':
                     this.pageStructure.selectedPages = [...this.pageStructure.pages];
                     break;
+                case 'KeyD':
+                  this.pageStructure.clearSelection();
+                  break;
             }
         } else {
             if (event.code === 'Delete') {

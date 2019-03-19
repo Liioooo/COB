@@ -21,8 +21,8 @@ export class MainViewComponent implements OnInit {
     ngOnInit() {
     }
 
-    dragEnded(event, page: Page) {
-      const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, event.x, event.y);
+    dragEnded(event) {
+      const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, event.x, event.y, true);
       this.pageStructure.selectedPages.forEach(selPage => {
           selPage.posX += pos.x;
           selPage.posY += pos.y;

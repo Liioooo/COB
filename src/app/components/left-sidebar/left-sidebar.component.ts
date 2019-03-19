@@ -23,7 +23,8 @@ export class LeftSidebarComponent implements OnInit {
         this.pageStructure.addEmptyPage(pos.x, pos.y);
     }
 
-    public removeSelection(): void {
-        this.pageStructure.removeSelectedPages();
+    public pasteClipboard() {
+        const pos0 = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.clipboard, 0, 0, false);
+        this.pageStructure.pasteClipboard(pos0.x, pos0.y);
     }
 }

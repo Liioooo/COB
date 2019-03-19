@@ -27,6 +27,7 @@
     "@angular/animations": ">=7.0.0",
     "@angular/cdk": "~7.3.4",
     "@angular/material": "~7.3.4",
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "hammerjs": "^2.0.8"
   },
   "devDependencies": {
