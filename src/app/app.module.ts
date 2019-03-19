@@ -25,7 +25,7 @@ import { MiniPageMenuComponent } from './components/mini-page-menu/mini-page-men
     DragableDirective,
     AppMainViewZoomDirective,
     SelectRectDirective,
-    EditComponent
+    EditComponent,
     MiniPageMenuComponent
   ],
   imports: [

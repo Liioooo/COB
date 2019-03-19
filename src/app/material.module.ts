@@ -8,7 +8,7 @@ import { MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatSelec
         MatCardModule,
         MatIconModule,
         MatInputModule,
-        MatSelectModule
+        MatSelectModule,
         MatToolbarModule
     ]
 })
