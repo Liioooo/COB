@@ -1,6 +1,6 @@
 <mat-sidenav-container class="all">
     <mat-sidenav #sidenav mode="side" position="end"
-                 [(opened)]="pageStructure.isOneSelected">
+                 [opened]="pageStructure.isOneSelected">
         <app-right-sidebar [selectedPage]="pageStructure.selectedPages.length === 0"></app-right-sidebar>
     </mat-sidenav>
 

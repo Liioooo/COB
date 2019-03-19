@@ -20,7 +20,7 @@
     "e2e": "npm run postinstall:web && ng e2e",
     "electron:windows32": "npm run build:prod && electron-packager . COB --overwrite --asar --platform=win32 --arch=ia32 --icon=icons/icon256.ico --prune=true --out=release --version-string.ProductName='COB'",
     "electron:windows64": "npm run build:prod && electron-packager . COB --overwrite --asar --platform=win32 --arch=x64 --icon=icons/icon256.ico --prune=true --out=release --version-string.ProductName='COB'",
-    "electron:linux": "npm run build:prod && electron-packager . COB --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/icon256.ico --prune=true --out=release"
+    "electron:linux": "npm run build:prod && electron-packager . COB --overwrite --asar --platform=linux --arch=x64 --icon=icons/icon256.ico --prune=true --out=release"
   },
   "private": true,
   "dependencies": {
