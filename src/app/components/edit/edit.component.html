@@ -1,3 +1,11 @@
-<p>
-  edit works!
-</p>
+<ng-content *ngIf="!state; else editForm" (click)="state = !state"></ng-content>
+<ng-template #editForm>
+    <mat-form-field (keydown.enter)="saveChanges()">
+      <input matInput [style]="elemStyles" [(ngModel)]="tempVal">
+    </mat-form-field>
+    <button mat-mini-fab>
+      <mat-icon>favorite</mat-icon>
+    </button>  <button mat-mini-fab>
+    <mat-icon>favorite</mat-icon>
+    </button>
+</ng-template>

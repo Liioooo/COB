@@ -1,3 +1,19 @@
 div {
-  width: 200px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-buttons {
+  width: 80%;
+  margin: auto;
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-
-import {MatButtonModule, MatCardModule, MatIconModule, MatSidenavModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatSelectModule, MatSidenavModule} from '@angular/material';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
@@ -9,7 +8,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
         MatSidenavModule,
         DragDropModule,
         MatCardModule,
-        MatIconModule
+        MatIconModule,
+        MatInputModule,
+        MatSelectModule
     ]
 })
 export class MaterialModule { }

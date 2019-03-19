@@ -11,16 +11,13 @@ export class RightSidebarComponent implements OnInit, OnChanges {
     @Input()
     selectedPage: Page;
 
-    private showValue($event: any): void {
-      console.log($event);
-    }
-
     constructor() { }
 
     ngOnInit() {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        // console.log(this.selectedPage);
+      console.log(this.selectedPage);
+      console.log("reached")
     }
 }
