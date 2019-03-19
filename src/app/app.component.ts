@@ -43,6 +43,9 @@ export class AppComponent implements OnInit {
                 case 'KeyA':
                     this.pageStructure.selectedPages = [...this.pageStructure.pages];
                     break;
+                case 'KeyD':
+                  this.pageStructure.clearSelection();
+                  break;
             }
         } else {
             if (event.code === 'Delete') {
