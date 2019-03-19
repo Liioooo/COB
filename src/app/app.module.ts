@@ -12,6 +12,7 @@ import { DragableDirective } from './directives/dragable/dragable.directive';
 import { AppMainViewZoomDirective } from './directives/main-view-zoom/main-view-zoom.directive';
 import { SelectRectDirective } from './directives/select-rect/select-rect.directive';
 import {NgxElectronModule} from 'ngx-electron';
+import { EditComponent } from './components/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {NgxElectronModule} from 'ngx-electron';
     SmallPagePreviewComponent,
     DragableDirective,
     AppMainViewZoomDirective,
-    SelectRectDirective
+    SelectRectDirective,
+    EditComponent
   ],
   imports: [
     BrowserModule,
