@@ -1,6 +1,7 @@
+@import "variables";
+
 * {
   user-select: none;
-}
 
 p {
     text-align: center;
@@ -20,7 +21,7 @@ div {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: darken(white, 10);
+  background-color: $small-page-preview-color;
   border-radius: 2px;
 }
 
