@@ -17,9 +17,7 @@ export class RightSidebarComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        // console.log(this.selectedPage);
+      console.log(this.selectedPage);
+      console.log("reached")
     }
-
-
-
 }
