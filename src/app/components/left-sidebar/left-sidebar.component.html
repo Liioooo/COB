@@ -1,27 +1,27 @@
 <mat-toolbar>
-  <button mat-icon-button matTooltip="Add a new page" matTooltipPosition="after" (click)="addPage()">
+  <button mat-icon-button matTooltip="Add a new page" matTooltipPosition="after" matTooltipClass="left-tooltip" (click)="addPage()">
     <mat-icon fontSet="fontawesome" fontIcon="fa-plus" class="fa-lg"></mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Delete a page" matTooltipPosition="after" (click)="pageStructure.removeSelectedPages()">
+  <button mat-icon-button matTooltip="Delete a page" matTooltipPosition="after" matTooltipClass="left-tooltip" (click)="pageStructure.removeSelectedPages()">
     <mat-icon fontSet="fontawesome" fontIcon="fa-trash" class="fa-lg"></mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Add to Clipboard" matTooltipPosition="after" (click)="pageStructure.addToClipboard(pageStructure.selectedPages)">
+  <button mat-icon-button matTooltip="Add to Clipboard" matTooltipPosition="after" matTooltipClass="left-tooltip" (click)="pageStructure.addToClipboard(pageStructure.selectedPages)">
     <mat-icon fontSet="fontawesome" fontIcon="fa-copy" class="fa-lg"></mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Cut a page" matTooltipPosition="after" (click)="pageStructure.cut(pageStructure.selectedPages)">
+  <button mat-icon-button matTooltip="Cut a page" matTooltipPosition="after" matTooltipClass="left-tooltip" (click)="pageStructure.cut(pageStructure.selectedPages)">
     <mat-icon fontSet="fontawesome" fontIcon="fa-cut" class="fa-lg"></mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Paste" matTooltipPosition="after" (click)="pasteClipboard()">
+  <button mat-icon-button matTooltip="Paste" matTooltipPosition="after" matTooltipClass="left-tooltip" (click)="pasteClipboard()">
     <mat-icon fontSet="fontawesome" fontIcon="fa-paste" class="fa-lg"></mat-icon>
   </button>
    <!--to-to implement search-->
-  <button mat-icon-button matTooltip="Search" matTooltipPosition="after">
+  <button mat-icon-button matTooltip="Search" matTooltipPosition="after" matTooltipClass="left-tooltip">
     <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg"></mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Zoom in" matTooltipPosition="after" (click)="pageViewGrid.zoomLarger()">
+  <button mat-icon-button matTooltip="Zoom in" matTooltipPosition="after" matTooltipClass="left-tooltip" (click)="pageViewGrid.zoomLarger()">
     <mat-icon fontSet="fontawesome" fontIcon="fa-search-plus" class="fa-lg"></mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Zoom out" matTooltipPosition="after" (click)="pageViewGrid.zoomSmaller()">
+  <button mat-icon-button matTooltip="Zoom out" matTooltipPosition="after" matTooltipClass="left-tooltip" (click)="pageViewGrid.zoomSmaller()">
     <mat-icon fontSet="fontawesome" fontIcon="fa-search-minus" class="fa-lg"></mat-icon>
   </button>
 </mat-toolbar>
