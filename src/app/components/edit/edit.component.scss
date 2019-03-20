@@ -1,3 +1,6 @@
+@import "variables";
+
+
 .example-form {
   min-width: 150px;
   max-width: 500px;
@@ -6,4 +9,31 @@
 
 :host:hover {
   cursor: pointer;
+}
+
+.accept {
+  background-color: $green-success;
+}
+
+.cancel {
+  background-color: $red-warning;
+}
+
+button {
+  height: 32px;
+  width: 32px;
+}
+
+.action {
+  color: white;
+}
+
+.action-buttons {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  button {
+    margin: 0.2rem;
+  }
 }

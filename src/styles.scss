@@ -5,3 +5,14 @@ $fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; user-select: none;}
+
+// Temporary workaround -> Fix needed! -> or maybe not
+.left-tooltip {
+  margin: 0 !important;
+}
+
+.action-button {
+  span {
+    line-height: 28px !important;
+  }
+}

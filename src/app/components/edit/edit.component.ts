@@ -16,6 +16,7 @@ export class EditComponent implements OnInit {
   elemStyles;
   tempVal: string;
   state: boolean = false;
+  actionButtonState: boolean = false;
 
   constructor() { }
 
@@ -24,14 +25,20 @@ export class EditComponent implements OnInit {
 
   @HostListener('click', ['$event.target'])
   onClick(target) {
-    if (!this.state) {
+    if (!this.state && !this.actionButtonState) {
       this.state = true;
       this.tempVal = this.currentVal;
+    } else if (this.actionButtonState) {
+      this.actionButtonState = false;
     }
   }
 
-  saveChanges() {
-    this.valueChange.emit(this.tempVal);
+  saveChanges(savedVal: string, type?: boolean) {
+    if (type) {
+      this.actionButtonState = true;
+    }
+
+    this.valueChange.emit(savedVal);
     this.state = false;
   }
 
