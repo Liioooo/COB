@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Page} from '../../models/page-interface';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PageStructureService {
+
+  private _scrollToPageSubject = new Subject<Page>();
 
   private _startPage: Page;
   private _pages: Page[];
@@ -35,6 +38,8 @@ export class PageStructureService {
 
   public pasteClipboard(posX?: number, posY?: number): void {
     this.clearSelection();
+
+    let firstNewPage: Page;
     for (const page of this._clipboard) {
       const newPage: Page = {...page};
       let num: number = 1;
@@ -50,7 +55,11 @@ export class PageStructureService {
       newPage.posY += posY;
       this._selectedPages.push(newPage);
       this.addPage(newPage);
+      if (!firstNewPage) {
+        firstNewPage = newPage;
+      }
     }
+    this.triggerScrollToPage(firstNewPage);
   }
 
   public addToClipboard(pages: Page[]): boolean {
@@ -88,6 +97,7 @@ export class PageStructureService {
       posY
     };
 
+    this.triggerScrollToPage(newPage);
     this.addPage(newPage);
     return newPage;
   }
@@ -180,5 +190,13 @@ export class PageStructureService {
 
   public setCurrentlySelectedDrag() {
       this.selectedPages.forEach(page => page.currentlyDragged = true);
+  }
+
+  public get shouldScrollToPage(): Observable<Page> {
+    return this._scrollToPageSubject.asObservable();
+  }
+
+  public triggerScrollToPage(page: Page) {
+    this._scrollToPageSubject.next(page);
   }
 }

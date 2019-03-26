@@ -1,5 +1,7 @@
 import {Directive, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
+import {filter} from 'rxjs/operators';
 
 @Directive({
   selector: '[appMainViewZoom]'
@@ -14,7 +16,11 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
 
     private movingMouseDown: boolean;
 
-    constructor(private el: ElementRef<HTMLDivElement>, private pageViewGrid: PageViewGridService) { }
+    constructor(
+        private el: ElementRef<HTMLDivElement>,
+        private pageViewGrid: PageViewGridService,
+        private pageStructure: PageStructureService
+    ) { }
 
     @Input()
     zoomLevel: number;
@@ -22,6 +28,22 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     ngOnInit(): void {
       this.el.nativeElement.style.zoom = this.zoomLevel + '';
       this.setViewPos();
+      this.pageStructure.shouldScrollToPage.pipe(
+        filter(toScrollTo => {
+            const toScrollPos = this.pageViewGrid.convertGridPosToPixelPos(toScrollTo.posX, toScrollTo.posY);
+            return toScrollPos.y < this.el.nativeElement.scrollTop + 60 ||
+                   toScrollPos.y > this.el.nativeElement.scrollTop + this.el.nativeElement.offsetHeight - 60 ||
+                   toScrollPos.x < this.el.nativeElement.scrollLeft + 60 ||
+                   toScrollPos.x > this.el.nativeElement.scrollLeft + this.el.nativeElement.offsetWidth - 60;
+        })
+      ).subscribe(toScrollTo => {
+          const toScrollPos = this.pageViewGrid.convertGridPosToPixelPos(toScrollTo.posX, toScrollTo.posY);
+          this.el.nativeElement.scrollTo({
+              left: toScrollPos.x - this.el.nativeElement.offsetWidth / 2,
+              top: toScrollPos.y  - this.el.nativeElement.offsetHeight / 2,
+              behavior: 'smooth'
+          });
+      });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
