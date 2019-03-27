@@ -1,6 +1,7 @@
 import { MenuItemConstructorOptions, BrowserWindow } from 'electron';
+import {openAbout, openHelp} from './help-about-windows';
 
-export function getTemplate(win: BrowserWindow): MenuItemConstructorOptions[] {
+export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstructorOptions[] {
     return [
         {
             label: 'Datei',
@@ -135,8 +136,14 @@ export function getTemplate(win: BrowserWindow): MenuItemConstructorOptions[] {
             submenu: [
                 {
                     label: 'Hilfe',
-                    // accelerator: process.platform === 'darwin' ? 'F1' : 'F1',
                     click: () => {
+                        openHelp(serve);
+                    }
+                },
+                {
+                    label: 'About',
+                    click: () => {
+                        openAbout(serve);
                     }
                 }
             ]

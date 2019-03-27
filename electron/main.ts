@@ -35,21 +35,15 @@ function createWindow() {
     }
 
     win.on('closed', () => {
-        win = null;
+        app.quit();
     });
 
-    const menu = Menu.buildFromTemplate(getTemplate(win));
-    Menu.setApplicationMenu(menu);
+    const menu = Menu.buildFromTemplate(getTemplate(win, serve));
+    win.setMenu(menu);
 }
 
 try {
     app.on('ready', createWindow);
-
-    app.on('window-all-closed', () => {
-        if (process.platform !== 'darwin') {
-            app.quit();
-        }
-    });
 
     app.on('activate', () => {
         if (win === null) {

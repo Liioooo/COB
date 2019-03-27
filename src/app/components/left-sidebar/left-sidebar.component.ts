@@ -10,7 +10,7 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 export class LeftSidebarComponent implements OnInit {
 
     constructor(
-        private pageStructure: PageStructureService,
+        public pageStructure: PageStructureService,
         public pageViewGrid: PageViewGridService
     ) {
     }
