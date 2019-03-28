@@ -13,6 +13,7 @@ export function openAbout(serve: boolean) {
         }
     });
     win.setMenu(null);
+    win.setMenuBarVisibility(false);
 
     if (serve) {
         win.webContents.openDevTools();
@@ -41,6 +42,7 @@ export function openHelp(serve: boolean) {
         }
     });
     win.setMenu(null);
+    win.setMenuBarVisibility(false);
 
     if (serve) {
         win.webContents.openDevTools();

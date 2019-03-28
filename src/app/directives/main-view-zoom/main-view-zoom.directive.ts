@@ -1,7 +1,8 @@
 import {Directive, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
-import {filter} from 'rxjs/operators';
+import {filter, share} from 'rxjs/operators';
+import {interval, Subscription} from 'rxjs';
 
 @Directive({
   selector: '[appMainViewZoom]'
@@ -15,6 +16,11 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     private oldSizeY: number;
 
     private movingMouseDown: boolean;
+    private movingKeyboardLeftRight: number;
+    private movingKeyboardUpDown: number;
+
+    private keyboardMoveInterval = interval(15);
+    private keyboardMoveIntervalSubscription: Subscription;
 
     constructor(
         private el: ElementRef<HTMLDivElement>,
@@ -97,6 +103,45 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     onMouseUp() {
       this.movingMouseDown = false;
       this.el.nativeElement.style.cursor = 'default';
+    }
+
+    @HostListener('window:keyup')
+    onKeyUp() {
+        if (this.keyboardMoveIntervalSubscription) {
+            this.keyboardMoveIntervalSubscription.unsubscribe();
+        }
+        delete this.keyboardMoveIntervalSubscription;
+        this.movingKeyboardUpDown = 0;
+        this.movingKeyboardLeftRight = 0;
+    }
+
+    @HostListener('window:keydown', ['$event'])
+    onKeyDown(event: KeyboardEvent) {
+        event.preventDefault();
+        if (event.altKey) {
+            switch (event.key) {
+                case 'ArrowLeft':
+                    this.movingKeyboardLeftRight = -1;
+                    break;
+                case 'ArrowRight':
+                    this.movingKeyboardLeftRight = 1;
+                    break;
+                case 'ArrowUp':
+                    this.movingKeyboardUpDown = -1;
+                    break;
+                case 'ArrowDown':
+                    this.movingKeyboardUpDown = 1;
+                    break;
+            }
+            if (this.keyboardMoveIntervalSubscription) {
+                return;
+            }
+            this.keyboardMoveIntervalSubscription = this.keyboardMoveInterval.subscribe(_ => {
+                this.el.nativeElement.scrollLeft += this.movingKeyboardLeftRight * 4;
+                this.el.nativeElement.scrollTop += this.movingKeyboardUpDown * 4;
+                this.setViewPos();
+            });
+        }
     }
 
     private setViewPos() {
