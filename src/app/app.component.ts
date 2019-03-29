@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {PageViewGridService} from './services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from './services/PageStructure/page-structure.service';
 import {ElectronService} from 'ngx-electron';
@@ -10,7 +10,14 @@ import {MatIconRegistry} from '@angular/material';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    title = 'COB';
+
+    @ViewChild('mainView')
+    public mainView: any;
+
+
+    public showRightClickMenu: boolean = false;
+    public rcPos: { x: number, y: number };
+    public scrollPos: { x: number, y: number };
 
     constructor(
         public pageStructure: PageStructureService,
@@ -60,7 +67,6 @@ export class AppComponent implements OnInit {
     }
 
     private handleMenuClick(event: any, response: any) {
-        // console.log(response);
         switch (response) {
             case 'newPage':
                 const pos = this.pageViewGrid.getPosForNewPage();
@@ -89,4 +95,18 @@ export class AppComponent implements OnInit {
         this.changeRef.detectChanges();
     }
 
+    public onMouseDown(event: MouseEvent): void {
+      if (event.target !== this.mainView.container.nativeElement) {
+        return;
+      }
+      if (event.button === 2) {
+        this.showRightClickMenu = true;
+        this.rcPos = { x: event.clientX , y: event.clientY };
+        this.scrollPos = { x: this.mainView.container.nativeElement.parentElement.scrollLeft,
+          y: this.mainView.container.nativeElement.parentElement.scrollTop };
+      } else {
+        this.showRightClickMenu = false;
+      }
+    }
 }
+
