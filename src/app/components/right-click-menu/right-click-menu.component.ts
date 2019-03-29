@@ -21,7 +21,8 @@ export class RightClickMenuComponent implements OnChanges {
   @Output()
   ready: EventEmitter<any> = new EventEmitter();
 
-  constructor(public pageStructure: PageStructureService, public pageViewGrid: PageViewGridService) { }
+  constructor(public pageStructure: PageStructureService, public pageViewGrid: PageViewGridService) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.container.nativeElement.style.transform =

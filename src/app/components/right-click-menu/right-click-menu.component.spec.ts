@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RightClickMenuComponent } from './right-click-menu.component';
+import {RightClickMenuComponent} from './right-click-menu.component';
 
 describe('RightClickMenuComponent', () => {
   let component: RightClickMenuComponent;
@@ -8,9 +8,9 @@ describe('RightClickMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RightClickMenuComponent ]
+      declarations: [RightClickMenuComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -10,35 +10,36 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 })
 export class MainViewComponent implements OnInit {
 
-    @ViewChild('container')
-    private container: ElementRef<HTMLDivElement>;
+  @ViewChild('container')
+  private container: ElementRef<HTMLDivElement>;
 
-    constructor(
-        public pageStructure: PageStructureService,
-        public pageViewGrid: PageViewGridService
-    ) { }
+  constructor(
+    public pageStructure: PageStructureService,
+    public pageViewGrid: PageViewGridService
+  ) {
+  }
 
-    ngOnInit() {
+  ngOnInit() {
+  }
+
+  dragEnded(event) {
+    const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, event.x, event.y, true);
+    this.pageStructure.selectedPages.forEach(selPage => {
+      selPage.posX += pos.x;
+      selPage.posY += pos.y;
+    });
+  }
+
+  public update(index: number, item: Page): any {
+    return item.questionId + item.isSelected + item.posX + item.posY;
+  }
+
+  public onMouseDown(event: MouseEvent): void {
+    if (event.target !== this.container.nativeElement) {
+      return;
     }
-
-    dragEnded(event) {
-      const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, event.x, event.y, true);
-      this.pageStructure.selectedPages.forEach(selPage => {
-          selPage.posX += pos.x;
-          selPage.posY += pos.y;
-      });
+    if (!event.altKey) {
+      this.pageStructure.clearSelection();
     }
-
-    public update(index: number, item: Page): any {
-      return item.questionId + item.isSelected + item.posX + item.posY;
-    }
-
-    public onMouseDown(event: MouseEvent): void {
-      if (event.target !== this.container.nativeElement) {
-        return;
-      }
-      if (!event.altKey) {
-        this.pageStructure.clearSelection();
-      }
-    }
+  }
 }

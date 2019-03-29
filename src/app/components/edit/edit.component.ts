@@ -18,7 +18,8 @@ export class EditComponent implements OnInit {
   state: boolean = false;
   actionButtonState: boolean = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

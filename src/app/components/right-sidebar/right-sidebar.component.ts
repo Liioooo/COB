@@ -8,14 +8,15 @@ import {Page} from '../../models/page-interface';
 })
 export class RightSidebarComponent implements OnInit, OnChanges {
 
-    @Input()
-    selectedPage: Page;
+  @Input()
+  selectedPage: Page;
 
-    constructor() { }
+  constructor() {
+  }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
-    ngOnChanges(changes: SimpleChanges): void {
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 }

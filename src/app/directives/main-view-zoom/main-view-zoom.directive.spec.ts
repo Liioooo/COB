@@ -1,4 +1,4 @@
-import { AppMainViewZoomDirective } from './main-view-zoom.directive';
+import {AppMainViewZoomDirective} from './main-view-zoom.directive';
 
 describe('AppMainViewZoomDirective', () => {
   it('should create an instance', () => {

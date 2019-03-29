@@ -12,7 +12,8 @@ export class MiniPageMenuComponent implements OnInit {
   @Input()
   page: Page;
 
-  constructor(private pageStructure: PageStructureService) { }
+  constructor(private pageStructure: PageStructureService) {
+  }
 
   ngOnInit() {
   }

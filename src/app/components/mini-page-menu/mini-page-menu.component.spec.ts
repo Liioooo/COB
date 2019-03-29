@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MiniPageMenuComponent } from './mini-page-menu.component';
+import {MiniPageMenuComponent} from './mini-page-menu.component';
 
 describe('MiniPageMenuComponent', () => {
   let component: MiniPageMenuComponent;
@@ -8,9 +8,9 @@ describe('MiniPageMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MiniPageMenuComponent ]
+      declarations: [MiniPageMenuComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

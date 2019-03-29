@@ -1,4 +1,4 @@
-import { SelectRectDirective } from './select-rect.directive';
+import {SelectRectDirective} from './select-rect.directive';
 
 describe('SelectRectDirective', () => {
   it('should create an instance', () => {

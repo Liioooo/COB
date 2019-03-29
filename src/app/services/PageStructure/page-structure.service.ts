@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {Observable, Subject} from 'rxjs';
 
@@ -191,7 +191,7 @@ export class PageStructureService {
   }
 
   public setCurrentlySelectedDrag() {
-      this.selectedPages.forEach(page => page.currentlyDragged = true);
+    this.selectedPages.forEach(page => page.currentlyDragged = true);
   }
 
   public get shouldScrollToPage(): Observable<Page> {
