@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';

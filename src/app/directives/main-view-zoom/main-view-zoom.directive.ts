@@ -1,7 +1,7 @@
 import {Directive, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
-import {filter, share} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {interval, Subscription} from 'rxjs';
 
 @Directive({

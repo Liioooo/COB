@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {PageViewGridService} from './services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from './services/PageStructure/page-structure.service';
 import {ElectronService} from 'ngx-electron';

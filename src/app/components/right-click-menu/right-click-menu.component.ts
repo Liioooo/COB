@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 
