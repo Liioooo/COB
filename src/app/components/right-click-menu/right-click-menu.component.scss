@@ -1,6 +1,18 @@
+@import "variables";
+
 #main {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 5;
+
+  background: $right-click-menu-background;
+  border-radius: 0px 4px 4px 4px;
+
+  div {
+    padding: 4px;
+    &:hover {
+      background: $right-click-menu-hover;
+    }
+  }
 }
