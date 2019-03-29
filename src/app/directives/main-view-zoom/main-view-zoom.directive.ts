@@ -50,6 +50,7 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
         top: toScrollPos.y - this.el.nativeElement.offsetHeight / 2,
         behavior: 'smooth'
       });
+      this.setViewPos();
     });
   }
 
