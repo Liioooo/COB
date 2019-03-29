@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SmallPagePreviewComponent } from './small-page-preview.component';
+import {SmallPagePreviewComponent} from './small-page-preview.component';
 
 describe('SmallPagePreviewComponent', () => {
   let component: SmallPagePreviewComponent;
@@ -8,9 +8,9 @@ describe('SmallPagePreviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmallPagePreviewComponent ]
+      declarations: [SmallPagePreviewComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

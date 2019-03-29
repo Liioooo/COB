@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { PageStructureService } from './page-structure.service';
+import {PageStructureService} from './page-structure.service';
 
 describe('PageStructureService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

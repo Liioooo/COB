@@ -1,4 +1,4 @@
-import { DragableDirective } from './dragable.directive';
+import {DragableDirective} from './dragable.directive';
 
 describe('DragableDirective', () => {
   it('should create an instance', () => {

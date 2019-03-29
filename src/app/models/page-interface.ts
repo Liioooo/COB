@@ -2,7 +2,7 @@ export interface Page {
   questionId: string;
   templateType: 'none' | 'AdvisorLogin' | 'SingleSelectCheckbox' | 'SplashScreen' | 'Slider' | 'FamilySituation' |
     'MultiSelectCheckbox' | 'MonthlyInvestment' | 'Summary' | 'ConfirmationRejection';
-  connections: {condition: string, nextPage: Page}[];
+  connections: { condition: string, nextPage: Page }[];
 
   posX?: number;
   posY?: number;

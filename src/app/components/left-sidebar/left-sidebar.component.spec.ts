@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LeftSidebarComponent } from './left-sidebar.component';
+import {LeftSidebarComponent} from './left-sidebar.component';
 
 describe('LeftSidebarComponent', () => {
   let component: LeftSidebarComponent;
@@ -8,9 +8,9 @@ describe('LeftSidebarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeftSidebarComponent ]
+      declarations: [LeftSidebarComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
