@@ -59,7 +59,9 @@ export class PageStructureService {
         firstNewPage = newPage;
       }
     }
-    this.triggerScrollToPage(firstNewPage);
+    if (firstNewPage) {
+      this.triggerScrollToPage(firstNewPage);
+    }
   }
 
   public addToClipboard(pages: Page[]): boolean {
