@@ -14,6 +14,7 @@ import { NgxElectronModule } from 'ngx-electron';
 import { EditComponent } from './components/edit/edit.component';
 import { FormsModule } from '@angular/forms';
 import { MiniPageMenuComponent } from './components/mini-page-menu/mini-page-menu.component';
+import { RightClickMenuComponent } from './components/right-click-menu/right-click-menu.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MiniPageMenuComponent } from './components/mini-page-menu/mini-page-men
     AppMainViewZoomDirective,
     SelectRectDirective,
     EditComponent,
-    MiniPageMenuComponent
+    MiniPageMenuComponent,
+    RightClickMenuComponent
   ],
   imports: [
     BrowserModule,
