@@ -1,22 +1,22 @@
 <mat-sidenav-container class="all">
-    <mat-sidenav mode="side" position="end"
-                 [opened]="pageStructure.isOneSelected">
-        <app-right-sidebar [selectedPage]="pageStructure.selectedPages[0]"></app-right-sidebar>
-    </mat-sidenav>
+  <mat-sidenav mode="side" position="end"
+               [opened]="pageStructure.isOneSelected">
+    <app-right-sidebar [selectedPage]="pageStructure.selectedPages[0]"></app-right-sidebar>
+  </mat-sidenav>
 
-    <mat-sidenav-content>
-        <main>
-            <app-left-sidebar></app-left-sidebar>
-            <app-main-view [zoomLevel]="pageViewGrid.zoomLevel"
-                           appMainViewZoom
-                           appSelectRect
-                           selectRectClass="select-rect"
-                           (mousedown)="onMouseDown($event)"
-                           #mainView
-            ></app-main-view>
-        </main>
-        <app-right-click-menu *ngIf="showRightClickMenu" [position]="rcPos" (ready)="showRightClickMenu = false"
-          [scrollOffset]="scrollPos"
-        ></app-right-click-menu>
-    </mat-sidenav-content>
+  <mat-sidenav-content>
+    <main>
+      <app-left-sidebar></app-left-sidebar>
+      <app-main-view [zoomLevel]="pageViewGrid.zoomLevel"
+                     appMainViewZoom
+                     appSelectRect
+                     selectRectClass="select-rect"
+                     (mousedown)="onMouseDown($event)"
+                     #mainView
+      ></app-main-view>
+    </main>
+    <app-right-click-menu *ngIf="showRightClickMenu" [position]="rcPos" (ready)="showRightClickMenu = false"
+                          [scrollOffset]="scrollPos"
+    ></app-right-click-menu>
+  </mat-sidenav-content>
 </mat-sidenav-container>
