@@ -59,6 +59,9 @@ export class DragableDirective implements OnInit, OnChanges {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
+    if (!this.el.nativeElement.children[0].children[1].contains(event.target as Node)) {
+      return;
+    }
     if (event.button === 0 && this.appDragablePage.isSelected) {
       this.pageStructure.setCurrentlySelectedDrag();
       const zoom = this.pageViewGrid.zoomLevel;
