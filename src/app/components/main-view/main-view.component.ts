@@ -13,6 +13,8 @@ export class MainViewComponent implements OnInit {
   @ViewChild('container')
   private container: ElementRef<HTMLDivElement>;
 
+  private currentPageWithConnectionDrag: Page;
+
   constructor(
     public pageStructure: PageStructureService,
     public pageViewGrid: PageViewGridService
@@ -34,12 +36,23 @@ export class MainViewComponent implements OnInit {
     return item.questionId + item.isSelected + item.posX + item.posY;
   }
 
-  public onMouseDown(event: MouseEvent): void {
+  public onMouseDownOnView(event: MouseEvent): void {
     if (event.target !== this.container.nativeElement) {
       return;
     }
     if (!event.altKey) {
       this.pageStructure.clearSelection();
+    }
+  }
+
+  startConnectionDrag(page: Page) {
+    this.currentPageWithConnectionDrag = page;
+    page.draggingNewConnection = true;
+  }
+
+  connectionDragEnded() {
+    if (this.currentPageWithConnectionDrag) {
+      this.currentPageWithConnectionDrag.draggingNewConnection = false;
     }
   }
 }

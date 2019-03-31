@@ -8,6 +8,7 @@ export interface Page {
   posY?: number;
   isSelected?: boolean;
   currentlyDragged?: boolean;
+  draggingNewConnection?: boolean;
 
   // nextQuestion: string;
   shortName?: string;

@@ -15,6 +15,7 @@ import {EditComponent} from './components/edit/edit.component';
 import {FormsModule} from '@angular/forms';
 import {MiniPageMenuComponent} from './components/mini-page-menu/mini-page-menu.component';
 import {RightClickMenuComponent} from './components/right-click-menu/right-click-menu.component';
+import {DraggableArrowComponent} from './components/draggable-arrow/draggable-arrow.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {RightClickMenuComponent} from './components/right-click-menu/right-click
     SelectRectDirective,
     EditComponent,
     MiniPageMenuComponent,
-    RightClickMenuComponent
+    RightClickMenuComponent,
+    DraggableArrowComponent
   ],
   imports: [
     BrowserModule,
