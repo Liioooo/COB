@@ -17,7 +17,6 @@ export class AppComponent implements OnInit {
 
   public showRightClickMenu: boolean = false;
   public rcPos: { x: number, y: number };
-  public scrollPos: { x: number, y: number };
 
   constructor(
     public pageStructure: PageStructureService,
@@ -102,10 +101,6 @@ export class AppComponent implements OnInit {
     if (event.button === 2) {
       this.showRightClickMenu = true;
       this.rcPos = {x: event.clientX, y: event.clientY};
-      this.scrollPos = {
-        x: this.mainView.container.nativeElement.parentElement.scrollLeft,
-        y: this.mainView.container.nativeElement.parentElement.scrollTop
-      };
     } else {
       this.showRightClickMenu = false;
     }

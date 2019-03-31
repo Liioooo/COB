@@ -1,7 +1,6 @@
 <div class="pages-boundary"
      #container
-     (mousedown)="onMouseDownOnView($event)"
-     (mouseup)="connectionDragEnded()">
+     (mousedown)="onMouseDownOnView($event)">
   <div class="page-container" *ngFor="let page of pageStructure.pages; trackBy: update"
        appDragable
        [appDragablePage]="page"
@@ -13,7 +12,7 @@
       <div></div>
     </div>
     <div *ngIf="page.draggingNewConnection" class="new-connection">
-      <app-draggable-arrow [currentlyDragged]="true"></app-draggable-arrow>
+      <app-draggable-arrow [currentlyDragged]="true" (connectionDragEnded)="connectionDragEnded()"></app-draggable-arrow>
     </div>
   </div>
 

@@ -146,6 +146,11 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     }
   }
 
+  @HostListener('scroll')
+  onScroll() {
+    this.setViewPos();
+  }
+
   private setViewPos() {
     const nativeEl = this.el.nativeElement;
     const vp = {
@@ -153,6 +158,7 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
       y: nativeEl.scrollTop + nativeEl.offsetHeight / 2
     };
     this.pageViewGrid.setViewPosition(vp);
+    this.pageViewGrid.setViewScrollPos({x: nativeEl.scrollLeft, y: nativeEl.scrollTop});
   }
 
 }

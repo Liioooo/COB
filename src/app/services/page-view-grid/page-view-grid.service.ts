@@ -17,6 +17,7 @@ export class PageViewGridService {
     private _zoomLevel = 35;
 
     private _currentViewCenterPos: {x: number, y: number};
+    private _currentViewScrollPos: {x: number, y: number};
 
     constructor(private pageStructure: PageStructureService) { }
 
@@ -179,6 +180,18 @@ export class PageViewGridService {
 
     public setViewPosition(vp: {x: number, y: number}) {
         this._currentViewCenterPos = vp;
+    }
+
+    public setViewScrollPos(sp: {x: number, y: number}) {
+        this._currentViewScrollPos = sp;
+    }
+
+    public get currentViewPos(): {x: number, y: number} {
+        return this._currentViewCenterPos;
+    }
+
+    public get currentScrollViewPos(): {x: number, y: number} {
+        return this._currentViewScrollPos;
     }
 
     public getPagesInRect(posX: number, posY: number, width: number, height: number): Page[] {
