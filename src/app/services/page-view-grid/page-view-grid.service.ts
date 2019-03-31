@@ -204,5 +204,12 @@ export class PageViewGridService {
         });
         return pages;
     }
+
+    public getPageAtPosition(pos: {x: number, y: number}): Page | undefined {
+        return this.pageStructure.pages.find(page => {
+            const pagePos = this.convertGridPosToPixelPos(page.posX, page.posY);
+            return pos.x >= pagePos.x && pos.y >= pagePos.y && pos.x <= pagePos.x + 80 && pos.y <= pagePos.y + 60;
+        });
+    }
 }
 

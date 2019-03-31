@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 
 @Component({
@@ -16,6 +16,9 @@ export class DraggableArrowComponent implements OnInit {
 
   @Input()
   currentlyDragged: boolean;
+
+  @Output()
+  connectionDragEnded = new EventEmitter<{x: number, y: number}>();
 
   public connTargetX: number = 1000;
   public connTargetY: number = 1000;
@@ -35,5 +38,15 @@ export class DraggableArrowComponent implements OnInit {
       this.connTargetY = event.clientY / this.pageViewGrid.zoomLevel - svgPosY + 2000;
     }
   }
+
+    @HostListener('window:mouseup', ['$event'])
+    onMouseUp(event: MouseEvent) {
+        if (this.currentlyDragged) {
+            this.connectionDragEnded.emit({
+                x: (event.clientX - 50) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x,
+                y: (event.clientY) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y
+            });
+        }
+    }
 
 }

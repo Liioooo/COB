@@ -50,9 +50,11 @@ export class MainViewComponent implements OnInit {
     page.draggingNewConnection = true;
   }
 
-  connectionDragEnded() {
+  connectionDragEnded(dragEndPos: {x: number, y: number}) {
     if (this.currentPageWithConnectionDrag) {
       this.currentPageWithConnectionDrag.draggingNewConnection = false;
+      const pageToConnect = this.pageViewGrid.getPageAtPosition(dragEndPos);
+      // TODO: add connection
     }
   }
 }

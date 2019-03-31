@@ -27,8 +27,8 @@ export class RightClickMenuComponent implements OnChanges {
   }
 
   public newPage(): void {
-    const pos = this.pageViewGrid.getNextGridPosition((this.position.x / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x),
-        (this.position.y / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y - 50));
+    const pos = this.pageViewGrid.getNextGridPosition(((this.position.x - 50) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x),
+        (this.position.y / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y));
     this.pageStructure.addEmptyPage(pos.x, pos.y);
     this.ready.emit();
   }

@@ -12,7 +12,7 @@
       <div></div>
     </div>
     <div *ngIf="page.draggingNewConnection" class="new-connection">
-      <app-draggable-arrow [currentlyDragged]="true" (connectionDragEnded)="connectionDragEnded()"></app-draggable-arrow>
+      <app-draggable-arrow [currentlyDragged]="true" (connectionDragEnded)="connectionDragEnded($event)"></app-draggable-arrow>
     </div>
   </div>
 
