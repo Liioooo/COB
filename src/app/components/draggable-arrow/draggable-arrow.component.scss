@@ -1,0 +1,12 @@
+@import "variables";
+
+line, circle {
+  stroke: $connection-color;
+  stroke-width: 1px;
+}
+
+svg {
+  top: 1000px;
+  left: -1000px;
+  position: relative;
+}

@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, Input, OnInit, Renderer2} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, HostListener, Input, NgZone, OnInit, Renderer2} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
@@ -22,7 +22,9 @@ export class SelectRectDirective implements OnInit {
     private el: ElementRef<HTMLDivElement>,
     private renderer: Renderer2,
     private pageViewGrid: PageViewGridService,
-    private pageStructure: PageStructureService
+    private pageStructure: PageStructureService,
+    private ngZone: NgZone,
+    private changeDetRef: ChangeDetectorRef
   ) {
   }
 
@@ -32,6 +34,10 @@ export class SelectRectDirective implements OnInit {
     this.selectRect.style.position = 'absolute';
     this.selectRect.classList.add(this.selectRectClass);
     this.renderer.appendChild(this.el.nativeElement, this.selectRect);
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('mousemove', (e: MouseEvent) => this.onMouseMove(e));
+      window.addEventListener('mouseup', () => this.onMouseUp());
+    });
   }
 
   @HostListener('mousedown', ['$event'])
@@ -49,7 +55,6 @@ export class SelectRectDirective implements OnInit {
     }
   }
 
-  @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (this.mouseDown) {
       const zoom = this.pageViewGrid.zoomLevel;
@@ -74,7 +79,6 @@ export class SelectRectDirective implements OnInit {
     }
   }
 
-  @HostListener('window:mouseup')
   onMouseUp() {
     if (this.mouseDown) {
       if (this.rectWidth < 0) {
@@ -86,6 +90,7 @@ export class SelectRectDirective implements OnInit {
         this.rectPosY = this.rectPosY - this.rectHeight;
       }
       this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50 + this.el.nativeElement.scrollLeft, this.rectPosY + this.el.nativeElement.scrollTop, this.rectWidth, this.rectHeight);
+      this.changeDetRef.detectChanges();
     }
     this.rectWidth = 0;
     this.rectHeight = 0;

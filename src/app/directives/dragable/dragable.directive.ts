@@ -1,12 +1,13 @@
 import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnChanges,
-  OnInit,
-  Output, SimpleChanges
+    ChangeDetectorRef,
+    Directive,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input, NgZone,
+    OnChanges, OnDestroy,
+    OnInit,
+    Output, SimpleChanges
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
@@ -15,7 +16,7 @@ import {PageStructureService} from '../../services/PageStructure/page-structure.
 @Directive({
   selector: '[appDragable]'
 })
-export class DragableDirective implements OnInit, OnChanges {
+export class DragableDirective implements OnInit, OnChanges, OnDestroy {
 
   private pos1;
   pos2;
@@ -41,20 +42,35 @@ export class DragableDirective implements OnInit, OnChanges {
   constructor(
     private el: ElementRef<HTMLDivElement>,
     private pageViewGrid: PageViewGridService,
-    private pageStructure: PageStructureService
+    private pageStructure: PageStructureService,
+    private ngZone: NgZone,
+    private changeDetRef: ChangeDetectorRef
   ) {
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('mousemove', this.onMouseMove);
+      window.addEventListener('mouseup', this.onMouseUp);
+    });
   }
 
   ngOnInit(): void {
     const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
     this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
     this.lastDragPos = pos;
+    this.appDragablePage.pixelPosX = pos.x;
+    this.appDragablePage.pixelPosY = pos.y;
+  }
+
+  ngOnDestroy(): void {
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('mouseup', this.onMouseUp);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
     this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
     this.lastDragPos = pos;
+    this.appDragablePage.pixelPosX = pos.x;
+    this.appDragablePage.pixelPosY = pos.y;
   }
 
   @HostListener('mousedown', ['$event'])
@@ -76,8 +92,7 @@ export class DragableDirective implements OnInit, OnChanges {
     }
   }
 
-  @HostListener('window:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
+  onMouseMove = (event: MouseEvent) => {
     if (this.appDragablePage.currentlyDragged) {
       const zoom = this.pageViewGrid.zoomLevel;
       if (!this.mouseDown && this.firstTimeExternalDrag) {
@@ -101,11 +116,13 @@ export class DragableDirective implements OnInit, OnChanges {
       }
       this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
       this.lastDragPos = pos;
+      this.appDragablePage.pixelPosX = pos.x;
+      this.appDragablePage.pixelPosY = pos.y;
+      this.changeDetRef.detectChanges();
     }
   }
 
-  @HostListener('window:mouseup', ['$event'])
-  onMouseUp(event: MouseEvent) {
+  onMouseUp = () => {
     this.el.nativeElement.style.zIndex = '1';
     this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
     if (this.mouseDown) {

@@ -4,15 +4,15 @@
   user-select: none;
 }
 
-p {
-  text-align: center;
+.page-title {
   margin: 0;
-  padding-bottom: 0.25rem;
-  font-size: 4px;
+  font-size: 5px;
+  text-align: left;
+  transform: translate(2px, -2px);
 }
 
 .selected {
-  outline: red auto 1px;
+  outline: $page-selected-outline-color auto 1px;
 }
 
 div {
@@ -24,9 +24,13 @@ div {
   justify-content: center;
   background-color: $small-page-preview-color;
   border-radius: 2px;
+
+  p {
+    font-size: 4px;
+  }
 }
 
 app-mini-page-menu {
   position: absolute;
-  transform: translate(80px, -54px);
+  transform: translate(49px, -65px);
 }

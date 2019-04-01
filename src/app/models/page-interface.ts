@@ -3,11 +3,18 @@ export interface Page {
   templateType: 'none' | 'AdvisorLogin' | 'SingleSelectCheckbox' | 'SplashScreen' | 'Slider' | 'FamilySituation' |
     'MultiSelectCheckbox' | 'MonthlyInvestment' | 'Summary' | 'ConfirmationRejection';
   connections: { condition: string, nextPage: Page }[];
+  pagesConnected: Page[];
 
   posX?: number;
   posY?: number;
+
+  // just used for connection
+  pixelPosX?: number;
+  pixelPosY?: number;
+
   isSelected?: boolean;
   currentlyDragged?: boolean;
+  draggingNewConnection?: boolean;
 
   // nextQuestion: string;
   shortName?: string;

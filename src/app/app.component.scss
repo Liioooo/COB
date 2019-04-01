@@ -1,3 +1,5 @@
+@import "variables";
+
 .all {
   height: 100%;
 
@@ -9,11 +11,12 @@
     app-main-view {
       -webkit-user-drag: unset;
       overflow: auto;
+      z-index: 2;
     }
 
     .select-rect {
-      background: rgba(255, 0, 0, .1);
-      outline: red auto 1px;
+      background: $select-rect-background-color;
+      outline: $select-rect-outline-color auto 1px;
       z-index: 5;
     }
   }

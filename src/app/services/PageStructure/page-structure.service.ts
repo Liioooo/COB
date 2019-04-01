@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
+import {ApplicationRef, ChangeDetectorRef, Injectable} from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {Observable, Subject} from 'rxjs';
+import {templateJitUrl} from "@angular/compiler";
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +95,7 @@ export class PageStructureService {
     const newPage: Page = {
       questionId: newId,
       connections: [],
+      pagesConnected: [],
       templateType: 'none',
       posX,
       posY
@@ -200,5 +202,16 @@ export class PageStructureService {
 
   public triggerScrollToPage(page: Page) {
     this._scrollToPageSubject.next(page);
+  }
+
+  public connectPages(p1: Page, p2: Page) {
+    if (p1.connections.find(con => con.nextPage.questionId === p2.questionId)) {
+      return;
+    }
+    p1.connections.push({
+      condition: '',
+      nextPage: p2
+    });
+    p2.pagesConnected.push(p1);
   }
 }

@@ -15,8 +15,7 @@
                      #mainView
       ></app-main-view>
     </main>
-    <app-right-click-menu *ngIf="showRightClickMenu" [position]="rcPos" (ready)="showRightClickMenu = false"
-                          [scrollOffset]="scrollPos"
-    ></app-right-click-menu>
+    <app-right-click-menu *ngIf="showRightClickMenu" [position]="rcPos" (ready)="showRightClickMenu = false">
+    </app-right-click-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>
