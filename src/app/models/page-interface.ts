@@ -7,8 +7,11 @@ export interface Page {
 
   posX?: number;
   posY?: number;
+
+  // just used for connection
   pixelPosX?: number;
   pixelPosY?: number;
+
   isSelected?: boolean;
   currentlyDragged?: boolean;
   draggingNewConnection?: boolean;

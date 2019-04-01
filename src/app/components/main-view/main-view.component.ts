@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
@@ -6,8 +6,7 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 @Component({
   selector: 'app-main-view',
   templateUrl: './main-view.component.html',
-  styleUrls: ['./main-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./main-view.component.scss']
 })
 export class MainViewComponent implements OnInit {
 
@@ -38,7 +37,7 @@ export class MainViewComponent implements OnInit {
   }
 
   public connectionUpdate(index: number, item: any): any {
-    return item.nextPage.posX + item.nextPage.posY;
+    return item.nextPage.questionId;
   }
 
   public onMouseDownOnView(event: MouseEvent): void {
