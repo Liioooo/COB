@@ -1,5 +1,5 @@
 <p class="page-title">{{page.questionId}}</p>
-<div [class.selected]="page.isSelected" (window:mousedown)="mouseDown($event)" (mouseup)="mouseUp($event)">
+<div [class.selected]="page.isSelected" #pageDiv>
   <p>das ist ein tolles Preview</p>
 </div>
 <app-mini-page-menu *ngIf="page.isSelected" [page]="page"></app-mini-page-menu>

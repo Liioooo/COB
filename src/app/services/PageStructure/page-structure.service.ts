@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {ApplicationRef, ChangeDetectorRef, Injectable} from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {Observable, Subject} from 'rxjs';
 import {templateJitUrl} from "@angular/compiler";

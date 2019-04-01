@@ -18,12 +18,13 @@
       <app-draggable-arrow [currentlyDragged]="true" (connectionDragEnded)="connectionDragEnded($event)"></app-draggable-arrow>
     </div>
   </div>
+    <ng-container *ngFor="let page of pageStructure.pages; trackBy: connectionUpdate0">
 
-    <ng-container *ngFor="let page of pageStructure.pages; trackBy: update">
-        <ng-container *ngFor="let connection of page.connections; trackBy: connectionUpdate">
+        <ng-container *ngFor="let connection of page.connections; trackBy: connectionUpdate1">
             <div class="connection" [ngStyle]="{'top': -(2000 - page.pixelPosY - 33) + 'px', 'left': page.pixelPosX + 80 + 'px'}">
                 <app-draggable-arrow [currentlyDragged]="false"
-                                     [toPosition]="convertToConnectionDestination({x: page.pixelPosX, y: page.pixelPosY}, {x: connection.nextPage.pixelPosX, y: connection.nextPage.pixelPosY})"></app-draggable-arrow>
+                                     [fromPage]="page"
+                                     [toPage]="connection.nextPage"></app-draggable-arrow>
             </div>
         </ng-container>
     </ng-container>

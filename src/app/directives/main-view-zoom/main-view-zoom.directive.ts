@@ -1,4 +1,15 @@
-import {Directive, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+    ApplicationRef,
+    ChangeDetectorRef,
+    Directive,
+    ElementRef,
+    HostListener,
+    Input,
+    NgZone,
+    OnChanges,
+    OnInit,
+    SimpleChanges
+} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {filter} from 'rxjs/operators';
@@ -25,13 +36,22 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
   constructor(
     private el: ElementRef<HTMLDivElement>,
     private pageViewGrid: PageViewGridService,
-    private pageStructure: PageStructureService
+    private pageStructure: PageStructureService,
+    private ngZone: NgZone,
+    private appRef: ApplicationRef
   ) {
+    this.ngZone.runOutsideAngular(() => {
+      this.el.nativeElement.addEventListener('mousemove', (e: MouseEvent) => this.onMouseMove(e));
+      this.el.nativeElement.addEventListener('scroll', () => this.onScroll());
+      this.el.nativeElement.addEventListener('mousewheel', (e: WheelEvent) => this.onMouseWheel(e));
+      this.el.nativeElement.addEventListener('mousedown', (e: MouseEvent) => this.onMouseDown(e));
+      window.addEventListener('keydown', (e: KeyboardEvent) => this.onKeyDown(e));
+    });
   }
 
   @Input()
-  zoomLevel: number;
 
+  zoomLevel: number;
   ngOnInit(): void {
     this.el.nativeElement.style.zoom = this.zoomLevel + '';
     this.setViewPos();
@@ -65,8 +85,7 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     this.oldSizeY = this.el.nativeElement.offsetHeight;
   }
 
-  @HostListener('mousewheel', ['$event'])
-  onZoom(event: WheelEvent) {
+  onMouseWheel(event: WheelEvent) {
     this.setViewPos();
     if (event.ctrlKey) {
       this.oldScrollX = this.el.nativeElement.scrollLeft;
@@ -76,10 +95,10 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
       } else {
         this.pageViewGrid.zoomSmaller();
       }
+      this.appRef.tick();
     }
   }
 
-  @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     const target: any = event.target;
     if (target.parentElement === this.el.nativeElement && event.button === 0 && event.altKey) {
@@ -88,7 +107,6 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     }
   }
 
-  @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (this.movingMouseDown && event.altKey) {
       this.el.nativeElement.scrollLeft -= event.movementX / this.zoomLevel;
@@ -117,7 +135,6 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     this.movingKeyboardLeftRight = 0;
   }
 
-  @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     event.preventDefault();
     if (event.altKey) {
@@ -146,7 +163,6 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     }
   }
 
-  @HostListener('scroll')
   onScroll() {
     this.setViewPos();
   }

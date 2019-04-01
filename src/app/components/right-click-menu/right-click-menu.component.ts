@@ -1,11 +1,22 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 
 @Component({
   selector: 'app-right-click-menu',
   templateUrl: './right-click-menu.component.html',
-  styleUrls: ['./right-click-menu.component.scss']
+  styleUrls: ['./right-click-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RightClickMenuComponent implements OnChanges {
 
