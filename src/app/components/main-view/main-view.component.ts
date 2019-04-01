@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, DoCheck, ElementRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
@@ -8,7 +8,7 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
   templateUrl: './main-view.component.html',
   styleUrls: ['./main-view.component.scss']
 })
-export class MainViewComponent implements DoCheck {
+export class MainViewComponent {
 
   @ViewChild('container')
   private container: ElementRef<HTMLDivElement>;
@@ -22,18 +22,13 @@ export class MainViewComponent implements DoCheck {
   ) {
   }
 
-    ngDoCheck(): void {
-      console.log('check');
-    }
-
-
-
   dragEnded(event) {
     const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, event.x, event.y, true);
     this.pageStructure.selectedPages.forEach(selPage => {
       selPage.posX += pos.x;
       selPage.posY += pos.y;
     });
+    this.changeDetRef.detectChanges();
     this.changeDetRef.detectChanges();
   }
 

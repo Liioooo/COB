@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 
@@ -13,7 +13,9 @@ export class MiniPageMenuComponent {
   @Input()
   page: Page;
 
-  constructor(private pageStructure: PageStructureService) {
+  constructor(
+      private pageStructure: PageStructureService
+  ) {
   }
 
   public delete(): void {
