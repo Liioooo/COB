@@ -3,9 +3,12 @@ export interface Page {
   templateType: 'none' | 'AdvisorLogin' | 'SingleSelectCheckbox' | 'SplashScreen' | 'Slider' | 'FamilySituation' |
     'MultiSelectCheckbox' | 'MonthlyInvestment' | 'Summary' | 'ConfirmationRejection';
   connections: { condition: string, nextPage: Page }[];
+  pagesConnected: Page[];
 
   posX?: number;
   posY?: number;
+  pixelPosX?: number;
+  pixelPosY?: number;
   isSelected?: boolean;
   currentlyDragged?: boolean;
   draggingNewConnection?: boolean;

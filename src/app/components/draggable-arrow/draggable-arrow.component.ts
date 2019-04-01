@@ -1,12 +1,25 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 
 @Component({
   selector: 'app-draggable-arrow',
   templateUrl: './draggable-arrow.component.html',
-  styleUrls: ['./draggable-arrow.component.scss']
+  styleUrls: ['./draggable-arrow.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DraggableArrowComponent implements OnInit {
+export class DraggableArrowComponent implements OnInit, OnChanges {
 
   @ViewChild('svgElement')
   private svgElement: ElementRef<SVGElement>;
@@ -26,7 +39,20 @@ export class DraggableArrowComponent implements OnInit {
   constructor(private pageViewGrid: PageViewGridService) { }
 
   ngOnInit() {
+    if (this.toPosition) {
+      this.connTargetX = this.toPosition.x;
+      this.connTargetY = this.toPosition.y;
+    }
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.toPosition) {
+      this.connTargetX = this.toPosition.x;
+      this.connTargetY = this.toPosition.y;
+    }
+  }
+
+
 
   @HostListener('window:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {

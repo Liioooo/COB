@@ -39,4 +39,9 @@
     left: 81px;
     z-index: 3;
   }
+
+  .connection {
+    position: absolute;
+    z-index: -1;
+  }
 }

@@ -11,6 +11,7 @@
     app-main-view {
       -webkit-user-drag: unset;
       overflow: auto;
+      z-index: 2;
     }
 
     .select-rect {

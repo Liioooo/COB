@@ -1,6 +1,6 @@
 @import "variables";
 
-line {
+line, circle {
   stroke: $connection-color;
   stroke-width: 1px;
 }
