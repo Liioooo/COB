@@ -65,10 +65,9 @@ export class MainViewComponent implements OnInit {
     }
   }
 
-  public convertToConnectionDestination(fromPagePos: {x: number, y: number}, toPageGridPos: {x: number, y: number}): {x: number, y: number} {
-    const toPixelPos = this.pageViewGrid.convertGridPosToPixelPos(toPageGridPos.x, toPageGridPos.y);
-    toPixelPos.x = toPixelPos.x - fromPagePos.x + 1000 - 80;
-    toPixelPos.y = toPixelPos.y - fromPagePos.y + 1000;
-    return toPixelPos;
+  public convertToConnectionDestination(fromPagePos: {x: number, y: number}, toPagePos: {x: number, y: number}): {x: number, y: number} {
+    const x = toPagePos.x - fromPagePos.x + 1000 - 80;
+    const y = toPagePos.y - fromPagePos.y + 1000;
+    return {x, y};
   }
 }

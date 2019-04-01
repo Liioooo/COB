@@ -52,8 +52,6 @@ export class DraggableArrowComponent implements OnInit, OnChanges {
     }
   }
 
-
-
   @HostListener('window:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (this.currentlyDragged) {

@@ -21,9 +21,9 @@
 
     <ng-container *ngFor="let page of pageStructure.pages; trackBy: update">
         <ng-container *ngFor="let connection of page.connections; trackBy: connectionUpdate">
-            <div class="connection" *ngIf="pageViewGrid.convertGridPosToPixelPos(page.posX, page.posY) as pos" [ngStyle]="{'top': -(2000 - pos.y - 33) + 'px', 'left': pos.x + 80 + 'px'}">
+            <div class="connection" [ngStyle]="{'top': -(2000 - page.pixelPosY - 33) + 'px', 'left': page.pixelPosX + 80 + 'px'}">
                 <app-draggable-arrow [currentlyDragged]="false"
-                                     [toPosition]="convertToConnectionDestination({x: pos.x, y: pos.y}, {x: connection.nextPage.posX, y: connection.nextPage.posY})"></app-draggable-arrow>
+                                     [toPosition]="convertToConnectionDestination({x: page.pixelPosX, y: page.pixelPosY}, {x: connection.nextPage.pixelPosX, y: connection.nextPage.pixelPosY})"></app-draggable-arrow>
             </div>
         </ng-container>
     </ng-container>
