@@ -2,12 +2,11 @@
 
 line {
   stroke: $connection-color;
-  stroke-width: 3px;
+  stroke-width: 1px;
 }
 
 svg {
   top: 1000px;
   left: -1000px;
-  z-index: -1;
   position: relative;
 }
