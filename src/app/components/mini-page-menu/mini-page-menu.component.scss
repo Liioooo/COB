@@ -4,7 +4,7 @@ div {
   margin-left: 1px;
   height: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
 
   .fab-button {
@@ -12,8 +12,9 @@ div {
     height: 9px;
     line-height: 8px;
     font-size: 5px;
-    margin-bottom: 1px;
+    margin-left: 1px;
     background-color: $mini-page-menu-button-background;
+    box-shadow: none;
 
     &::ng-deep .mat-button-wrapper {
       line-height: 8px;
