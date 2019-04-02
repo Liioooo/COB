@@ -3,6 +3,7 @@ import {PageViewGridService} from './services/page-view-grid/page-view-grid.serv
 import {PageStructureService} from './services/PageStructure/page-structure.service';
 import {ElectronService} from 'ngx-electron';
 import {MatIconRegistry} from '@angular/material';
+import {SearchService} from './services/search/search.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit {
     private changeRef: ChangeDetectorRef,
     matIconRegistry: MatIconRegistry,
     private ngZone: NgZone,
-    private changeDetRef: ChangeDetectorRef
+    private changeDetRef: ChangeDetectorRef,
+    public searchService: SearchService
   ) {
     matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
     matIconRegistry.registerFontClassAlias('fontawesomeRegular', 'far');

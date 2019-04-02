@@ -136,7 +136,6 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
   }
 
   onKeyDown(event: KeyboardEvent) {
-    event.preventDefault();
     if (event.altKey) {
       switch (event.key) {
         case 'ArrowLeft':
