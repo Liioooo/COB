@@ -1,13 +1,16 @@
 <div class="search-div">
-  <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg search-button"></mat-icon>
-  <input [(ngModel)]="searchService.keyword" type="text" autofocus placeholder="Search">
-</div>
-<mat-list class="results" *ngIf="searchService.getResults() as results">
-  <div *ngFor="let page of results; let last = last">
-    <mat-list-item class="item">
-      <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg search-button"></mat-icon>
-      <p>{{page.questionId}}</p>
-    </mat-list-item>
-    <div class="divider" *ngIf="!last"></div>
+  <div class="search-bar">
+    <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg search-button"></mat-icon>
+    <input (keydown.enter)="handleKeyDown()" #searchInput [(ngModel)]="searchService.keyword" type="text" autofocus placeholder="Search">
   </div>
-</mat-list>
+  <div class="divider" *ngIf="true"></div>
+  <mat-list class="results" *ngIf="searchService.getResults() as results">
+    <a href="#" (click)="searchService.click(page)" *ngFor="let page of results; let last = last">
+      <mat-list-item class="item">
+        <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg search-button"></mat-icon>
+        <p>{{page.questionId}}</p>
+      </mat-list-item>
+      <div class="divider" *ngIf="!last"></div>
+    </a>
+  </mat-list>
+</div>

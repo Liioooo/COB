@@ -4,11 +4,16 @@ import {PageStructureService} from './services/PageStructure/page-structure.serv
 import {ElectronService} from 'ngx-electron';
 import {MatIconRegistry} from '@angular/material';
 import {SearchService} from './services/search/search.service';
+import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from 'angular-animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    fadeInOnEnterAnimation({duration: 100}),
+    fadeOutOnLeaveAnimation({duration: 100})
+  ]
 })
 export class AppComponent implements OnInit {
 

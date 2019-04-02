@@ -15,7 +15,7 @@
                      #mainView
       ></app-main-view>
     </main>
-    <app-search *ngIf="searchService.show"></app-search>
+    <app-search *ngIf="searchService.show" [@fadeInOnEnter] [@fadeOutOnLeave]></app-search>
     <app-right-click-menu *ngIf="showRightClickMenu" [position]="rcPos" (ready)="showRightClickMenu = false">
     </app-right-click-menu>
   </mat-sidenav-content>

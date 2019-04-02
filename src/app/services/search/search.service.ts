@@ -6,7 +6,7 @@ import {Page} from '../../models/page-interface';
   providedIn: 'root'
 })
 export class SearchService {
-  show: boolean = false;
+  show: boolean = true;
   keyword: string = "";
   constructor(
     public pageStructure: PageStructureService
@@ -20,6 +20,12 @@ export class SearchService {
     if (this.keyword === "") { return undefined; }
     const pages = this.pageStructure.pages.filter((page: Page) => page.questionId.includes(this.keyword));
     return pages.length === 0 ? undefined : pages;
+  }
+
+  click(page: Page) {
+    this.toggle();
+    this.pageStructure.triggerScrollToPage(page);
+    this.keyword = ""
   }
 
 }
