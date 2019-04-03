@@ -12,6 +12,8 @@ import {
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
+import {fromEvent} from 'rxjs';
+import {untilDestroyed} from 'ngx-take-until-destroy';
 
 @Directive({
   selector: '[appDragable]'
@@ -47,8 +49,12 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
     private changeDetRef: ChangeDetectorRef
   ) {
     this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('mousemove', this.onMouseMove);
-      window.addEventListener('mouseup', this.onMouseUp);
+      fromEvent<MouseEvent>(window, 'mousemove').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.onMouseMove(e));
+      fromEvent<MouseEvent>(window, 'mouseup').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.onMouseUp());
     });
   }
 
@@ -61,8 +67,7 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      window.removeEventListener('mousemove', this.onMouseMove);
-      window.removeEventListener('mouseup', this.onMouseUp);
+    // just there for untilDestroyed to work
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -92,7 +97,7 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  onMouseMove = (event: MouseEvent) => {
+  onMouseMove(event: MouseEvent) {
     if (this.appDragablePage.currentlyDragged) {
       const zoom = this.pageViewGrid.zoomLevel;
       if (!this.mouseDown && this.firstTimeExternalDrag) {
@@ -122,7 +127,7 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  onMouseUp = () => {
+  onMouseUp() {
     this.el.nativeElement.style.zIndex = '1';
     this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
     if (this.mouseDown) {

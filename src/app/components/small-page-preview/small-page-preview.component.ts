@@ -6,6 +6,8 @@ import {
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
+import {fromEvent} from 'rxjs';
+import {untilDestroyed} from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-small-page-preview',
@@ -31,24 +33,27 @@ export class SmallPagePreviewComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('mousedown', this.mouseDown);
-      this.pageDiv.nativeElement.addEventListener('mouseup', this.mouseUp);
+      fromEvent<MouseEvent>(window, 'mousedown').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.mouseDown(e));
+      fromEvent<MouseEvent>(this.pageDiv.nativeElement, 'mouseup').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.mouseUp(e));
     });
   }
 
 
 
   ngOnDestroy(): void {
-      window.removeEventListener('mousedown', this.mouseDown);
-      this.pageDiv.nativeElement.removeEventListener('mouseup', this.mouseUp);
+      // just there for untilDestroyed to work
   }
 
-  mouseDown = (event: MouseEvent) => {
+  mouseDown(event: MouseEvent) {
     this.startMousePosX = event.clientX;
     this.startMousePosY = event.clientY;
   }
 
-  mouseUp = (event: MouseEvent) => {
+  mouseUp(event: MouseEvent) {
     if (event.button === 0) {
       if (this.distance(this.startMousePosX, this.startMousePosY, event.clientX, event.clientY) > 5) {
         return;
@@ -62,7 +67,7 @@ export class SmallPagePreviewComponent implements OnDestroy, OnInit {
           this.pageStructure.selectedPages = [this.page];
         }
       }
-      //this.changeDetRef.detectChanges();
+      // this.changeDetRef.detectChanges();
     }
   }
 

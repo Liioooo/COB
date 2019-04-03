@@ -65,6 +65,7 @@ export class MainViewComponent {
       if (pageToConnect) {
         this.pageStructure.connectPages(this.currentPageWithConnectionDrag, pageToConnect);
       }
+      this.changeDetRef.detectChanges();
     }
   }
 }

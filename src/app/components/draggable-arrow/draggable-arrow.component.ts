@@ -13,6 +13,8 @@ import {
 } from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {Page} from '../../models/page-interface';
+import {fromEvent} from 'rxjs';
+import {untilDestroyed} from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-draggable-arrow',
@@ -20,7 +22,7 @@ import {Page} from '../../models/page-interface';
   styleUrls: ['./draggable-arrow.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
+export class DraggableArrowComponent implements OnChanges, OnDestroy {
 
   @ViewChild('svgElement')
   private svgElement: ElementRef<SVGElement>;
@@ -46,18 +48,17 @@ export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
       private changeDetRef: ChangeDetectorRef
   ) {
     this.ngZone.runOutsideAngular(() => {
-        window.addEventListener('mousemove', this.onMouseMove);
+        fromEvent<MouseEvent>(window, 'mousemove').pipe(
+            untilDestroyed(this)
+        ).subscribe(e => this.onMouseMove(e));
+        fromEvent<MouseEvent>(window, 'mouseup').pipe(
+            untilDestroyed(this)
+        ).subscribe(e => this.onMouseUp(e));
     });
   }
 
-  ngOnInit() {
-    if (this.toPage && this.fromPage) {
-      this.calculateToPosition();
-    }
-  }
-
   ngOnDestroy(): void {
-      window.removeEventListener('mousemove', this.onMouseMove);
+      // just there for untilDestroyed to work
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -71,7 +72,7 @@ export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
       this.connTargetY = this.toPage.pixelPosY - this.fromPage.pixelPosY + 1000;
   }
 
-  onMouseMove = (event: MouseEvent) => {
+  onMouseMove(event: MouseEvent) {
     if (this.currentlyDragged) {
       const svgPos = this.svgElement.nativeElement.getBoundingClientRect();
       const svgPosX = svgPos.left;
@@ -82,14 +83,13 @@ export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-    @HostListener('window:mouseup', ['$event'])
-    onMouseUp(event: MouseEvent) {
-        if (this.currentlyDragged) {
-            this.connectionDragEnded.emit({
-                x: (event.clientX - 50) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x,
-                y: (event.clientY) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y
-            });
-        }
-    }
+  onMouseUp(event: MouseEvent) {
+      if (this.currentlyDragged) {
+          this.connectionDragEnded.emit({
+              x: (event.clientX - 50) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x,
+              y: (event.clientY) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y
+          });
+      }
+  }
 
 }
