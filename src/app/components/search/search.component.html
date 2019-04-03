@@ -1,11 +1,11 @@
 <div class="search-div">
   <div class="search-bar">
     <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg search-button"></mat-icon>
-    <input (keydown.enter)="handleKeyDown()" #searchInput [(ngModel)]="searchService.keyword" type="text" autofocus placeholder="Search">
+    <input (keydown.enter)="handleKeyDown()" #searchInput [(ngModel)]="searchService.keyword" (ngModelChange)="updateResults()" type="text" autofocus placeholder="Search">
   </div>
-  <div class="divider" *ngIf="true"></div>
-  <mat-list class="results" *ngIf="searchService.getResults() as results">
-    <a href="#" (click)="searchService.click(page)" *ngFor="let page of results; let last = last">
+  <div class="divider" *ngIf="pageStructureService.results.length > 0"></div>
+  <mat-list class="results" *ngIf="pageStructureService.results.length > 0">
+    <a href="#" (click)="click(page)" *ngFor="let page of pageStructureService.results; let last = last">
       <mat-list-item class="item">
         <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg search-button"></mat-icon>
         <p>{{page.questionId}}</p>
