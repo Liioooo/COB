@@ -45,7 +45,7 @@ export class MainViewComponent {
   }
 
   public onMouseDownOnView(event: MouseEvent): void {
-    if (event.target !== this.container.nativeElement) {
+    if (event.target !== this.container.nativeElement || (event.target as Node).nodeName !== 'svg') {
       return;
     }
     if (!event.altKey && this.pageStructure.selectedPages.length !== 0) {

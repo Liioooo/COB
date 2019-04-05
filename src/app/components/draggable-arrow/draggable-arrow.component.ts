@@ -72,6 +72,10 @@ export class DraggableArrowComponent implements OnChanges, OnDestroy {
       this.connTargetY = this.toPage.pixelPosY - this.fromPage.pixelPosY + 1000;
   }
 
+  onMouseDown() {
+    console.log('mousedown');
+  }
+
   onMouseMove(event: MouseEvent) {
     if (this.currentlyDragged) {
       const svgPos = this.svgElement.nativeElement.getBoundingClientRect();
