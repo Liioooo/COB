@@ -214,4 +214,9 @@ export class PageStructureService {
     });
     p2.pagesConnected.push(p1);
   }
+
+  public deleteConnection(p1: Page, p2: Page) {
+    p1.connections = p1.connections.filter(con => con.nextPage.questionId !== p2.questionId);
+    p2.pagesConnected = p2.pagesConnected.filter(page => page.questionId !== p1.questionId);
+  }
 }

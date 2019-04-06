@@ -24,6 +24,7 @@ div {
   justify-content: center;
   background-color: $small-page-preview-color;
   border-radius: 2px;
+  z-index: 5;
 
   p {
     font-size: 4px;

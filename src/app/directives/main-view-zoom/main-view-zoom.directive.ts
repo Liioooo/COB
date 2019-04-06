@@ -101,7 +101,7 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
 
   onMouseDown(event: MouseEvent) {
     const target: any = event.target;
-    if ((target.parentElement === this.el.nativeElement || (target as Node).nodeName === 'svg') && event.button === 0 && event.altKey) {
+    if (target.parentElement === this.el.nativeElement && event.button === 0 && event.altKey) {
       this.movingMouseDown = true;
       this.el.nativeElement.style.cursor = 'move';
     }
