@@ -22,7 +22,7 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
   styleUrls: ['./draggable-arrow.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DraggableArrowComponent implements OnChanges, OnDestroy {
+export class DraggableArrowComponent implements OnChanges, OnDestroy, OnInit {
 
   @ViewChild('svgElement')
   private svgElement: ElementRef<SVGElement>;
@@ -38,6 +38,8 @@ export class DraggableArrowComponent implements OnChanges, OnDestroy {
 
   @Output()
   connectionDragEnded = new EventEmitter<{x: number, y: number}>();
+
+  private mouseDown: boolean = false;
 
   public connTargetX: number = 1000;
   public connTargetY: number = 1000;
@@ -56,6 +58,9 @@ export class DraggableArrowComponent implements OnChanges, OnDestroy {
         ).subscribe(e => this.onMouseUp(e));
     });
   }
+  ngOnInit(): void {
+      this.mouseDown = this.currentlyDragged;
+  }
 
   ngOnDestroy(): void {
       // just there for untilDestroyed to work
@@ -72,8 +77,13 @@ export class DraggableArrowComponent implements OnChanges, OnDestroy {
       this.connTargetY = this.toPage.pixelPosY - this.fromPage.pixelPosY + 1000;
   }
 
+  onMouseDown() {
+    this.mouseDown = true;
+  }
+
   onMouseMove(event: MouseEvent) {
-    if (this.currentlyDragged) {
+    if (this.mouseDown) {
+      this.currentlyDragged = true;
       const svgPos = this.svgElement.nativeElement.getBoundingClientRect();
       const svgPosX = svgPos.left;
       const svgPosY = svgPos.top + svgPos.height;
@@ -85,11 +95,21 @@ export class DraggableArrowComponent implements OnChanges, OnDestroy {
 
   onMouseUp(event: MouseEvent) {
       if (this.currentlyDragged) {
+          this.currentlyDragged = false;
+          if (this.toPage) {
+              this.calculateToPosition();
+              this.changeDetRef.detectChanges();
+          }
           this.connectionDragEnded.emit({
               x: (event.clientX - 50) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x,
               y: (event.clientY) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y
           });
       }
+      this.mouseDown = false;
+  }
+
+  public get getPath(): string {
+      return `M 1000,1000 L ${this.connTargetX},${this.connTargetY}`;
   }
 
 }

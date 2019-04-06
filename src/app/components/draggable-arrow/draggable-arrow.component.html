@@ -1,3 +1,6 @@
 <svg #svgElement width="2000" height="2000">
-  <line vector-effect="non-scaling-stroke" x1="1000" y1="1000" [attr.x2]="connTargetX" [attr.y2]="connTargetY"></line>
+  <g>
+    <path class="draw-path" [class.hover-color]="!currentlyDragged" vector-effect="non-scaling-stroke" [attr.d]="getPath"></path>
+    <path class="click-path" [class.hover-grabbing]="!currentlyDragged" vector-effect="non-scaling-stroke" [attr.d]="getPath" (mousedown)="onMouseDown()"></path>
+  </g>
 </svg>
