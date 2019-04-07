@@ -36,7 +36,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   click(page: Page) {
-    console.log("hey?")
     this.searchService.toggle();
     this.pageStructureService.triggerScrollToPage(page);
     this.searchService.keyword = "";

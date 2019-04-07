@@ -17,8 +17,9 @@ import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animation
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild("mainView")
-  public mainView: any;
+  @ViewChild("mainView") mainView: any;
+  @ViewChild("search") search;
+
 
 
   public showRightClickMenu: boolean = false;
@@ -82,6 +83,8 @@ export class AppComponent implements OnInit {
       if (event.code === "Delete") {
         this.pageStructure.removeSelectedPages();
         this.changeDetRef.detectChanges();
+      } else if (event.code === "Escape") {
+        if (this.searchService.show) { this.searchService.toggle(); }
       }
     }
   }
@@ -118,6 +121,11 @@ export class AppComponent implements OnInit {
   public onMouseDown(event: MouseEvent): void {
     if (event.target !== this.mainView.container.nativeElement) {
       return;
+    }
+    if (this.search) {
+      if (event.target !== this.search.nativeElement && this.searchService.show) {
+        this.searchService.toggle();
+      }
     }
     if (event.button === 2) {
       this.showRightClickMenu = true;
