@@ -13,6 +13,8 @@ import {
 } from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {Page} from '../../models/page-interface';
+import {fromEvent} from 'rxjs';
+import {untilDestroyed} from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-draggable-arrow',
@@ -20,7 +22,7 @@ import {Page} from '../../models/page-interface';
   styleUrls: ['./draggable-arrow.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
+export class DraggableArrowComponent implements OnChanges, OnDestroy, OnInit {
 
   @ViewChild('svgElement')
   private svgElement: ElementRef<SVGElement>;
@@ -37,6 +39,8 @@ export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
   @Output()
   connectionDragEnded = new EventEmitter<{x: number, y: number}>();
 
+  private mouseDown: boolean = false;
+
   public connTargetX: number = 1000;
   public connTargetY: number = 1000;
 
@@ -46,18 +50,20 @@ export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
       private changeDetRef: ChangeDetectorRef
   ) {
     this.ngZone.runOutsideAngular(() => {
-        window.addEventListener('mousemove', this.onMouseMove);
+        fromEvent<MouseEvent>(window, 'mousemove').pipe(
+            untilDestroyed(this)
+        ).subscribe(e => this.onMouseMove(e));
+        fromEvent<MouseEvent>(window, 'mouseup').pipe(
+            untilDestroyed(this)
+        ).subscribe(e => this.onMouseUp(e));
     });
   }
-
-  ngOnInit() {
-    if (this.toPage && this.fromPage) {
-      this.calculateToPosition();
-    }
+  ngOnInit(): void {
+      this.mouseDown = this.currentlyDragged;
   }
 
   ngOnDestroy(): void {
-      window.removeEventListener('mousemove', this.onMouseMove);
+      // just there for untilDestroyed to work
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -71,8 +77,13 @@ export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
       this.connTargetY = this.toPage.pixelPosY - this.fromPage.pixelPosY + 1000;
   }
 
-  onMouseMove = (event: MouseEvent) => {
-    if (this.currentlyDragged) {
+  onMouseDown() {
+    this.mouseDown = true;
+  }
+
+  onMouseMove(event: MouseEvent) {
+    if (this.mouseDown) {
+      this.currentlyDragged = true;
       const svgPos = this.svgElement.nativeElement.getBoundingClientRect();
       const svgPosX = svgPos.left;
       const svgPosY = svgPos.top + svgPos.height;
@@ -82,14 +93,23 @@ export class DraggableArrowComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-    @HostListener('window:mouseup', ['$event'])
-    onMouseUp(event: MouseEvent) {
-        if (this.currentlyDragged) {
-            this.connectionDragEnded.emit({
-                x: (event.clientX - 50) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x,
-                y: (event.clientY) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y
-            });
-        }
-    }
+  onMouseUp(event: MouseEvent) {
+      if (this.currentlyDragged) {
+          this.currentlyDragged = false;
+          if (this.toPage) {
+              this.calculateToPosition();
+              this.changeDetRef.detectChanges();
+          }
+          this.connectionDragEnded.emit({
+              x: (event.clientX - 50) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.x,
+              y: (event.clientY) / this.pageViewGrid.zoomLevel + this.pageViewGrid.currentScrollViewPos.y
+          });
+      }
+      this.mouseDown = false;
+  }
+
+  public get getPath(): string {
+      return `M 1000,1000 L ${this.connTargetX},${this.connTargetY}`;
+  }
 
 }

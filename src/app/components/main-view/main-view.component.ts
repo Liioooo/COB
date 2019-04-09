@@ -58,13 +58,23 @@ export class MainViewComponent {
     page.draggingNewConnection = true;
   }
 
-  connectionDragEnded(dragEndPos: {x: number, y: number}) {
+  connectionDragEndedNewConnection(dragEndPos: {x: number, y: number}) {
     if (this.currentPageWithConnectionDrag) {
       this.currentPageWithConnectionDrag.draggingNewConnection = false;
       const pageToConnect = this.pageViewGrid.getPageAtPosition(dragEndPos);
       if (pageToConnect) {
         this.pageStructure.connectPages(this.currentPageWithConnectionDrag, pageToConnect);
       }
+      this.changeDetRef.detectChanges();
     }
+  }
+
+  connectionDragEndedOldConnection(dragEndPos: {x: number, y: number}, page: Page, oldToPage: Page) {
+      const pageToConnect = this.pageViewGrid.getPageAtPosition(dragEndPos);
+      this.pageStructure.deleteConnection(page, oldToPage);
+      if (pageToConnect) {
+          this.pageStructure.connectPages(page, pageToConnect);
+      }
+      this.changeDetRef.detectChanges();
   }
 }
