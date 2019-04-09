@@ -23,7 +23,7 @@ export class MainViewComponent {
   }
 
   dragEnded(event) {
-    const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, event.x, event.y, true);
+    const pos = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.selectedPages, event.x, event.y, true);
     this.pageStructure.selectedPages.forEach(selPage => {
       selPage.posX += pos.x;
       selPage.posY += pos.y;
