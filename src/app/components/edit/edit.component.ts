@@ -47,7 +47,6 @@ export class EditComponent implements OnInit {
 
 
   errorTest() {
-    console.log(!this.pageStructure.pages.every(page => page.questionId !== this.tempVal));
     return !this.pageStructure.pages.every(page => page.questionId !== this.tempVal);
   }
 
