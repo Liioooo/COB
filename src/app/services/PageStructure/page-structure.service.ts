@@ -89,7 +89,10 @@ export class PageStructureService {
         return false;
       }
     }
-    this._clipboard = pages;
+    this._clipboard = [];
+    for (const p of pages) {
+      this._clipboard.push({...p});
+    }
     return true;
   }
 
