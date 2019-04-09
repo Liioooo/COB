@@ -46,7 +46,7 @@ export class RightClickMenuComponent implements OnChanges {
 
   public paste(): void {
     // TODO paste at mouse pos
-    const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.clipboard, 0, 0, false);
+    const pos = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.clipboard, 0, 0, false);
     this.pageStructure.pasteClipboard(pos.x, pos.y);
     this.ready.emit();
   }

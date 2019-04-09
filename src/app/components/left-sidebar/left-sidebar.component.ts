@@ -26,7 +26,7 @@ export class LeftSidebarComponent implements OnInit {
   }
 
   public pasteClipboard() {
-    const pos0 = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.clipboard, 0, 0, false);
+    const pos0 = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.clipboard, 0, 0, false);
     this.pageStructure.pasteClipboard(pos0.x, pos0.y);
   }
 }
