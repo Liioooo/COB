@@ -2,14 +2,15 @@ import {NgModule} from '@angular/core';
 import {
   MatButtonModule,
   MatCardModule,
+  MatCheckboxModule,
   MatIconModule,
   MatInputModule,
   MatSelectModule,
   MatSidenavModule,
+  MatSliderModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
-import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   exports: [
@@ -21,7 +22,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    MatCheckboxModule,
+    MatSliderModule
   ]
 })
 export class MaterialModule {
