@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
           break;
         case "KeyF":
           this.searchService.toggle();
+          break;
       }
     } else {
       if (event.code === "Delete") {

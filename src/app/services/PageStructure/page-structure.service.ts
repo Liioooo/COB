@@ -253,4 +253,16 @@ export class PageStructureService {
     p1.connections = p1.connections.filter(con => con.nextPage.questionId !== p2.questionId);
     p2.pagesConnected = p2.pagesConnected.filter(page => page.questionId !== p1.questionId);
   }
+
+  public isValid(): boolean {
+    for (const page of this._pages) {
+      if (page === this._startPage) {
+        continue;
+      }
+      if (page.connections.find(con => con.nextPage === this._startPage)) {
+        return false;
+      }
+    }
+    return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined;
+  }
 }
