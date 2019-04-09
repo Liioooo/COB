@@ -120,14 +120,18 @@ export class PageViewGridService {
   }
 
   private allPointsFree(points: { x: number, y: number }[], exceptPages?: Page[]): boolean {
+    for (const point of points) {
+      if (point.x < 0 || point.y < 0) {
+        return false;
+      }
+    }
     for (const page of this.pageStructure.pages) {
       if (exceptPages && exceptPages.findIndex(p => p.questionId === page.questionId) !== -1) {
         continue;
       }
       for (const point of points) {
         if (point.x > page.posX - this._PAGE_WIDTH && point.x < page.posX + this._PAGE_WIDTH &&
-          point.y > page.posY - this._PAGE_HEIGHT && point.y < page.posY + this._PAGE_HEIGHT ||
-          point.x < 0 || point.y < 0) {
+          point.y > page.posY - this._PAGE_HEIGHT && point.y < page.posY + this._PAGE_HEIGHT) {
           return false;
         }
       }
