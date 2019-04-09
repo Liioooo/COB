@@ -228,4 +228,38 @@ export class PageStructureService {
     p1.connections = p1.connections.filter(con => con.nextPage.questionId !== p2.questionId);
     p2.pagesConnected = p2.pagesConnected.filter(page => page.questionId !== p1.questionId);
   }
+
+  public moveSelection(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
+    const destinationPage = this.findPage(direction);
+    if (destinationPage !== null){
+      this.clearSelection();
+      this.switchSelection(destinationPage);
+    }
+  }
+
+  private findPage(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'): Page {
+    let page: any = {posY: -1};
+
+    switch (direction) {
+      case 'UP':
+        let highestSelected = this._selectedPages[0];
+        this._selectedPages.forEach(selectedPage => {
+          highestSelected = highestSelected.posY > selectedPage.posY ? selectedPage : highestSelected;
+        });
+        this._pages.forEach(p => {
+          page = highestSelected.posY - p.posY > 0
+          && highestSelected.posY - p.posY < highestSelected.posY - page.posY
+          && Math.abs(highestSelected.posX - p.posX) <= 3 ? p : page;
+        });
+        break;
+      case 'DOWN':
+        break;
+      case 'LEFT':
+        break;
+      case 'RIGHT':
+        break;
+    }
+
+    return page.hasOwnProperty("questionId") ? page : null;
+  }
 }

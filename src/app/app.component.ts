@@ -80,11 +80,27 @@ export class AppComponent implements OnInit {
           this.searchService.toggle();
       }
     } else {
-      if (event.code === "Delete") {
-        this.pageStructure.removeSelectedPages();
-        this.changeDetRef.detectChanges();
-      } else if (event.code === "Escape") {
-        if (this.searchService.show) { this.searchService.toggle(); }
+      switch (event.code){
+        case "Delete":
+          this.pageStructure.removeSelectedPages();
+          this.changeDetRef.detectChanges();
+          break;
+        case "Escape":
+          if (this.searchService.show) { this.searchService.toggle(); }
+          break;
+        case "ArrowUp":
+          this.pageStructure.moveSelection("UP");
+          break;
+        case "ArrowDown":
+          this.pageStructure.moveSelection("DOWN");
+          break;
+        case "ArrowLeft":
+          this.pageStructure.moveSelection("LEFT");
+          break;
+        case "ArrowRight":
+          this.pageStructure.moveSelection("RIGHT");
+          break;
+
       }
     }
   }
