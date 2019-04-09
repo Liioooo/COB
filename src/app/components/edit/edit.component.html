@@ -1,14 +1,19 @@
 <ng-content *ngIf="!state; else editForm" (click)="state = !state"></ng-content>
 <ng-template #editForm>
-  <mat-form-field (keydown.enter)="saveChanges(tempVal)">
-    <input matInput [style]="elemStyles" [(ngModel)]="tempVal">
-  </mat-form-field>
-  <div class="action-buttons">
-    <button (click)="saveChanges(tempVal, true)" mat-mini-fab class="accept action-button">
-      <mat-icon fontSet="fontawesome" fontIcon="fa-check" class="fa-xs action"></mat-icon>
-    </button>
-    <button (click)="saveChanges(currentVal, true)" mat-mini-fab class="cancel action-button">
-      <mat-icon fontSet="fontawesome" fontIcon="fa-times" class="fa-xs action"></mat-icon>
-    </button>
-  </div>
+  <form>
+    <mat-form-field (keydown.enter)="saveChanges(tempVal)">
+      <input matInput name="newName" [style]="elemStyles" [(ngModel)]="tempVal">
+      <mat-error *ngIf="errorTest()">
+        ID <strong>already</strong> exists
+      </mat-error>
+    </mat-form-field>
+    <div class="action-buttons">
+      <button (click)="saveChanges(tempVal, true)" mat-mini-fab class="accept action-button">
+        <mat-icon fontSet="fontawesome" fontIcon="fa-check" class="fa-xs action"></mat-icon>
+      </button>
+      <button (click)="saveChanges(currentVal, true)" mat-mini-fab class="cancel action-button">
+        <mat-icon fontSet="fontawesome" fontIcon="fa-times" class="fa-xs action"></mat-icon>
+      </button>
+    </div>
+  </form>
 </ng-template>

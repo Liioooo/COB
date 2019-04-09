@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -18,7 +18,8 @@ export class EditComponent implements OnInit {
   state: boolean = false;
   actionButtonState: boolean = false;
 
-  constructor() {
+  constructor(
+    public pageStructure: PageStructureService) {
   }
 
   ngOnInit() {
@@ -35,12 +36,18 @@ export class EditComponent implements OnInit {
   }
 
   saveChanges(savedVal: string, type?: boolean) {
+
     if (type) {
       this.actionButtonState = true;
     }
 
     this.valueChange.emit(savedVal);
     this.state = false;
+  }
+
+
+  errorTest() {
+    return !this.pageStructure.pages.every(page => page.questionId !== this.tempVal);
   }
 
   getStyles() {

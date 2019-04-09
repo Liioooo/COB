@@ -9,6 +9,7 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   exports: [
@@ -19,7 +20,8 @@ import {
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ReactiveFormsModule
   ]
 })
 export class MaterialModule {

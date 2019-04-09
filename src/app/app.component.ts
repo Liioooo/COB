@@ -1,22 +1,30 @@
-import {ChangeDetectorRef, Component, HostListener, NgZone, OnInit, ViewChild} from '@angular/core';
-import {PageViewGridService} from './services/page-view-grid/page-view-grid.service';
-import {PageStructureService} from './services/PageStructure/page-structure.service';
-import {ElectronService} from 'ngx-electron';
-import {MatIconRegistry} from '@angular/material';
+import {ChangeDetectorRef, Component, HostListener, NgZone, OnInit, ViewChild} from "@angular/core";
+import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
+import {PageStructureService} from "./services/PageStructure/page-structure.service";
+import {ElectronService} from "ngx-electron";
+import {MatIconRegistry} from "@angular/material";
+import {SearchService} from "./services/search/search.service";
+import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animations";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
+  animations: [
+    fadeInOnEnterAnimation({duration: 50}),
+    fadeOutOnLeaveAnimation({duration: 50})
+  ]
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('mainView')
-  public mainView: any;
+  @ViewChild("mainView") mainView: any;
+  @ViewChild("search") search;
+
 
 
   public showRightClickMenu: boolean = false;
   public rcPos: { x: number, y: number };
+
 
   constructor(
     public pageStructure: PageStructureService,
@@ -25,80 +33,85 @@ export class AppComponent implements OnInit {
     private changeRef: ChangeDetectorRef,
     matIconRegistry: MatIconRegistry,
     private ngZone: NgZone,
-    private changeDetRef: ChangeDetectorRef
+    private changeDetRef: ChangeDetectorRef,
+    public searchService: SearchService
   ) {
-    matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
-    matIconRegistry.registerFontClassAlias('fontawesomeRegular', 'far');
+    matIconRegistry.registerFontClassAlias("fontawesome", "fa");
+    matIconRegistry.registerFontClassAlias("fontawesomeRegular", "far");
     this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('keydown', (e: KeyboardEvent) => this.onKeyPressed(e));
+      window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyPressed(e));
     });
   }
 
   ngOnInit(): void {
-    this.electronService.ipcRenderer.on('menuClick', (event, response) => this.handleMenuClick(event, response));
+    this.electronService.ipcRenderer.on("menuClick", (event, response) => this.handleMenuClick(event, response));
   }
 
   onKeyPressed(event: KeyboardEvent) {
     if (event.ctrlKey) {
       switch (event.code) {
-        case 'KeyN':
+        case "KeyN":
           const pos = this.pageViewGrid.getPosForNewPage();
           this.pageStructure.addEmptyPage(pos.x, pos.y);
           this.changeDetRef.detectChanges();
           break;
-        case 'KeyC':
+        case "KeyC":
           this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
           this.changeDetRef.detectChanges();
           break;
-        case 'KeyX':
+        case "KeyX":
           this.pageStructure.cut(this.pageStructure.selectedPages);
           this.changeDetRef.detectChanges();
           break;
-        case 'KeyV':
+        case "KeyV":
           const pos0 = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.clipboard, 0, 0, false);
           this.pageStructure.pasteClipboard(pos0.x, pos0.y);
           this.changeDetRef.detectChanges();
           break;
-        case 'KeyA':
+        case "KeyA":
           this.pageStructure.selectedPages = [...this.pageStructure.pages];
           this.changeDetRef.detectChanges();
           break;
-        case 'KeyD':
+        case "KeyD":
           this.pageStructure.clearSelection();
           this.changeDetRef.detectChanges();
           break;
+        case "KeyF":
+          this.searchService.toggle();
       }
     } else {
-      if (event.code === 'Delete') {
+      if (event.code === "Delete") {
         this.pageStructure.removeSelectedPages();
         this.changeDetRef.detectChanges();
+      } else if (event.code === "Escape") {
+        if (this.searchService.show) { this.searchService.toggle(); }
       }
     }
   }
 
   private handleMenuClick(event: any, response: any) {
     switch (response) {
-      case 'newPage':
+      case "newPage":
         const pos = this.pageViewGrid.getPosForNewPage();
         this.pageStructure.addEmptyPage(pos.x, pos.y);
         break;
-      case 'deletePage':
+      case "deletePage":
         this.pageStructure.removeSelectedPages();
         break;
-      case 'copyPage':
+      case "copyPage":
         this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
         break;
-      case 'cutPage':
+      case "cutPage":
         this.pageStructure.cut(this.pageStructure.selectedPages);
         break;
-      case 'pastePage':
+      case "pastePage":
         const pos0 = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.clipboard, 0, 0, false);
         this.pageStructure.pasteClipboard(pos0.x, pos0.y);
         break;
-      case 'selectAll':
+      case "selectAll":
         this.pageStructure.selectedPages = this.pageStructure.pages;
         break;
-      case 'clearSelection':
+      case "clearSelection":
         this.pageStructure.clearSelection();
         break;
     }
@@ -108,6 +121,11 @@ export class AppComponent implements OnInit {
   public onMouseDown(event: MouseEvent): void {
     if (event.target !== this.mainView.container.nativeElement) {
       return;
+    }
+    if (this.search) {
+      if (event.target !== this.search.nativeElement && this.searchService.show) {
+        this.searchService.toggle();
+      }
     }
     if (event.button === 2) {
       this.showRightClickMenu = true;

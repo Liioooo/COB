@@ -19,8 +19,7 @@
           (click)="pasteClipboard()">
     <mat-icon fontSet="fontawesome" fontIcon="fa-paste" class="fa-lg"></mat-icon>
   </button>
-  <!--to-to implement search-->
-  <button mat-icon-button matTooltip="Search" matTooltipPosition="after" matTooltipClass="left-tooltip">
+  <button mat-icon-button matTooltip="Search" (click)="searchService.toggle()" matTooltipPosition="after" matTooltipClass="left-tooltip">
     <mat-icon fontSet="fontawesome" fontIcon="fa-search" class="fa-lg"></mat-icon>
   </button>
   <button mat-icon-button matTooltip="Zoom in" matTooltipPosition="after" matTooltipClass="left-tooltip"

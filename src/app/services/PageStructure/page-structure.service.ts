@@ -1,10 +1,10 @@
-import {ApplicationRef, ChangeDetectorRef, Injectable} from '@angular/core';
-import {Page} from '../../models/page-interface';
-import {Observable, Subject} from 'rxjs';
-import {templateJitUrl} from "@angular/compiler";
+import {ApplicationRef, ChangeDetectorRef, Injectable} from "@angular/core";
+import {Page} from "../../models/page-interface";
+import {Observable, Subject} from "rxjs";
+import {SearchService} from "../search/search.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class PageStructureService {
 
@@ -14,8 +14,9 @@ export class PageStructureService {
   private _pages: Page[];
   private _clipboard: Page[];
   private _selectedPages: Page[];
+  public results: Page[] = [];
 
-  constructor() {
+  constructor(private searchService: SearchService) {
     this._pages = [];
     this._clipboard = [];
     this._selectedPages = [];
@@ -96,7 +97,7 @@ export class PageStructureService {
       questionId: newId,
       connections: [],
       pagesConnected: [],
-      templateType: 'none',
+      templateType: "none",
       posX,
       posY
     };
@@ -114,6 +115,7 @@ export class PageStructureService {
       this._startPage = newPage;
     }
     this._pages.push(newPage);
+    this.search(this.searchService.keyword);
     return true;
   }
 
@@ -154,6 +156,13 @@ export class PageStructureService {
       return;
     }
     this._pages[index] = {...this._pages[index], ...fieldsToUpdate};
+  }
+
+  public search(keyword: string): void {
+    if (keyword === "") {
+      return;
+    }
+    this.results = this.pages.filter((page: Page) => page.questionId.includes(keyword));
   }
 
   get startPage(): Page {
@@ -209,7 +218,7 @@ export class PageStructureService {
       return;
     }
     p1.connections.push({
-      condition: '',
+      condition: "",
       nextPage: p2
     });
     p2.pagesConnected.push(p1);

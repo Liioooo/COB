@@ -66,8 +66,8 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     ).subscribe(toScrollTo => {
       const toScrollPos = this.pageViewGrid.convertGridPosToPixelPos(toScrollTo.posX, toScrollTo.posY);
       this.el.nativeElement.scrollTo({
-        left: toScrollPos.x - this.el.nativeElement.offsetWidth / 2,
-        top: toScrollPos.y - this.el.nativeElement.offsetHeight / 2,
+        left: toScrollPos.x - this.el.nativeElement.offsetWidth / 2 + 40,
+        top: toScrollPos.y - this.el.nativeElement.offsetHeight / 2 + 30,
         behavior: 'smooth'
       });
       this.setViewPos();
@@ -136,7 +136,9 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
   }
 
   onKeyDown(event: KeyboardEvent) {
-    event.preventDefault();
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+    }
     if (event.altKey) {
       switch (event.key) {
         case 'ArrowLeft':

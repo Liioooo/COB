@@ -16,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 import {MiniPageMenuComponent} from './components/mini-page-menu/mini-page-menu.component';
 import {RightClickMenuComponent} from './components/right-click-menu/right-click-menu.component';
 import {DraggableArrowComponent} from './components/draggable-arrow/draggable-arrow.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {DraggableArrowComponent} from './components/draggable-arrow/draggable-ar
     EditComponent,
     MiniPageMenuComponent,
     RightClickMenuComponent,
-    DraggableArrowComponent
+    DraggableArrowComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

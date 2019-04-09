@@ -1,0 +1,109 @@
+@import "variables";
+@import "mixins";
+
+$search-width: 25rem;
+
+
+:host {
+  position: absolute;
+  top: 10vh;
+  left: calc(50vw - #{$search-width} / 2);
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.results {
+  background-color: $search-color;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.4rem;
+
+  @include scrollbar(4px, $search-color, $search-color-dark-scroll);
+  overflow: auto;
+  max-height: 30rem;
+  width: 100%;
+
+  a {
+    text-decoration: none;
+    color: black;
+    outline: 0;
+    transition: background-color 200ms;
+  }
+
+  a:hover, a:focus {
+    background-color: $search-color-dark;
+  }
+  .item {
+    height: 2.4rem;
+    width: 100%;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    background: transparent;
+    justify-content: flex-start;
+    align-items: center;
+    mat-icon {
+      margin-left: 1rem;
+      margin-right: 1rem;
+      vertical-align: middle;
+      line-height: 1.5rem;
+    }
+  }
+}
+
+.search-div {
+  border-radius: 0.4rem;
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  box-shadow: -1px -1px 100px 20px rgba(0, 0, 0, 0.2);
+
+
+  width: 25rem;
+
+  font-size: 1.1rem;
+  border: 1px solid rgba(0,0,0,0.2);
+
+
+  background-color: $search-color;
+
+  .search-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 3.2rem;
+
+    .search-button {
+      color: grey;
+      line-height: 3.2rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    input {
+      color: black;
+      outline: 0;
+      font-size: 1.6rem ;
+
+      background-color: transparent;
+      border: 0;
+    }
+  }
+}
+
+
+.divider {
+  background-color: lightgrey;
+  height: 1px;
+  width: 100%;
+}
