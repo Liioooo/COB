@@ -1,5 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {PageStructureService} from '../../services/PageStructure/page-structure.service';
+import {Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {DuplicateIDValidator} from '../../validators/DuplicateIDValidator';
 import {Page} from '../../models/page-interface';
@@ -10,7 +9,7 @@ import {ErrorStateMatcher} from '@angular/material';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnChanges {
 
   @Input()
   currentPage: Page;
@@ -26,7 +25,6 @@ export class EditComponent implements OnInit {
   public newIdForm: FormGroup;
 
   constructor(
-    public pageStructure: PageStructureService,
     private duplicateIdValidator: DuplicateIDValidator
   ) {
       this.errorStateMatcher = new IdErrorStateMatcher();
@@ -36,6 +34,13 @@ export class EditComponent implements OnInit {
     this.newIdForm = new FormGroup({
       email: new FormControl(this.currentPage.questionId, [Validators.required, this.duplicateIdValidator as unknown as ValidatorFn])
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.state = false;
+    if (this.newIdForm) {
+      this.newIdForm.controls.email.setValue(this.currentPage.questionId);
+    }
   }
 
   @HostListener('click')
