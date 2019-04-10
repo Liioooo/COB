@@ -17,6 +17,7 @@ import {MiniPageMenuComponent} from './components/mini-page-menu/mini-page-menu.
 import {RightClickMenuComponent} from './components/right-click-menu/right-click-menu.component';
 import {DraggableArrowComponent} from './components/draggable-arrow/draggable-arrow.component';
 import { SearchComponent } from './components/search/search.component';
+import {PagePropertyBoxesModule} from "./page-proprty-boxes.module";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SearchComponent } from './components/search/search.component';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
+    PagePropertyBoxesModule,
     NgxElectronModule,
     FormsModule
   ],
