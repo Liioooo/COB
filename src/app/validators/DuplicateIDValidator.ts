@@ -1,13 +1,16 @@
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, ValidationErrors, Validator} from '@angular/forms';
 import {PageStructureService} from '../services/PageStructure/page-structure.service';
+import {Injectable} from '@angular/core';
 
+@Injectable({
+    providedIn: 'root'
+})
+export class DuplicateIDValidator implements Validator {
 
+  constructor(private pageStructure: PageStructureService) {}
 
-export class DuplicateIDValidator {
-  static duplicateIDValidator(pageStructure: PageStructureService) {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      return pageStructure.pages.every(page => page.questionId !== control.value.toLowerCase()
-        || page.questionId === pageStructure.selectedPages[0].questionId) ? null : {duplicateId: true};
-    };
+  validate(control: AbstractControl): ValidationErrors | null {
+      return this.pageStructure.pages.every(page => page.questionId !== control.value.toLowerCase()
+        || page.questionId === this.pageStructure.selectedPages[0].questionId) ? null : {duplicateId: true};
   }
 }

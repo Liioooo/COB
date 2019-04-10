@@ -1,8 +1,9 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {DuplicateIDValidator} from '../../validators/DuplicateIDValidator';
 import {Page} from '../../models/page-interface';
+import {ErrorStateMatcher} from '@angular/material';
 
 @Component({
   selector: 'app-edit',
@@ -20,41 +21,45 @@ export class EditComponent implements OnInit {
   elemStyles;
   state: boolean = false;
   actionButtonState: boolean = false;
-  email;
+  public errorStateMatcher: ErrorStateMatcher;
+
+  public newIdForm: FormGroup;
 
   constructor(
-    public pageStructure: PageStructureService) {
+    public pageStructure: PageStructureService,
+    private duplicateIdValidator: DuplicateIDValidator
+  ) {
+      this.errorStateMatcher = new IdErrorStateMatcher();
   }
 
   ngOnInit() {
+    this.newIdForm = new FormGroup({
+      email: new FormControl(this.currentPage.questionId, [Validators.required, this.duplicateIdValidator as unknown as ValidatorFn])
+    });
   }
 
   @HostListener('click')
   onClick() {
     if (!this.state && !this.actionButtonState) {
       this.state = true;
-      this.email = new FormControl(this.currentPage.questionId, [Validators.required, DuplicateIDValidator.duplicateIDValidator(this.pageStructure)]);
     } else if (this.actionButtonState) {
       this.actionButtonState = false;
     }
   }
 
-  saveChanges(type?: boolean = false, content?: string) {
+  saveChanges(type: boolean = false, content?: string) {
     if (type) {
       this.actionButtonState = true;
     }
 
-    this.valueChange.emit(content ? content : this.email.value);
+    this.valueChange.emit(content ? content : this.newIdForm.controls.email.value);
     this.state = false;
   }
 
+}
 
-  errorTest() {
-    //this.error = !this.pageStructure.pages.every(page => page.questionId !== this.tempVal);
-  }
-
-  getStyles() {
-    return;
-  }
-
+class IdErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        return !!(control && control.invalid && (control.dirty || control.touched));
+    }
 }
