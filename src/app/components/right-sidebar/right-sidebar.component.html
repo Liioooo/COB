@@ -1,5 +1,5 @@
 <div [ngSwitch]="selectedPage.templateType" *ngIf="selectedPage; else notChosen">
-  <app-edit [currentVal]="selectedPage.questionId" (valueChange)="selectedPage.questionId = $event" class="line">
+  <app-edit [currentPage]="selectedPage" (valueChange)="selectedPage.questionId = $event" class="line">
     <mat-icon>edit</mat-icon>
     <h2>{{selectedPage?.questionId}}</h2>
   </app-edit>
