@@ -1,17 +1,19 @@
-<ng-content *ngIf="!state; else editForm" (click)="state = !state"></ng-content>
+<ng-content *ngIf="!state; else editForm"></ng-content>
 <ng-template #editForm>
-  <form>
-    <mat-form-field (keydown.enter)="saveChanges(tempVal)">
-      <input matInput name="newName" [style]="elemStyles" [(ngModel)]="tempVal">
-      <mat-error *ngIf="errorTest()">
-        ID <strong>already</strong> exists
+  <form (ngSubmit)="saveChanges()">
+    <mat-form-field>
+      <mat-label>New ID</mat-label>
+      <input required matInput [style]="elemStyles" [formControl]="email">
+      <mat-error *ngIf="email.invalid">
+        <p class="error-message" *ngIf="email.errors.duplicateId">ID <strong>already</strong> exists.</p>
+        <p class="error-message" *ngIf="email.errors.required">This field is <strong>required.</strong></p>
       </mat-error>
     </mat-form-field>
     <div class="action-buttons">
-      <button (click)="saveChanges(tempVal, true)" mat-mini-fab class="accept action-button">
+      <button (click)="saveChanges(true)" type="submit" [disabled]="email.invalid" mat-mini-fab class="accept action-button">
         <mat-icon fontSet="fontawesome" fontIcon="fa-check" class="fa-xs action"></mat-icon>
       </button>
-      <button (click)="saveChanges(currentVal, true)" mat-mini-fab class="cancel action-button">
+      <button (click)="saveChanges(true, currentPage.questionId)" mat-mini-fab class="cancel action-button">
         <mat-icon fontSet="fontawesome" fontIcon="fa-times" class="fa-xs action"></mat-icon>
       </button>
     </div>

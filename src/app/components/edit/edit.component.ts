@@ -1,5 +1,9 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
+import {FormControl, Validators} from '@angular/forms';
+import {DuplicateIDValidator} from '../../validators/DuplicateIDValidator';
+import {Page} from '../../models/page-interface';
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -8,15 +12,15 @@ import {PageStructureService} from '../../services/PageStructure/page-structure.
 export class EditComponent implements OnInit {
 
   @Input()
-  currentVal: string;
+  currentPage: Page;
 
   @Output()
-  valueChange: EventEmitter<any> = new EventEmitter();
+  valueChange: EventEmitter<string> = new EventEmitter();
 
   elemStyles;
-  tempVal: string;
   state: boolean = false;
   actionButtonState: boolean = false;
+  email;
 
   constructor(
     public pageStructure: PageStructureService) {
@@ -25,29 +29,28 @@ export class EditComponent implements OnInit {
   ngOnInit() {
   }
 
-  @HostListener('click', ['$event.target'])
-  onClick(target) {
+  @HostListener('click')
+  onClick() {
     if (!this.state && !this.actionButtonState) {
       this.state = true;
-      this.tempVal = this.currentVal;
+      this.email = new FormControl(this.currentPage.questionId, [Validators.required, DuplicateIDValidator.duplicateIDValidator(this.pageStructure)]);
     } else if (this.actionButtonState) {
       this.actionButtonState = false;
     }
   }
 
-  saveChanges(savedVal: string, type?: boolean) {
-
+  saveChanges(type?: boolean = false, content?: string) {
     if (type) {
       this.actionButtonState = true;
     }
 
-    this.valueChange.emit(savedVal);
+    this.valueChange.emit(content ? content : this.email.value);
     this.state = false;
   }
 
 
   errorTest() {
-    return !this.pageStructure.pages.every(page => page.questionId !== this.tempVal);
+    //this.error = !this.pageStructure.pages.every(page => page.questionId !== this.tempVal);
   }
 
   getStyles() {

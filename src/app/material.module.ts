@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatSelectModule,
@@ -21,7 +21,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule
   ]
 })
 export class MaterialModule {
