@@ -10,7 +10,7 @@ export class DuplicateIDValidator implements Validator {
   constructor(private pageStructure: PageStructureService) {}
 
   validate(control: AbstractControl): ValidationErrors | null {
-      return this.pageStructure.pages.every(page => page.questionId !== control.value.toLowerCase()
+      return this.pageStructure.pages.every(page => page.questionId !== control.value
         || page.questionId === this.pageStructure.selectedPages[0].questionId) ? null : {duplicateId: true};
   }
 }
