@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import {
   MatButtonModule,
-  MatSidenavModule,
   MatCardModule,
-  MatCheckboxModule, 
+  MatCheckboxModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -11,8 +10,7 @@ import {
   MatSidenavModule,
   MatSliderModule,
   MatToolbarModule,
-  MatTooltipModule,
-  MatFormFieldModule
+  MatTooltipModule
 } from '@angular/material';
 
 @NgModule({
@@ -20,16 +18,14 @@ import {
     MatButtonModule,
     MatSidenavModule,
     MatCardModule,
-    MatCheckboxModule, 
+    MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatSelectModule,
-    MatSidenavModule,
     MatSliderModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatFormFieldModule
   ]
 })
 export class MaterialModule {

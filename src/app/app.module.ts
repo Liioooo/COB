@@ -12,7 +12,7 @@ import {AppMainViewZoomDirective} from './directives/main-view-zoom/main-view-zo
 import {SelectRectDirective} from './directives/select-rect/select-rect.directive';
 import {NgxElectronModule} from 'ngx-electron';
 import {EditComponent} from './components/edit/edit.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MiniPageMenuComponent} from './components/mini-page-menu/mini-page-menu.component';
 import {RightClickMenuComponent} from './components/right-click-menu/right-click-menu.component';
 import {DraggableArrowComponent} from './components/draggable-arrow/draggable-arrow.component';
@@ -41,7 +41,8 @@ import {PagePropertyBoxesModule} from "./page-proprty-boxes.module";
     MaterialModule,
     PagePropertyBoxesModule,
     NgxElectronModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
