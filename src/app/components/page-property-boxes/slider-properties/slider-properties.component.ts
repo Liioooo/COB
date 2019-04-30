@@ -1,12 +1,13 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {Page} from "../../../models/page-interface";
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
+import {Page} from '../../../models/page-interface';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-slider-properties',
   templateUrl: './slider-properties.component.html',
-  styleUrls: ['./slider-properties.component.scss']
+  styleUrls: ['./slider-properties.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SliderPropertiesComponent implements OnChanges, OnDestroy {
 

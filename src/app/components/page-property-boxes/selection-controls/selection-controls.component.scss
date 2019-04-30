@@ -1,0 +1,15 @@
+section {
+  display: flex;
+  flex-direction: column;
+
+  mat-label {
+    text-align: left;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .add-option {
+    position: relative;
+    top: -0.9rem;
+  }
+}

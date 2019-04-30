@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {Page} from '../../../models/page-interface';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
@@ -6,7 +6,8 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-page-default-properties',
   templateUrl: './page-default-properties.component.html',
-  styleUrls: ['./page-default-properties.component.scss']
+  styleUrls: ['./page-default-properties.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageDefaultPropertiesComponent implements OnChanges, OnDestroy {
 

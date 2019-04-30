@@ -15,6 +15,18 @@ div {
   mat-checkbox {
     margin-top: 100px;
   }
+
+  app-slider-properties,
+  app-family-situation-properties,
+  app-monthly-investment-properties,
+  app-multi-select-checkbox-properties,
+  app-single-select-checkbox-properties,
+  app-confirmation-rejection-proprties,
+  app-advisor-login-proprties,
+  app-summary-properties,
+  app-splash-screen-properties {
+    width: 220px;
+  }
 }
 
 .line {

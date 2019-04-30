@@ -12,6 +12,7 @@ import {SummaryPropertiesComponent} from "./components/page-property-boxes/summa
 import {ConfirmationRejectionProprtiesComponent} from "./components/page-property-boxes/confirmation-rejection-proprties/confirmation-rejection-proprties.component";
 import {AdvisorLoginProprtiesComponent} from "./components/page-property-boxes/advisor-login-proprties/advisor-login-proprties.component";
 import {PageDefaultPropertiesComponent} from './components/page-property-boxes/page-default-properties/page-default-properties.component';
+import {SelectionControlsComponent} from './components/page-property-boxes/selection-controls/selection-controls.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {PageDefaultPropertiesComponent} from './components/page-property-boxes/p
     SummaryPropertiesComponent,
     ConfirmationRejectionProprtiesComponent,
     AdvisorLoginProprtiesComponent,
-    PageDefaultPropertiesComponent
+    PageDefaultPropertiesComponent,
+    SelectionControlsComponent
   ],
   exports: [
     SliderPropertiesComponent,
@@ -36,7 +38,8 @@ import {PageDefaultPropertiesComponent} from './components/page-property-boxes/p
     SummaryPropertiesComponent,
     ConfirmationRejectionProprtiesComponent,
     AdvisorLoginProprtiesComponent,
-    PageDefaultPropertiesComponent
+    PageDefaultPropertiesComponent,
+    SelectionControlsComponent
   ],
   imports: [
     CommonModule,
