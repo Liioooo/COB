@@ -118,7 +118,7 @@ export class AppComponent implements OnInit {
             this.moveSelected(1, 0);
             break;
         }
-      } else {
+      } else if (!event.altKey) {
         switch (event.code) {
           case "Delete":
             this.pageStructure.removeSelectedPages();
