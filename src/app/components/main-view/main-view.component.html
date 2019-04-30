@@ -16,7 +16,8 @@
        appDragable
        [appDragablePage]="page"
        (dragEnded)="dragEnded($event)"
-       [style.z-index]="page.draggingNewConnection ? 5 : 0">
+       [style.z-index]="page.draggingNewConnection ? 5 : 0"
+       [@fadeInOnEnter] [@fadeOutOnLeave]>
 
     <app-small-page-preview [page]="page">
     </app-small-page-preview>
