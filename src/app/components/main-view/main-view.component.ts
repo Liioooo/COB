@@ -2,17 +2,21 @@ import {ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
+import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animations";
 
 @Component({
   selector: 'app-main-view',
   templateUrl: './main-view.component.html',
-  styleUrls: ['./main-view.component.scss']
+  styleUrls: ['./main-view.component.scss'],
+  animations: [
+    fadeInOnEnterAnimation({duration: 90}),
+    fadeOutOnLeaveAnimation({duration: 90})
+  ]
 })
 export class MainViewComponent {
 
   @ViewChild('container')
   private container: ElementRef<HTMLDivElement>;
-
   private currentPageWithConnectionDrag: Page;
 
   constructor(
