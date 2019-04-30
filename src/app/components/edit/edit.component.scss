@@ -5,10 +5,21 @@ form {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  mat-error {
+    p {
+      margin: 0 !important;
+    }
+  }
 }
 
 :host:hover {
   cursor: pointer;
+}
+
+:host {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .accept {

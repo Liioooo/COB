@@ -39,7 +39,11 @@ export class PageStructureService {
   }
 
   public pasteClipboard(posX?: number, posY?: number): void {
-    this.clearSelection();
+    if (this._clipboard.length > 0) {
+      this.clearSelection();
+    }
+
+    const oldToNewPages: { [key: string]: Page; } = {};
 
     let firstNewPage: Page;
     for (const page of this._clipboard) {
@@ -57,10 +61,24 @@ export class PageStructureService {
       newPage.posY += posY;
       this._selectedPages.push(newPage);
       this.addPage(newPage);
+      oldToNewPages[page.questionId + ''] = newPage;
       if (!firstNewPage) {
         firstNewPage = newPage;
       }
     }
+
+    for (const page of this._selectedPages) {
+      page.connections = page.connections.map(c => {
+        return {nextPage: oldToNewPages[c.nextPage.questionId]};
+      });
+      page.connections = page.connections.filter(p => p.nextPage);
+      page.pagesConnected = page.pagesConnected
+        .filter(p => p)
+        .map(p => {
+          return oldToNewPages[p.questionId];
+      });
+    }
+
     if (firstNewPage) {
       this.triggerScrollToPage(firstNewPage);
     }
@@ -72,7 +90,10 @@ export class PageStructureService {
         return false;
       }
     }
-    this._clipboard = pages;
+    this._clipboard = [];
+    for (const p of pages) {
+      this._clipboard.push({...p});
+    }
     return true;
   }
 
@@ -136,6 +157,10 @@ export class PageStructureService {
     if (!this.pageIdExists(rmPageId)) {
       return false;
     }
+    this._pages.forEach(page => {
+      page.connections = page.connections.filter(c => c.nextPage.questionId !== rmPageId);
+      page.pagesConnected = page.pagesConnected.filter(c => c.questionId !== rmPageId);
+    });
     this._pages = this._pages.filter(page => page.questionId !== rmPageId);
     return true;
   }
@@ -217,8 +242,10 @@ export class PageStructureService {
     if (p1.connections.find(con => con.nextPage.questionId === p2.questionId)) {
       return;
     }
+    if (p1.connections.length >= 3) {
+      return;
+    }
     p1.connections.push({
-      condition: "",
       nextPage: p2
     });
     p2.pagesConnected.push(p1);
@@ -291,4 +318,17 @@ export class PageStructureService {
 
     return page.hasOwnProperty("questionId") ? page : null;
   }
+  
+  public isValid(): boolean {
+    for (const page of this._pages) {
+      if (page === this._startPage) {
+        continue;
+      }
+      if (page.connections.find(con => con.nextPage === this._startPage)) {
+        return false;
+      }
+    }
+    return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined;
+  }
+  
 }
