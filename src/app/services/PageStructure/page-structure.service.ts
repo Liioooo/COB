@@ -258,7 +258,7 @@ export class PageStructureService {
 
   public moveSelection(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
     const destinationPage = this.findPage(direction);
-    if (destinationPage !== null){
+    if (destinationPage !== null) {
       this.clearSelection();
       this.switchSelection(destinationPage);
     }
@@ -318,9 +318,34 @@ export class PageStructureService {
 
     return page.hasOwnProperty("questionId") ? page : null;
   }
-  
+
   public isValid(): boolean {
+    if (this._pages.length === 0 || !this._startPage) {
+      return false;
+    }
+    const mandatoryProperties = [
+      'questionId',
+      'templateType',
+      'shortName',
+      'title',
+      'helpQuestion',
+      'helpTooltip',
+      'mandatory',
+      'handover',
+      'handoverText'
+    ];
+
     for (const page of this._pages) {
+      for (const prop of mandatoryProperties) {
+        if (page[prop] === undefined || page[prop] == null) {
+          return false;
+        }
+      }
+
+      if (page.templateType === 'none') {
+        return false;
+      }
+
       if (page === this._startPage) {
         continue;
       }
@@ -330,5 +355,59 @@ export class PageStructureService {
     }
     return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined;
   }
-  
+
+  public getQuestionsJSON(): string {
+    const unusedProperties = [
+      'posX',
+      'posY',
+      'pixelPosX',
+      'pixelPosY',
+      'isSelected',
+      'currentlyDragged',
+      'draggingNewConnection',
+      'pagesConnected',
+      'connections'
+    ];
+
+    const outPages = [];
+    this._pages.forEach(page => {
+      outPages.push(this.removeObjectProperties({...page}, unusedProperties));
+    });
+    return JSON.stringify(outPages);
+  }
+
+
+  public getWorkflowJSON(): string {
+    const usedProperties = [
+      'questionId',
+      'condition',
+      'elseQuestion',
+      'thanQuestion',
+      'nextQuestion'
+    ];
+
+    const outPages = [];
+    this._pages.forEach(page => {
+      outPages.push(this.keepObjectProperties({...page}, usedProperties));
+    });
+    return JSON.stringify(outPages);
+  }
+
+
+  private removeObjectProperties(obj: any, props: string[]): any {
+    for (const prop of props) {
+      if (obj.hasOwnProperty(prop)) {
+        delete obj[prop];
+      }
+    }
+    return obj;
+  }
+
+  private keepObjectProperties(obj: any, props: string[]): any {
+    const out = {};
+    for (const prop of props) {
+      out[prop] = obj[prop];
+    }
+    return out;
+  }
 }

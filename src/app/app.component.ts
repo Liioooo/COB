@@ -6,6 +6,7 @@ import {MatIconRegistry} from "@angular/material";
 import {SearchService} from "./services/search/search.service";
 import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animations";
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import * as fs from "fs";
 
 @Component({
   selector: "app-root",
@@ -80,6 +81,27 @@ export class AppComponent implements OnInit {
         case "KeyF":
           this.searchService.toggle();
           break;
+        case "KeyK":
+          console.log('isValid: ', this.pageStructure.isValid());
+
+          this.electronService.remote.dialog.showSaveDialog(null, (questionsPath) => {
+            try {
+              fs.writeFileSync(questionsPath, this.pageStructure.getQuestionsJSON(), 'utf-8');
+
+              this.electronService.remote.dialog.showSaveDialog(null, {
+                defaultPath: questionsPath,
+              }, (workflowPath) => {
+                try {
+                  fs.writeFileSync(workflowPath, this.pageStructure.getWorkflowJSON(), 'utf-8');
+                } catch (e) {
+                  console.log('Failed to save workflow file !');
+                }
+              });
+            } catch (e) {
+              console.log('Failed to save questions file !');
+            }
+          });
+          break;
       }
     } else if (event.shiftKey) {
         switch (event.code) {
@@ -120,7 +142,7 @@ export class AppComponent implements OnInit {
         }
       }
     }
-      
+
 
   private moveSelected(x: number, y: number): void {
     const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, x, y, true);
