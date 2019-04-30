@@ -10,7 +10,7 @@ import {EditComponent} from "../edit/edit.component";
   styleUrls: ['./right-sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RightSidebarComponent implements OnInit {
+export class RightSidebarComponent {
 
   @Input()
   selectedPage: Page;
@@ -20,9 +20,6 @@ export class RightSidebarComponent implements OnInit {
   constructor(
     public pageStructureService: PageStructureService
     ) {}
-
-  ngOnInit() {
-  }
 
   resetPage() {
     this.selectedPage.templateType = 'none';
@@ -46,7 +43,6 @@ export class RightSidebarComponent implements OnInit {
   }
 
   isCurrentStartPage(): boolean {
-    console.log(this.pageStructureService.startPage.questionId === this.selectedPage.questionId)
     return this.pageStructureService.startPage.questionId === this.selectedPage.questionId;
   }
 }
