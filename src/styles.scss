@@ -1,4 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+$fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
+@import '~@fortawesome/fontawesome-free-webfonts/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free-webfonts/scss/fa-solid';
+@import '~@fortawesome/fontawesome-free-webfonts/scss/fa-regular';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  user-select: none;
+}
+
+// Temporary workaround -> Fix needed! -> or maybe not
+.left-tooltip {
+  margin: 0 !important;
+}
+
+.action-button {
+  span {
+    line-height: 28px !important;
+  }
+}

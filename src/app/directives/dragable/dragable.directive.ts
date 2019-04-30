@@ -1,109 +1,146 @@
 import {
+    ChangeDetectorRef,
     Directive,
     ElementRef,
     EventEmitter,
     HostListener,
-    Input,
-    OnChanges,
+    Input, NgZone,
+    OnChanges, OnDestroy,
     OnInit,
     Output, SimpleChanges
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
+import {fromEvent} from 'rxjs';
+import {untilDestroyed} from 'ngx-take-until-destroy';
 
 @Directive({
   selector: '[appDragable]'
 })
-export class DragableDirective implements OnInit, OnChanges {
+export class DragableDirective implements OnInit, OnChanges, OnDestroy {
 
-    private pos1; pos2; pos3; pos4;
+  private pos1;
+  pos2;
+  pos3;
+  pos4;
 
-    private lastDragPos;
-    private mouseDown: boolean;
+  private lastDragPos;
+  private mouseDown: boolean;
 
-    private dragStartX: number;
-    private dragStartY: number;
+  private dragStartMouseX: number;
+  private dragStartMouseY: number;
+  private lastDragMouseX: number;
+  private lastDragMouseY: number;
 
-    @Output()
-    dragEnded = new EventEmitter<{posX: number, posY: number}>();
+  private firstTimeExternalDrag = true;
 
-    @Input()
-    appDragablePage: Page;
+  @Output()
+  dragEnded = new EventEmitter<{ x: number, y: number }>();
 
-    constructor(
-      private el: ElementRef<HTMLDivElement>,
-      private pageViewGrid: PageViewGridService,
-      private pageStructure: PageStructureService
-    ) { }
+  @Input()
+  appDragablePage: Page;
 
-    ngOnInit(): void {
-      const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
-      this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-      this.lastDragPos = pos;
+  constructor(
+    private el: ElementRef<HTMLDivElement>,
+    private pageViewGrid: PageViewGridService,
+    private pageStructure: PageStructureService,
+    private ngZone: NgZone,
+    private changeDetRef: ChangeDetectorRef
+  ) {
+    this.ngZone.runOutsideAngular(() => {
+      fromEvent<MouseEvent>(window, 'mousemove').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.onMouseMove(e));
+      fromEvent<MouseEvent>(window, 'mouseup').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.onMouseUp());
+    });
+  }
+
+  ngOnInit(): void {
+    const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
+    this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+    this.lastDragPos = pos;
+    this.appDragablePage.pixelPosX = pos.x;
+    this.appDragablePage.pixelPosY = pos.y;
+  }
+
+  ngOnDestroy(): void {
+    // just there for untilDestroyed to work
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
+    this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+    this.lastDragPos = pos;
+    this.appDragablePage.pixelPosX = pos.x;
+    this.appDragablePage.pixelPosY = pos.y;
+  }
+
+  @HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent) {
+    if (!this.el.nativeElement.children[0].children[1].contains(event.target as Node)) {
+      return;
     }
-
-    ngOnChanges(changes: SimpleChanges): void {
-      const pos = this.pageViewGrid.convertGridPosToPixelPos(this.appDragablePage.posX, this.appDragablePage.posY);
-      this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-      this.lastDragPos = pos;
-    }
-
-    @HostListener('mousedown', ['$event'])
-    onMouseDown(event: MouseEvent) {
-        if (event.button === 0) {
-            const zoom = this.pageViewGrid.zoomLevel;
-            this.mouseDown = true;
-            this.pos3 = event.clientX / zoom;
-            this.pos4 = event.clientY / zoom;
-            this.dragStartX = this.pos3;
-            this.dragStartY = this.pos4;
-            this.el.nativeElement.style.zIndex = '2';
-        }
-    }
-
-    @HostListener('window:mousemove', ['$event'])
-    onMouseMove(event: MouseEvent) {
-      if (this.mouseDown) {
-          const zoom = this.pageViewGrid.zoomLevel;
-          this.pos1 = this.pos3 - event.clientX / zoom;
-          this.pos2 = this.pos4 - event.clientY / zoom;
-          this.pos3 = event.clientX / zoom;
-          this.pos4 = event.clientY / zoom;
-          const pos: {y: number, x: number} = {x: 0, y: 0};
-          if ((this.lastDragPos.y - this.pos2) >= 0) {
-              pos.y = (this.lastDragPos.y - this.pos2);
-          }
-          if ((this.lastDragPos.x - this.pos1) >= 0) {
-              pos.x = (this.lastDragPos.x - this.pos1);
-          }
-          this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-          this.lastDragPos = pos;
+    if (event.button === 0 && this.appDragablePage.isSelected) {
+      this.pageStructure.setCurrentlySelectedDrag();
+      const zoom = this.pageViewGrid.zoomLevel;
+      this.mouseDown = true;
+      this.pos3 = event.clientX / zoom;
+      this.pos4 = event.clientY / zoom;
+      this.dragStartMouseX = this.pos3;
+      this.dragStartMouseY = this.pos4;
+      this.lastDragMouseX = this.pos3;
+      this.lastDragMouseY = this.pos4;
+      this.el.nativeElement.style.zIndex = '2';
     }
   }
 
-    @HostListener('window:mouseup', ['$event'])
-    onMouseUp(event: MouseEvent) {
-        if (this.mouseDown) {
-            this.el.nativeElement.style.zIndex = '1';
-            const zoom = this.pageViewGrid.zoomLevel;
-            if (this.distance(this.dragStartX, this.dragStartY, event.clientX / zoom, event.clientY / zoom) > 5) {
-                this.dragEnded.emit({
-                    posX: this.lastDragPos.x,
-                    posY: this.lastDragPos.y
-                });
-            } else {
-                this.pageStructure.updatePageById(this.appDragablePage.questionId, {
-                    posX: this.appDragablePage.posX,
-                    posY: this.appDragablePage.posY
-                });
-            }
-        }
-        this.mouseDown = false;
+  onMouseMove(event: MouseEvent) {
+    if (this.appDragablePage.currentlyDragged) {
+      const zoom = this.pageViewGrid.zoomLevel;
+      if (!this.mouseDown && this.firstTimeExternalDrag) {
+        this.firstTimeExternalDrag = false;
+        this.pos3 = event.clientX / zoom;
+        this.pos4 = event.clientY / zoom;
+        this.el.nativeElement.style.zIndex = '2';
+      }
+      this.pos1 = this.pos3 - event.clientX / zoom;
+      this.pos2 = this.pos4 - event.clientY / zoom;
+      this.pos3 = event.clientX / zoom;
+      this.pos4 = event.clientY / zoom;
+      this.lastDragMouseY = this.pos4;
+      this.lastDragMouseX = this.pos3;
+      const pos: { y: number, x: number } = {x: 0, y: 0};
+      if ((this.lastDragPos.y - this.pos2) >= 0) {
+        pos.y = (this.lastDragPos.y - this.pos2);
+      }
+      if ((this.lastDragPos.x - this.pos1) >= 0) {
+        pos.x = (this.lastDragPos.x - this.pos1);
+      }
+      this.el.nativeElement.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+      this.lastDragPos = pos;
+      this.appDragablePage.pixelPosX = pos.x;
+      this.appDragablePage.pixelPosY = pos.y;
+      this.changeDetRef.detectChanges();
     }
+  }
 
-    private distance(x1: number, y1: number, x2: number,  y2: number): number {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  onMouseUp() {
+    this.el.nativeElement.style.zIndex = '1';
+    this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
+    if (this.mouseDown) {
+      // if (this.mouseDown && this.lastDragMouseX && this.lastDragMouseY && this.dragStartMouseX && this.dragStartMouseY) {
+      this.dragEnded.emit({
+        x: this.lastDragMouseX - this.dragStartMouseX,
+        y: this.lastDragMouseY - this.dragStartMouseY
+      });
     }
-
+    if (this.appDragablePage.isSelected) {
+      this.ngOnChanges(null);
+    }
+    this.mouseDown = false;
+    this.firstTimeExternalDrag = true;
+  }
 }

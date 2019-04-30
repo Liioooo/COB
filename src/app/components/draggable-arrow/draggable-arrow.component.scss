@@ -1,0 +1,34 @@
+@import "variables";
+
+g {
+  z-index: 1;
+  pointer-events: all;
+
+  .draw-path {
+    stroke: $connection-color;
+    stroke-width: 1px;
+  }
+
+  .click-path {
+    stroke-width: 10px;
+    stroke: rgba(0,0,0,0);
+    z-index: 10;
+  }
+
+  &:hover {
+    .hover-grabbing {
+      cursor: grabbing;
+    }
+
+    .hover-color {
+      stroke: $connection-hover-color;
+    }
+  }
+}
+
+svg {
+  top: 1000px;
+  left: -1000px;
+  position: relative;
+  z-index: -1000;
+}

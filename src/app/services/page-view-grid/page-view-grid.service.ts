@@ -17,6 +17,7 @@ export class PageViewGridService {
     private _zoomLevel = 35;
 
     private _currentViewCenterPos: {x: number, y: number};
+    private _currentViewScrollPos: {x: number, y: number};
 
     constructor(private pageStructure: PageStructureService) { }
 
@@ -68,6 +69,76 @@ export class PageViewGridService {
       }
     }
 
+  public getNextGridPositionMultiPix(pages: Page[], inDifX: number, inDifY: number, collideSelf?: boolean): { x: number, y: number } {
+    const { x: difX, y: difY } = this.convertPixelPosToGridPos(inDifX, inDifY);
+    return this.getNextGridPositionMulti(pages, difX, difY, collideSelf);
+  }
+
+  public getNextGridPositionMulti(pages: Page[], difX: number, difY: number, collideSelf?: boolean): { x: number, y: number } {
+
+    const points: {x: number, y: number}[] = [];
+    for (const page of pages) {
+      points.push({ x: page.posX + difX, y: page.posY + difY });
+    }
+    if (!collideSelf) {
+      pages = [];
+    }
+    if (this.allPointsFree(points, pages)) {
+      return {x: difX, y: difY};
+    }
+
+    for (let iteration = 1; true; iteration++) {
+      for (let x = -iteration; x <= iteration; x++) {
+        if (this.allPointsFree(this.vectorSum(points, { x, y: iteration }), pages)) {
+          return {x: difX + x, y: difY + iteration};
+        }
+      }
+      for (let x = -iteration; x <= iteration; x++) {
+        if (this.allPointsFree(this.vectorSum(points, { x, y: -iteration }), pages)) {
+          return {x: difX + x, y: difY - iteration};
+        }
+      }
+      for (let y = -iteration + 1; y <= iteration; y++) {
+        if (this.allPointsFree(this.vectorSum(points, { x: iteration, y }), pages)) {
+          return {x: difX + iteration, y: difY + y};
+        }
+      }
+      for (let y = -iteration + 1; y < iteration; y++) {
+        if (this.allPointsFree(this.vectorSum(points, { x: -iteration, y }), pages)) {
+          return {x: difX - iteration, y: difY + y};
+        }
+      }
+    }
+  }
+
+  private vectorSum(points: { x: number, y: number }[], vec: { x: number, y: number }): { x: number, y: number }[] {
+    const out: { x: number, y: number }[] = [];
+    for (const point of points) {
+      out.push({ x: point.x + vec.x, y: point.y + vec.y });
+    }
+    return out;
+  }
+
+  private allPointsFree(points: { x: number, y: number }[], exceptPages?: Page[]): boolean {
+    for (const point of points) {
+      if (point.x < 0 || point.y < 0) {
+        return false;
+      }
+    }
+    for (const page of this.pageStructure.pages) {
+      if (exceptPages && exceptPages.findIndex(p => p.questionId === page.questionId) !== -1) {
+        continue;
+      }
+      for (const point of points) {
+        if (point.x > page.posX - this._PAGE_WIDTH && point.x < page.posX + this._PAGE_WIDTH &&
+          point.y > page.posY - this._PAGE_HEIGHT && point.y < page.posY + this._PAGE_HEIGHT) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
     public isPointFree(x: number, y: number, exceptPage?: Page): boolean {
       for (const page of this.pageStructure.pages) {
         if (exceptPage && page.questionId === exceptPage.questionId) {
@@ -117,6 +188,36 @@ export class PageViewGridService {
 
     public setViewPosition(vp: {x: number, y: number}) {
         this._currentViewCenterPos = vp;
+    }
+
+    public setViewScrollPos(sp: {x: number, y: number}) {
+        this._currentViewScrollPos = sp;
+    }
+
+    public get currentViewPos(): {x: number, y: number} {
+        return this._currentViewCenterPos;
+    }
+
+    public get currentScrollViewPos(): {x: number, y: number} {
+        return this._currentViewScrollPos;
+    }
+
+    public getPagesInRect(posX: number, posY: number, width: number, height: number): Page[] {
+        const pages = [];
+        this.pageStructure.pages.forEach(page => {
+            const {x, y} = this.convertGridPosToPixelPos(page.posX, page.posY);
+            if (x >= posX && x <= posX + width && y >= posY && y <= posY + height) {
+                pages.push(page);
+            }
+        });
+        return pages;
+    }
+
+    public getPageAtPosition(pos: {x: number, y: number}): Page | undefined {
+        return this.pageStructure.pages.find(page => {
+            const pagePos = this.convertGridPosToPixelPos(page.posX, page.posY);
+            return pos.x >= pagePos.x && pos.y >= pagePos.y && pos.x <= pagePos.x + 80 && pos.y <= pagePos.y + 60;
+        });
     }
 }
 

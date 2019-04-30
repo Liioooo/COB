@@ -1,23 +1,37 @@
-p {
-    text-align: center;
-    margin: 0;
-    padding-bottom: 0.25rem;
-    user-select: none;
-    font-size: 4px;
+@import "variables";
+
+* {
+  user-select: none;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 5px;
+  text-align: left;
+  transform: translate(2px, -2px);
 }
 
 .selected {
-  outline: red auto 1px;
+  outline: $page-selected-outline-color auto 1px;
 }
 
 div {
   height: 44px;
   padding: 5px;
-  user-select: none;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: darken(white, 10);
+  background-color: $small-page-preview-color;
   border-radius: 2px;
+  z-index: 5;
+
+  p {
+    font-size: 4px;
+  }
+}
+
+app-mini-page-menu {
+  position: absolute;
+  transform: translate(49px, -65px);
 }

@@ -1,12 +1,48 @@
+@import "variables";
+
 .pages-boundary {
   width: 3000px;
   height: 2000px;
   position: relative;
 
-  div {
+  .page-container {
     position: absolute;
     width: 80px;
     height: 60px;
-    z-index: 1;
+    z-index: 0;
+  }
+
+  .connection-drag-starter {
+    position: absolute;
+    bottom: 18px;
+    right: -10px;
+    padding: 6px;
+    z-index: -1;
+
+    div {
+      width: 6px;
+      height: 6px;
+      background-color: $connection-drag-starter-color;
+      border-radius: 50%;
+    }
+
+    &:hover {
+      div {
+        background-color: $connection-drag-starter-color-hover;
+      }
+    }
+  }
+
+  .new-connection {
+    position: absolute;
+    bottom: 23px;
+    left: 81px;
+    z-index: 3;
+  }
+
+  .connection {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
   }
 }

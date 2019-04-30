@@ -1,0 +1,32 @@
+@import "variables";
+
+div {
+  margin-left: 1px;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .fab-button {
+    width: 9px;
+    height: 9px;
+    line-height: 8px;
+    font-size: 5px;
+    margin-left: 1px;
+    background-color: $mini-page-menu-button-background;
+    box-shadow: none;
+
+    &::ng-deep .mat-button-wrapper {
+      line-height: 8px;
+      padding: 0;
+
+      .mat-icon {
+        height: 8px;
+        width: 8px;
+        font-size: 5px;
+        padding-top: 2px;
+      }
+    }
+  }
+
+}

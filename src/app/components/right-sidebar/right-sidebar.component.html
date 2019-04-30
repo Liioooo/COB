@@ -1,3 +1,42 @@
-<div>
-  right-sidebar works!
+<div [ngSwitch]="selectedPage.templateType" *ngIf="selectedPage; else notChosen">
+  <app-edit [currentPage]="selectedPage" (valueChange)="selectedPage.questionId = $event" class="line">
+    <mat-icon>edit</mat-icon>
+    <h2>{{selectedPage?.questionId}}</h2>
+  </app-edit>
+  <mat-form-field>
+    <mat-label>Select an option</mat-label>
+    <mat-select [(value)]="selectedPage.templateType">
+      <mat-option value="none">None</mat-option>
+      <mat-option value="AdvisorLogin">Advisor Login</mat-option>
+      <mat-option value="SingleSelectCheckbox">Single Select Checkbox</mat-option>
+      <mat-option value="SplashScreen">Splash Screen</mat-option>
+      <mat-option value="Slider">Slider</mat-option>
+      <mat-option value="FamilySituation">Family Situation</mat-option>
+      <mat-option value="MultiSelectCheckbox">Multi Select Checkbox</mat-option>
+      <mat-option value="MonthlyInvestment">Monthly Investment</mat-option>
+      <mat-option value="Summary">Summary</mat-option>
+      <mat-option value="ConfirmationRejection">Confirmation Rejection</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p>Current Type: {{selectedPage.templateType}}</p>
+
+  <app-slider-properties *ngSwitchCase="'Slider'" [page]="selectedPage"></app-slider-properties>
+  <app-family-situation-properties *ngSwitchCase="'FamilySituation'" [page]="selectedPage"></app-family-situation-properties>
+  <app-monthly-investment-properties *ngSwitchCase="'MonthlyInvestment'" [page]="selectedPage"></app-monthly-investment-properties>
+  <app-multi-select-checkbox-properties *ngSwitchCase="'MultiSelectCheckbox'" [page]="selectedPage"></app-multi-select-checkbox-properties>
+  <app-single-select-checkbox-properties *ngSwitchCase="'SingleSelectCheckbox'" [page]="selectedPage"></app-single-select-checkbox-properties>
+  <app-splash-screen-properties *ngSwitchCase="'SplashScreen'" [page]="selectedPage"></app-splash-screen-properties>
+  <app-summary-properties *ngSwitchCase="'Summary'" [page]="selectedPage"></app-summary-properties>
+  <app-confirmation-rejection-proprties *ngSwitchCase="'ConfirmationRejection'" [page]="selectedPage"></app-confirmation-rejection-proprties>
+  <app-advisor-login-proprties *ngSwitchCase="'AdvisorLogin'" [page]="selectedPage"></app-advisor-login-proprties>
+
+  <button (click)="selectedPage.templateType = 'none'" class="main-buttons" mat-raised-button color="warn">
+    <mat-icon>settings_backup_restore</mat-icon>
+    Reset
+  </button>
 </div>
+
+<ng-template #notChosen>
+  <h1>choose something</h1>
+</ng-template>

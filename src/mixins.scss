@@ -1,0 +1,21 @@
+@mixin scrollbar($width, $bright, $dark) {
+  &::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    background-color: $bright;
+  }
+
+  &::-webkit-scrollbar
+  {
+    width: $width;
+    background-color: $dark;
+  }
+
+  &::-webkit-scrollbar-thumb
+  {
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #6b6b6b;
+  }
+}

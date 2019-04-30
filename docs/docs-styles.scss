@@ -1,0 +1,16 @@
+@import "~github-markdown-css/github-markdown.css";
+
+body {
+  box-sizing: border-box;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  user-select: none;
+}
+
+@media (max-width: 767px) {
+  body {
+    padding: 15px;
+  }
+}

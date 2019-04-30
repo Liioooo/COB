@@ -2,13 +2,31 @@ export interface Page {
   questionId: string;
   templateType: 'none' | 'AdvisorLogin' | 'SingleSelectCheckbox' | 'SplashScreen' | 'Slider' | 'FamilySituation' |
     'MultiSelectCheckbox' | 'MonthlyInvestment' | 'Summary' | 'ConfirmationRejection';
-  connections: {condition: string, nextPage: Page}[];
+
+  connections: {
+    nextPage: Page;
+  }[];
+
+  condition?: string;
+  nextQuestion?: Page;
+  thanQuestion?: Page;
+  elseQuestion?: Page;
+
+
+  pagesConnected: Page[];
 
   posX?: number;
   posY?: number;
-  isSelected?: boolean;
 
-  // nextQuestion: string;
+  // just used for connection
+  pixelPosX?: number;
+  pixelPosY?: number;
+
+  isSelected?: boolean;
+  currentlyDragged?: boolean;
+  draggingNewConnection?: boolean;
+
+  // config for evert page
   shortName?: string;
   title?: string;
   helpQuestion?: string;
@@ -16,4 +34,22 @@ export interface Page {
   mandatory?: boolean;
   handover?: boolean;
   handoverText?: string;
+
+  // slider only
+  sliderControl?: {
+    lowerLimit: number;
+    upperLimit: number;
+    lowerLimitLabel: string;
+    upperLimitLabel: string;
+    stepSizeWeb: number;
+    stepSizeMobile: number;
+  };
+
+
+  // MonthlyInvestment, MultiSelectCheckbox, SingleSelectCheckbox, FamilySituation
+  selectionControls?: {
+    label: string;
+    value: string;
+  }[];
+
 }

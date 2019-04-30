@@ -1,25 +1,23 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Page} from '../../models/page-interface';
 
 @Component({
   selector: 'app-right-sidebar',
   templateUrl: './right-sidebar.component.html',
-  styleUrls: ['./right-sidebar.component.scss']
+  styleUrls: ['./right-sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RightSidebarComponent implements OnInit, OnChanges {
 
-    @Input()
-    selectedPage: Page;
+  @Input()
+  selectedPage: Page;
 
-    constructor() { }
+  constructor() {
+  }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        // console.log(this.selectedPage);
-    }
-
-
-
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 }

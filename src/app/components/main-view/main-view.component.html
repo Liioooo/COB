@@ -1,12 +1,33 @@
 <div class="pages-boundary"
      #container
-     (mousedown)="onMouseDown($event)">
-  <div *ngFor="let page of pageStructure.pages; trackBy: update"
+     (mousedown)="onMouseDownOnView($event)">
+  <ng-container *ngFor="let page of pageStructure.pages; trackBy: connectionUpdate0">
+    <ng-container *ngFor="let connection of page.connections; trackBy: connectionUpdate1">
+      <div class="connection" [ngStyle]="{'top': -(2000 - page.pixelPosY - 33) + 'px', 'left': page.pixelPosX + 80 + 'px'}">
+        <app-draggable-arrow [currentlyDragged]="false"
+                             [fromPage]="page"
+                             [toPage]="connection.nextPage"
+                             (connectionDragEnded)="connectionDragEndedOldConnection($event, page, connection.nextPage)">
+        </app-draggable-arrow>
+      </div>
+    </ng-container>
+  </ng-container>
+  <div class="page-container" *ngFor="let page of pageStructure.pages; trackBy: update"
        appDragable
        [appDragablePage]="page"
-       (dragEnded)="dragEnded($event, page)"
-  >
+       (dragEnded)="dragEnded($event)"
+       [style.z-index]="page.draggingNewConnection ? 5 : 0">
+
     <app-small-page-preview [page]="page">
     </app-small-page-preview>
+
+    <div class="connection-drag-starter" (mousedown)="startConnectionDrag(page)">
+      <div></div>
+    </div>
+
+    <div *ngIf="page.draggingNewConnection" class="new-connection">
+      <app-draggable-arrow [currentlyDragged]="true" (connectionDragEnded)="connectionDragEndedNewConnection($event)"></app-draggable-arrow>
+    </div>
   </div>
+
 </div>

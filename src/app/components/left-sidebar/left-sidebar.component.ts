@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
+import {SearchService} from '../../services/search/search.service';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -9,21 +10,23 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 })
 export class LeftSidebarComponent implements OnInit {
 
-    constructor(
-        private pageStructure: PageStructureService,
-        public pageViewGrid: PageViewGridService
-    ) {
-    }
+  constructor(
+    public pageStructure: PageStructureService,
+    public pageViewGrid: PageViewGridService,
+    public searchService: SearchService
+  ) {
+  }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
-    public addPage(): void {
-        const pos = this.pageViewGrid.getPosForNewPage();
-        this.pageStructure.addEmptyPage(pos.x, pos.y);
-    }
+  public addPage(): void {
+    const pos = this.pageViewGrid.getPosForNewPage();
+    this.pageStructure.addEmptyPage(pos.x, pos.y);
+  }
 
-    public removeSelection(): void {
-        this.pageStructure.removeSelectedPages();
-    }
+  public pasteClipboard() {
+    const pos0 = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.clipboard, 0, 0, false);
+    this.pageStructure.pasteClipboard(pos0.x, pos0.y);
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
@@ -8,31 +8,73 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
   templateUrl: './main-view.component.html',
   styleUrls: ['./main-view.component.scss']
 })
-export class MainViewComponent implements OnInit {
+export class MainViewComponent {
 
-    @ViewChild('container')
-    private container: ElementRef<HTMLDivElement>;
+  @ViewChild('container')
+  private container: ElementRef<HTMLDivElement>;
 
-    constructor(
-        public pageStructure: PageStructureService,
-        public pageViewGrid: PageViewGridService
-    ) { }
+  private currentPageWithConnectionDrag: Page;
 
-    ngOnInit() {
+  constructor(
+    public pageStructure: PageStructureService,
+    public pageViewGrid: PageViewGridService,
+    private changeDetRef: ChangeDetectorRef
+  ) {
+  }
+
+  dragEnded(event) {
+    const pos = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.selectedPages, event.x, event.y, true);
+    this.pageStructure.selectedPages.forEach(selPage => {
+      selPage.posX += pos.x;
+      selPage.posY += pos.y;
+    });
+    this.changeDetRef.detectChanges();
+    this.changeDetRef.detectChanges();
+  }
+
+  public update(index: number, item: Page): any {
+    return item.questionId + item.isSelected + item.posX + item.posY;
+  }
+
+  public connectionUpdate0(index: number, item: Page): any {
+      return item.questionId + item.isSelected + item.pixelPosX + item.pixelPosY;
+  }
+
+  public connectionUpdate1(index: number, item: any): any {
+    return item.nextPage.pixelPosX + item.nextPage.pixelPosY;
+  }
+
+  public onMouseDownOnView(event: MouseEvent): void {
+    if (event.target !== this.container.nativeElement) {
+      return;
     }
-
-    dragEnded(event, page: Page) {
-      const pos = this.pageViewGrid.getNextGridPosition(event.posX, event.posY, page);
-      this.pageStructure.updatePageById(page.questionId, {posX: pos.x, posY: pos.y});
+    if (!event.altKey && this.pageStructure.selectedPages.length !== 0) {
+      this.pageStructure.clearSelection();
     }
+  }
 
-    public update(index: number, item: Page): any {
-      return item.questionId + item.isSelected;
-    }
+  startConnectionDrag(page: Page) {
+    this.currentPageWithConnectionDrag = page;
+    page.draggingNewConnection = true;
+  }
 
-    public onMouseDown(event: MouseEvent): void {
-      if (event.target === this.container.nativeElement && !event.altKey) {
-        this.pageStructure.clearSelection();
+  connectionDragEndedNewConnection(dragEndPos: {x: number, y: number}) {
+    if (this.currentPageWithConnectionDrag) {
+      this.currentPageWithConnectionDrag.draggingNewConnection = false;
+      const pageToConnect = this.pageViewGrid.getPageAtPosition(dragEndPos);
+      if (pageToConnect) {
+        this.pageStructure.connectPages(this.currentPageWithConnectionDrag, pageToConnect);
       }
+      this.changeDetRef.detectChanges();
     }
+  }
+
+  connectionDragEndedOldConnection(dragEndPos: {x: number, y: number}, page: Page, oldToPage: Page) {
+      const pageToConnect = this.pageViewGrid.getPageAtPosition(dragEndPos);
+      this.pageStructure.deleteConnection(page, oldToPage);
+      if (pageToConnect) {
+          this.pageStructure.connectPages(page, pageToConnect);
+      }
+      this.changeDetRef.detectChanges();
+  }
 }
