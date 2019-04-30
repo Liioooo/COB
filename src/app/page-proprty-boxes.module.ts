@@ -6,11 +6,12 @@ import {FamilySituationPropertiesComponent} from "./components/page-property-box
 import {MultiSelectCheckboxPropertiesComponent} from "./components/page-property-boxes/multi-select-checkbox-properties/multi-select-checkbox-properties.component";
 import {MonthlyInvestmentPropertiesComponent} from "./components/page-property-boxes/monthly-investment-properties/monthly-investment-properties.component";
 import {SingleSelectCheckboxPropertiesComponent} from "./components/page-property-boxes/single-select-checkbox-properties/single-select-checkbox-properties.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "./material.module";
 import {SummaryPropertiesComponent} from "./components/page-property-boxes/summary-properties/summary-properties.component";
 import {ConfirmationRejectionProprtiesComponent} from "./components/page-property-boxes/confirmation-rejection-proprties/confirmation-rejection-proprties.component";
 import {AdvisorLoginProprtiesComponent} from "./components/page-property-boxes/advisor-login-proprties/advisor-login-proprties.component";
+import {PageDefaultPropertiesComponent} from './components/page-property-boxes/page-default-properties/page-default-properties.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {AdvisorLoginProprtiesComponent} from "./components/page-property-boxes/a
     SingleSelectCheckboxPropertiesComponent,
     SummaryPropertiesComponent,
     ConfirmationRejectionProprtiesComponent,
-    AdvisorLoginProprtiesComponent
+    AdvisorLoginProprtiesComponent,
+    PageDefaultPropertiesComponent
   ],
   exports: [
     SliderPropertiesComponent,
@@ -33,12 +35,14 @@ import {AdvisorLoginProprtiesComponent} from "./components/page-property-boxes/a
     SingleSelectCheckboxPropertiesComponent,
     SummaryPropertiesComponent,
     ConfirmationRejectionProprtiesComponent,
-    AdvisorLoginProprtiesComponent
+    AdvisorLoginProprtiesComponent,
+    PageDefaultPropertiesComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class PagePropertyBoxesModule { }

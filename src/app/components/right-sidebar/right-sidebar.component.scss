@@ -4,6 +4,17 @@ div {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+
+  .question-id {
+    position: fixed;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+  }
+
+  mat-form-field {
+    margin-top: 100px;
+  }
 }
 
 .line {
@@ -16,6 +27,7 @@ div {
 .main-buttons {
   width: 80%;
   margin: auto;
+  margin-bottom: 1rem;
 }
 
 mat-checkbox {
