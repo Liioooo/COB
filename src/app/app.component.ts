@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
           this.searchService.toggle();
           break;
         case "KeyK":
-          console.log('isValid: ', this.pageStructure.isValid());
+          console.log('isValid: ', this.pageStructure.getErrorMessage());
 
           this.electronService.remote.dialog.showSaveDialog(null, (questionsPath) => {
             try {
@@ -128,16 +128,16 @@ export class AppComponent implements OnInit {
             if (this.searchService.show) { this.searchService.toggle(); }
             break;
           case "ArrowUp":
-            this.pageStructure.moveSelection("UP");
+            this.pageViewGrid.moveSelection("UP");
             break;
           case "ArrowDown":
-            this.pageStructure.moveSelection("DOWN");
+            this.pageViewGrid.moveSelection("DOWN");
             break;
           case "ArrowLeft":
-            this.pageStructure.moveSelection("LEFT");
+            this.pageViewGrid.moveSelection("LEFT");
             break;
           case "ArrowRight":
-            this.pageStructure.moveSelection("RIGHT");
+            this.pageViewGrid.moveSelection("RIGHT");
             break;
         }
       }

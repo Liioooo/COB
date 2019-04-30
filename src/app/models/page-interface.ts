@@ -27,13 +27,13 @@ export interface Page {
   draggingNewConnection?: boolean;
 
   // config for evert page
-  shortName?: string;
-  title?: string;
-  helpQuestion?: string;
-  helpTooltip?: string;
-  mandatory?: boolean;
-  handover?: boolean;
-  handoverText?: string;
+  shortName: string;
+  title: string;
+  helpQuestion: string;
+  helpTooltip: string;
+  mandatory: boolean;
+  handover: boolean;
+  handoverText: string;
 
   // slider only
   sliderControl?: {

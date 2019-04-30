@@ -2,6 +2,7 @@ import {ApplicationRef, ChangeDetectorRef, Injectable} from "@angular/core";
 import {Page} from "../../models/page-interface";
 import {Observable, Subject} from "rxjs";
 import {SearchService} from "../search/search.service";
+import {falseIfMissing} from 'protractor/built/util';
 
 @Injectable({
   providedIn: "root"
@@ -120,7 +121,14 @@ export class PageStructureService {
       pagesConnected: [],
       templateType: "none",
       posX,
-      posY
+      posY,
+      shortName: '',
+      title: '',
+      helpQuestion: '',
+      helpTooltip: '',
+      mandatory: false,
+      handover: false,
+      handoverText: '',
     };
 
     this.triggerScrollToPage(newPage);
@@ -256,73 +264,19 @@ export class PageStructureService {
     p2.pagesConnected = p2.pagesConnected.filter(page => page.questionId !== p1.questionId);
   }
 
-  public moveSelection(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
-    const destinationPage = this.findPage(direction);
-    if (destinationPage !== null) {
-      this.clearSelection();
-      this.switchSelection(destinationPage);
-    }
-  }
-
-  private findPage(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'): Page {
-    let page: any = {posY: -1, posX: -1};
-
-    switch (direction) {
-      case 'UP':
-        let highestSelected = this._selectedPages[0];
-        this._selectedPages.forEach(selectedPage => {
-          highestSelected = highestSelected.posY > selectedPage.posY ? selectedPage : highestSelected;
-        });
-        this._pages.forEach(p => {
-          page = highestSelected.posY - p.posY > 0
-          && highestSelected.posY - p.posY < highestSelected.posY - page.posY
-          && Math.abs(highestSelected.posX - p.posX) <= 2 ? p : page;
-        });
-        break;
-      case 'DOWN':
-        page.posY = Number.MAX_VALUE;
-        let lowestSelected = this._selectedPages[0];
-        this._selectedPages.forEach(selectedPage => {
-          lowestSelected = lowestSelected.posY < selectedPage.posY ? selectedPage : lowestSelected;
-        });
-        this._pages.forEach(p => {
-          page = p.posY - lowestSelected.posY > 0
-          && p.posY - lowestSelected.posY < page.posY - lowestSelected.posY
-          && Math.abs(lowestSelected.posX - p.posX) <= 2 ? p : page;
-        });
-        break;
-      case 'LEFT':
-        let leftestSelected = this._selectedPages[0];
-        this._selectedPages.forEach(selectedPage => {
-          leftestSelected = leftestSelected.posX > selectedPage.posX ? selectedPage : leftestSelected;
-        });
-        this._pages.forEach(p => {
-          page = leftestSelected.posX - p.posX > 0
-          && leftestSelected.posX - p.posX < leftestSelected.posX - page.posX
-          && Math.abs(leftestSelected.posY - p.posY) <= 2 ? p : page;
-        });
-        break;
-      case 'RIGHT':
-        page.posX = Number.MAX_VALUE;
-        let rightestSelected = this._selectedPages[0];
-        this._selectedPages.forEach(selectedPage => {
-          rightestSelected = rightestSelected.posX < selectedPage.posX ? selectedPage : rightestSelected;
-        });
-        this._pages.forEach(p => {
-          page = p.posX - rightestSelected.posX > 0
-          && p.posX - rightestSelected.posX < page.posX - rightestSelected.posX
-          && Math.abs(rightestSelected.posY - p.posY) <= 2 ? p : page;
-        });
-        break;
-    }
-
-    return page.hasOwnProperty("questionId") ? page : null;
-  }
 
   public isValid(): boolean {
-    if (this._pages.length === 0 || !this._startPage) {
-      return false;
+    return this.getErrorMessage() === '';
+  }
+
+  public getErrorMessage(): string {
+    if (this._pages.length === 0) {
+      return 'Project is empty';
     }
+    if (!this._startPage) {
+      return 'Startpage has not been set';
+    }
+
     const mandatoryProperties = [
       'questionId',
       'templateType',
@@ -338,22 +292,23 @@ export class PageStructureService {
     for (const page of this._pages) {
       for (const prop of mandatoryProperties) {
         if (page[prop] === undefined || page[prop] == null) {
-          return false;
+          return prop + ' has not been set';
         }
       }
 
       if (page.templateType === 'none') {
-        return false;
+        return 'templateType must not be "none"';
       }
 
       if (page === this._startPage) {
         continue;
       }
       if (page.connections.find(con => con.nextPage === this._startPage)) {
-        return false;
+        return 'Connection must not point to the startpage';
       }
     }
-    return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined;
+    return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined ? '' :
+      'Connection must not point to the startpage';
   }
 
   public getQuestionsJSON(): string {

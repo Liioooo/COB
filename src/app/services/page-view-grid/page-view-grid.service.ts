@@ -219,5 +219,68 @@ export class PageViewGridService {
             return pos.x >= pagePos.x && pos.y >= pagePos.y && pos.x <= pagePos.x + 80 && pos.y <= pagePos.y + 60;
         });
     }
+
+    public moveSelection(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
+      const destinationPage = this.findPage(direction);
+      if (destinationPage !== null) {
+        this.pageStructure.clearSelection();
+        this.pageStructure.switchSelection(destinationPage);
+      }
+    }
+
+    private findPage(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'): Page {
+      let page: any = {posY: -1, posX: -1};
+
+      switch (direction) {
+        case 'UP':
+          let highestSelected = this.pageStructure.selectedPages[0];
+          this.pageStructure.selectedPages.forEach(selectedPage => {
+            highestSelected = highestSelected.posY > selectedPage.posY ? selectedPage : highestSelected;
+          });
+          this.pageStructure.pages.forEach(p => {
+            page = highestSelected.posY - p.posY > 0
+            && highestSelected.posY - p.posY < highestSelected.posY - page.posY
+            && Math.abs(highestSelected.posX - p.posX) <= 2 ? p : page;
+          });
+          break;
+        case 'DOWN':
+          page.posY = Number.MAX_VALUE;
+          let lowestSelected = this.pageStructure.selectedPages[0];
+          this.pageStructure.selectedPages.forEach(selectedPage => {
+            lowestSelected = lowestSelected.posY < selectedPage.posY ? selectedPage : lowestSelected;
+          });
+          this.pageStructure.pages.forEach(p => {
+            page = p.posY - lowestSelected.posY > 0
+            && p.posY - lowestSelected.posY < page.posY - lowestSelected.posY
+            && Math.abs(lowestSelected.posX - p.posX) <= 2 ? p : page;
+          });
+          break;
+        case 'LEFT':
+          let leftestSelected = this.pageStructure.selectedPages[0];
+          this.pageStructure.selectedPages.forEach(selectedPage => {
+            leftestSelected = leftestSelected.posX > selectedPage.posX ? selectedPage : leftestSelected;
+          });
+          this.pageStructure.pages.forEach(p => {
+            page = leftestSelected.posX - p.posX > 0
+            && leftestSelected.posX - p.posX < leftestSelected.posX - page.posX
+            && Math.abs(leftestSelected.posY - p.posY) <= 2 ? p : page;
+          });
+          break;
+        case 'RIGHT':
+          page.posX = Number.MAX_VALUE;
+          let rightestSelected = this.pageStructure.selectedPages[0];
+          this.pageStructure.selectedPages.forEach(selectedPage => {
+            rightestSelected = rightestSelected.posX < selectedPage.posX ? selectedPage : rightestSelected;
+          });
+          this.pageStructure.pages.forEach(p => {
+            page = p.posX - rightestSelected.posX > 0
+            && p.posX - rightestSelected.posX < page.posX - rightestSelected.posX
+            && Math.abs(rightestSelected.posY - p.posY) <= 2 ? p : page;
+          });
+          break;
+      }
+
+      return page.hasOwnProperty("questionId") ? page : null;
+    }
 }
 
