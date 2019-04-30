@@ -258,7 +258,7 @@ export class PageStructureService {
 
   public moveSelection(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
     const destinationPage = this.findPage(direction);
-    if (destinationPage !== null){
+    if (destinationPage !== null) {
       this.clearSelection();
       this.switchSelection(destinationPage);
     }
@@ -318,7 +318,7 @@ export class PageStructureService {
 
     return page.hasOwnProperty("questionId") ? page : null;
   }
-  
+
   public isValid(): boolean {
     for (const page of this._pages) {
       if (page === this._startPage) {
@@ -330,5 +330,5 @@ export class PageStructureService {
     }
     return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined;
   }
-  
+
 }

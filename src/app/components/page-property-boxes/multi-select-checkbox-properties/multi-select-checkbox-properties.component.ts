@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Page} from "../../../models/page-interface";
 
 @Component({
   selector: 'app-multi-select-checkbox-properties',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./multi-select-checkbox-properties.component.scss']
 })
 export class MultiSelectCheckboxPropertiesComponent implements OnInit {
+
+  @Input()
+  public page: Page;
 
   constructor() { }
 

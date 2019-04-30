@@ -21,15 +21,15 @@
 
   <p>Current Type: {{selectedPage.templateType}}</p>
 
-  <app-slider-properties *ngSwitchCase="'Slider'"></app-slider-properties>
-  <app-family-situation-properties *ngSwitchCase="'FamilySituation'"></app-family-situation-properties>
-  <app-monthly-investment-properties *ngSwitchCase="'MonthlyInvestment'"></app-monthly-investment-properties>
-  <app-multi-select-checkbox-properties *ngSwitchCase="'MultiSelectCheckbox'"></app-multi-select-checkbox-properties>
-  <app-single-select-checkbox-properties *ngSwitchCase="'SingleSelectCheckbox'"></app-single-select-checkbox-properties>
-  <app-splash-screen-properties *ngSwitchCase="'SplashScreen'"></app-splash-screen-properties>
-  <app-summary-properties *ngSwitchCase="'Summary'"></app-summary-properties>
-  <app-confirmation-rejection-proprties *ngSwitchCase="'ConfirmationRejection'"></app-confirmation-rejection-proprties>
-  <app-advisor-login-proprties *ngSwitchCase="'AdvisorLogin'"></app-advisor-login-proprties>
+  <app-slider-properties *ngSwitchCase="'Slider'" [page]="selectedPage"></app-slider-properties>
+  <app-family-situation-properties *ngSwitchCase="'FamilySituation'" [page]="selectedPage"></app-family-situation-properties>
+  <app-monthly-investment-properties *ngSwitchCase="'MonthlyInvestment'" [page]="selectedPage"></app-monthly-investment-properties>
+  <app-multi-select-checkbox-properties *ngSwitchCase="'MultiSelectCheckbox'" [page]="selectedPage"></app-multi-select-checkbox-properties>
+  <app-single-select-checkbox-properties *ngSwitchCase="'SingleSelectCheckbox'" [page]="selectedPage"></app-single-select-checkbox-properties>
+  <app-splash-screen-properties *ngSwitchCase="'SplashScreen'" [page]="selectedPage"></app-splash-screen-properties>
+  <app-summary-properties *ngSwitchCase="'Summary'" [page]="selectedPage"></app-summary-properties>
+  <app-confirmation-rejection-proprties *ngSwitchCase="'ConfirmationRejection'" [page]="selectedPage"></app-confirmation-rejection-proprties>
+  <app-advisor-login-proprties *ngSwitchCase="'AdvisorLogin'" [page]="selectedPage"></app-advisor-login-proprties>
 
   <button (click)="selectedPage.templateType = 'none'" class="main-buttons" mat-raised-button color="warn">
     <mat-icon>settings_backup_restore</mat-icon>

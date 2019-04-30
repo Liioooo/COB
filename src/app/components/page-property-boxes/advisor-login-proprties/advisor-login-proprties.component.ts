@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Page} from "../../../models/page-interface";
 
 @Component({
   selector: 'app-advisor-login-proprties',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./advisor-login-proprties.component.scss']
 })
 export class AdvisorLoginProprtiesComponent implements OnInit {
+
+  @Input()
+  public page: Page;
 
   constructor() { }
 

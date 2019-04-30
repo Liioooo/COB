@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Page} from "../../../models/page-interface";
 
 @Component({
   selector: 'app-slider-properties',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./slider-properties.component.scss']
 })
 export class SliderPropertiesComponent implements OnInit {
+
+  @Input()
+  public page: Page;
 
   constructor() { }
 

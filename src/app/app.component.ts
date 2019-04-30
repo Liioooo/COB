@@ -119,8 +119,7 @@ export class AppComponent implements OnInit {
             break;
         }
       }
-    }
-      
+  }
 
   private moveSelected(x: number, y: number): void {
     const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, x, y, true);
