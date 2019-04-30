@@ -170,6 +170,9 @@ export class PageStructureService {
       page.pagesConnected = page.pagesConnected.filter(c => c.questionId !== rmPageId);
     });
     this._pages = this._pages.filter(page => page.questionId !== rmPageId);
+    if (this._pages.length > 0) {
+      this._startPage = this._pages[0];
+    }
     return true;
   }
 
@@ -188,7 +191,7 @@ export class PageStructureService {
     if (index === -1) {
       return;
     }
-    this._pages[index] = {...this._pages[index], ...fieldsToUpdate};
+    this._pages[index] = {...this._pages[index], ...fieldsToUpdate} as Page;
   }
 
   public search(keyword: string): void {

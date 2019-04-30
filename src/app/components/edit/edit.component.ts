@@ -32,7 +32,7 @@ export class EditComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.newIdForm = new FormGroup({
-      email: new FormControl(this.currentPage.questionId, [Validators.required, this.duplicateIdValidator as unknown as ValidatorFn])
+      email: new FormControl(this.currentPage.questionId, [Validators.required, this.duplicateIdValidator as ValidatorFn])
     });
   }
 
