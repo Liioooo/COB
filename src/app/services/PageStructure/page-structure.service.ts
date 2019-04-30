@@ -69,7 +69,7 @@ export class PageStructureService {
 
     for (const page of this._selectedPages) {
       page.connections = page.connections.map(c => {
-        return {condition: c.condition, nextPage: oldToNewPages[c.nextPage.questionId]};
+        return {nextPage: oldToNewPages[c.nextPage.questionId]};
       });
       page.connections = page.connections.filter(p => p.nextPage);
       page.pagesConnected = page.pagesConnected
@@ -242,8 +242,10 @@ export class PageStructureService {
     if (p1.connections.find(con => con.nextPage.questionId === p2.questionId)) {
       return;
     }
+    if (p1.connections.length >= 3) {
+      return;
+    }
     p1.connections.push({
-      condition: "",
       nextPage: p2
     });
     p2.pagesConnected.push(p1);
