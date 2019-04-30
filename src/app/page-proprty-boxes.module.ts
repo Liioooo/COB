@@ -11,6 +11,7 @@ import {MaterialModule} from "./material.module";
 import {SummaryPropertiesComponent} from "./components/page-property-boxes/summary-properties/summary-properties.component";
 import {ConfirmationRejectionProprtiesComponent} from "./components/page-property-boxes/confirmation-rejection-proprties/confirmation-rejection-proprties.component";
 import {AdvisorLoginProprtiesComponent} from "./components/page-property-boxes/advisor-login-proprties/advisor-login-proprties.component";
+import {PageDefaultPropertiesComponent} from './components/page-property-boxes/page-default-properties/page-default-properties.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {AdvisorLoginProprtiesComponent} from "./components/page-property-boxes/a
     SingleSelectCheckboxPropertiesComponent,
     SummaryPropertiesComponent,
     ConfirmationRejectionProprtiesComponent,
-    AdvisorLoginProprtiesComponent
+    AdvisorLoginProprtiesComponent,
+    PageDefaultPropertiesComponent
   ],
   exports: [
     SliderPropertiesComponent,
@@ -33,7 +35,8 @@ import {AdvisorLoginProprtiesComponent} from "./components/page-property-boxes/a
     SingleSelectCheckboxPropertiesComponent,
     SummaryPropertiesComponent,
     ConfirmationRejectionProprtiesComponent,
-    AdvisorLoginProprtiesComponent
+    AdvisorLoginProprtiesComponent,
+    PageDefaultPropertiesComponent
   ],
   imports: [
     CommonModule,
