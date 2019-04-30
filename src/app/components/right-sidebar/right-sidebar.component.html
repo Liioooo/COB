@@ -19,8 +19,6 @@
     </mat-select>
   </mat-form-field>
 
-  <p>Current Type: {{selectedPage.templateType}}</p>
-
   <app-slider-properties *ngSwitchCase="'Slider'" [page]="selectedPage"></app-slider-properties>
   <app-family-situation-properties *ngSwitchCase="'FamilySituation'" [page]="selectedPage"></app-family-situation-properties>
   <app-monthly-investment-properties *ngSwitchCase="'MonthlyInvestment'" [page]="selectedPage"></app-monthly-investment-properties>
@@ -31,7 +29,7 @@
   <app-confirmation-rejection-proprties *ngSwitchCase="'ConfirmationRejection'" [page]="selectedPage"></app-confirmation-rejection-proprties>
   <app-advisor-login-proprties *ngSwitchCase="'AdvisorLogin'" [page]="selectedPage"></app-advisor-login-proprties>
 
-  <button (click)="selectedPage.templateType = 'none'" class="main-buttons" mat-raised-button color="warn">
+  <button (click)="resetPage()" class="main-buttons" mat-raised-button color="warn">
     <mat-icon>settings_backup_restore</mat-icon>
     Reset
   </button>
