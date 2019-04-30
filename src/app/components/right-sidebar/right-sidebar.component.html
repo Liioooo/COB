@@ -3,6 +3,7 @@
     <mat-icon>edit</mat-icon>
     <h2>{{selectedPage?.questionId}}</h2>
   </app-edit>
+  <mat-checkbox  [disabled]="pageStructureService.pages.length <= 1 || isCurrentStartPage()" [checked]="isCurrentStartPage()" (change)="onCheckboxChange($event)">Startpage</mat-checkbox>
   <mat-form-field>
     <mat-label>Select an option</mat-label>
     <mat-select [(value)]="selectedPage.templateType">
