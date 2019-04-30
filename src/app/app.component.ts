@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
           this.searchService.toggle();
       }
     } else {
-      switch (event.code){
+      switch (event.code) {
         case "Delete":
           this.pageStructure.removeSelectedPages();
           this.changeDetRef.detectChanges();

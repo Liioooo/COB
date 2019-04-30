@@ -238,7 +238,7 @@ export class PageStructureService {
   }
 
   private findPage(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'): Page {
-    let page: any = {posY: -1};
+    let page: any = {posY: -1, posX: -1};
 
     switch (direction) {
       case 'UP':
@@ -249,14 +249,43 @@ export class PageStructureService {
         this._pages.forEach(p => {
           page = highestSelected.posY - p.posY > 0
           && highestSelected.posY - p.posY < highestSelected.posY - page.posY
-          && Math.abs(highestSelected.posX - p.posX) <= 3 ? p : page;
+          && Math.abs(highestSelected.posX - p.posX) <= 2 ? p : page;
         });
         break;
       case 'DOWN':
+        page.posY = Number.MAX_VALUE;
+        let lowestSelected = this._selectedPages[0];
+        this._selectedPages.forEach(selectedPage => {
+          lowestSelected = lowestSelected.posY < selectedPage.posY ? selectedPage : lowestSelected;
+        });
+        this._pages.forEach(p => {
+          page = p.posY - lowestSelected.posY > 0
+          && p.posY - lowestSelected.posY < page.posY - lowestSelected.posY
+          && Math.abs(lowestSelected.posX - p.posX) <= 2 ? p : page;
+        });
         break;
       case 'LEFT':
+        let leftestSelected = this._selectedPages[0];
+        this._selectedPages.forEach(selectedPage => {
+          leftestSelected = leftestSelected.posX > selectedPage.posX ? selectedPage : leftestSelected;
+        });
+        this._pages.forEach(p => {
+          page = leftestSelected.posX - p.posX > 0
+          && leftestSelected.posX - p.posX < leftestSelected.posX - page.posX
+          && Math.abs(leftestSelected.posY - p.posY) <= 2 ? p : page;
+        });
         break;
       case 'RIGHT':
+        page.posX = Number.MAX_VALUE;
+        let rightestSelected = this._selectedPages[0];
+        this._selectedPages.forEach(selectedPage => {
+          rightestSelected = rightestSelected.posX < selectedPage.posX ? selectedPage : rightestSelected;
+        });
+        this._pages.forEach(p => {
+          page = p.posX - rightestSelected.posX > 0
+          && p.posX - rightestSelected.posX < page.posX - rightestSelected.posX
+          && Math.abs(rightestSelected.posY - p.posY) <= 2 ? p : page;
+        });
         break;
     }
 
