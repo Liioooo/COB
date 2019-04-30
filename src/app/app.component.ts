@@ -81,32 +81,48 @@ export class AppComponent implements OnInit {
           this.searchService.toggle();
           break;
       }
-    } else {
-      if (event.code === "Delete") {
-        this.pageStructure.removeSelectedPages();
-        this.changeDetRef.detectChanges();
-      } else if (event.code === "Escape") {
-        if (this.searchService.show) { this.searchService.toggle(); }
-      } else if (event.shiftKey) {
+    } else if (event.shiftKey) {
         switch (event.code) {
           case "ArrowUp":
-            this.moveSelection(0, -1);
+            this.moveSelected(0, -1);
             break;
           case "ArrowDown":
-            this.moveSelection(0, 1);
+            this.moveSelected(0, 1);
             break;
           case "ArrowLeft":
-            this.moveSelection(-1, 0);
+            this.moveSelected(-1, 0);
             break;
           case "ArrowRight":
-            this.moveSelection(1, 0);
+            this.moveSelected(1, 0);
+            break;
+        }
+      } else {
+        switch (event.code) {
+          case "Delete":
+            this.pageStructure.removeSelectedPages();
+            this.changeDetRef.detectChanges();
+            break;
+          case "Escape":
+            if (this.searchService.show) { this.searchService.toggle(); }
+            break;
+          case "ArrowUp":
+            this.pageStructure.moveSelection("UP");
+            break;
+          case "ArrowDown":
+            this.pageStructure.moveSelection("DOWN");
+            break;
+          case "ArrowLeft":
+            this.pageStructure.moveSelection("LEFT");
+            break;
+          case "ArrowRight":
+            this.pageStructure.moveSelection("RIGHT");
             break;
         }
       }
     }
-  }
+      
 
-  private moveSelection(x: number, y: number): void {
+  private moveSelected(x: number, y: number): void {
     const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, x, y, true);
     this.pageStructure.selectedPages.forEach(selPage => {
       selPage.posX += pos.x;
