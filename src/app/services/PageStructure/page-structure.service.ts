@@ -327,17 +327,17 @@ export class PageStructureService {
       'connections'
     ];
 
-    let flowPages = [];
-    // this._pages.forEach(page => {
-    //   outPages.push(this.removeObjectProperties({...page}, unusedProperties));
-    // });
     const outPages = [];
-    flowPages = this.addPageToFlow(flowPages, this._startPage);
-    flowPages.forEach(page => {
+    this.getPagesInFlow().forEach(page => {
       outPages.push(this.removeObjectProperties({...page}, unusedProperties));
     });
 
     return JSON.stringify(outPages);
+  }
+
+  private getPagesInFlow(): Page[] {
+    const flowPages = [];
+    return this.addPageToFlow(flowPages, this._startPage);
   }
 
   private addPageToFlow(flowPages: Page[], toAdd: Page): Page[] {
@@ -347,9 +347,9 @@ export class PageStructureService {
     if (flowPages.indexOf(toAdd)) {
       flowPages.push(toAdd);
     }
-    flowPages = this.addPageToFlow(flowPages, toAdd.nextQuestion);
-    flowPages = this.addPageToFlow(flowPages, toAdd.elseQuestion);
-    flowPages = this.addPageToFlow(flowPages, toAdd.thanQuestion);
+    for (const conn of toAdd.connections) {
+      flowPages = this.addPageToFlow(flowPages, conn.nextPage);
+    }
     return flowPages;
   }
 
@@ -363,7 +363,7 @@ export class PageStructureService {
     ];
 
     const outPages = [];
-    this._pages.forEach(page => {
+    this.getPagesInFlow().forEach(page => {
       outPages.push(this.keepObjectProperties({...page}, usedProperties));
     });
     return JSON.stringify(outPages);

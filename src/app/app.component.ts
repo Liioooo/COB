@@ -83,8 +83,6 @@ export class AppComponent implements OnInit {
           break;
         case "KeyK":
           console.log('isValid: ', this.pageStructure.getErrorMessage());
-          console.log(this.pageStructure.getQuestionsJSON());
-          return;
 
           this.electronService.remote.dialog.showSaveDialog(null, (questionsPath) => {
             try {
@@ -96,11 +94,11 @@ export class AppComponent implements OnInit {
                 try {
                   fs.writeFileSync(workflowPath, this.pageStructure.getWorkflowJSON(), 'utf-8');
                 } catch (e) {
-                  console.log('Failed to save workflow file !');
+                  console.log('Failed to save workflow file !', e);
                 }
               });
             } catch (e) {
-              console.log('Failed to save questions file !');
+              console.log('Failed to save questions file !', e);
             }
           });
           break;

@@ -8,9 +8,9 @@ export interface Page {
   }[];
 
   condition?: string;
-  nextQuestion?: Page;
-  thanQuestion?: Page;
-  elseQuestion?: Page;
+  nextQuestion?: string;
+  thanQuestion?: string;
+  elseQuestion?: string;
 
 
   pagesConnected: Page[];
