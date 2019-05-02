@@ -83,6 +83,8 @@ export class AppComponent implements OnInit {
           break;
         case "KeyK":
           console.log('isValid: ', this.pageStructure.getErrorMessage());
+          console.log(this.pageStructure.getQuestionsJSON());
+          return;
 
           this.electronService.remote.dialog.showSaveDialog(null, (questionsPath) => {
             try {

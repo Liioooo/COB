@@ -112,7 +112,7 @@ export class PageStructureService {
     let num: number = this._pages.length;
     let newId: string;
     do {
-      newId = `step${num++}`;
+      newId = `step${num++}`.replace('step0', 'step00');
     } while (this.pageIdExists(newId));
 
     const newPage: Page = {
@@ -327,13 +327,31 @@ export class PageStructureService {
       'connections'
     ];
 
+    let flowPages = [];
+    // this._pages.forEach(page => {
+    //   outPages.push(this.removeObjectProperties({...page}, unusedProperties));
+    // });
     const outPages = [];
-    this._pages.forEach(page => {
+    flowPages = this.addPageToFlow(flowPages, this._startPage);
+    flowPages.forEach(page => {
       outPages.push(this.removeObjectProperties({...page}, unusedProperties));
     });
+
     return JSON.stringify(outPages);
   }
 
+  private addPageToFlow(flowPages: Page[], toAdd: Page): Page[] {
+    if (!toAdd) {
+      return flowPages;
+    }
+    if (flowPages.indexOf(toAdd)) {
+      flowPages.push(toAdd);
+    }
+    flowPages = this.addPageToFlow(flowPages, toAdd.nextQuestion);
+    flowPages = this.addPageToFlow(flowPages, toAdd.elseQuestion);
+    flowPages = this.addPageToFlow(flowPages, toAdd.thanQuestion);
+    return flowPages;
+  }
 
   public getWorkflowJSON(): string {
     const usedProperties = [
