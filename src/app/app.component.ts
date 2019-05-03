@@ -162,6 +162,12 @@ export class AppComponent implements OnInit {
       case "clearSelection":
         this.pageStructure.clearSelection();
         break;
+      case "export":
+        this.fileIO.exportJSONs();
+        break;
+      case "import":
+        // fileIO import
+        break;
     }
     this.changeRef.detectChanges();
   }

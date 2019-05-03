@@ -38,6 +38,22 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
             win.webContents.send('menuClick', 'saveAs');
           }
         },
+        {
+          label: 'Export',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+          registerAccelerator: false,
+          click: () => {
+            win.webContents.send('menuClick', 'export');
+          }
+        },
+        {
+          label: 'Import',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+          registerAccelerator: false,
+          click: () => {
+            win.webContents.send('menuClick', 'import');
+          }
+        },
         {type: 'separator'},
         {
           label: 'Minimieren',
