@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
     public pageStructure: PageStructureService,
     public pageViewGrid: PageViewGridService,
     private electronService: ElectronService,
-    private changeRef: ChangeDetectorRef,
     matIconRegistry: MatIconRegistry,
     private ngZone: NgZone,
     private changeDetRef: ChangeDetectorRef,
@@ -169,7 +168,7 @@ export class AppComponent implements OnInit {
         // fileIO import
         break;
     }
-    this.changeRef.detectChanges();
+    this.changeDetRef.detectChanges();
   }
 
   public onMouseDown(event: MouseEvent): void {
