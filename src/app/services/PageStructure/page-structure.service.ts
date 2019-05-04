@@ -216,6 +216,11 @@ export class PageStructureService {
     return this._pages;
   }
 
+  set pages(pages: Page[]) {
+    this._pages = pages;
+    this._startPage = pages[0];
+  }
+
   get clipboard(): Page[] {
     return this._clipboard;
   }

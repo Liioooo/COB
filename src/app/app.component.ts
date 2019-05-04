@@ -86,6 +86,9 @@ export class AppComponent implements OnInit {
         case "KeyS":
           this.fileIO.exportJSONs();
           break;
+        case "KeyK":
+          this.fileIO.loadJSONs();
+          break;
       }
     } else if (event.shiftKey) {
         switch (event.code) {
