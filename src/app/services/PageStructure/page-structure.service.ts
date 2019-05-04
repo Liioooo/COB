@@ -17,6 +17,30 @@ export class PageStructureService {
   private _selectedPages: Page[];
   public results: Page[] = [];
 
+  private mandatoryProperties = [
+    'questionId',
+    'templateType',
+    'shortName',
+    'title',
+    'helpQuestion',
+    'helpTooltip',
+    'mandatory',
+    'handover',
+    'handoverText'
+  ];
+
+  private unusedProperties = [
+    'posX',
+    'posY',
+    'pixelPosX',
+    'pixelPosY',
+    'isSelected',
+    'currentlyDragged',
+    'draggingNewConnection',
+    'pagesConnected',
+    'connections'
+  ];
+
   constructor(private searchService: SearchService) {
     this._pages = [];
     this._clipboard = [];
@@ -217,7 +241,14 @@ export class PageStructureService {
   }
 
   set pages(pages: Page[]) {
-    this._pages = pages;
+    this._pages = [];
+    for (const page of pages) {
+      const newPage = this.addEmptyPage();
+      // tslint:disable-next-line:forin
+      for (const prop in page) {
+        newPage[prop] = page[prop];
+      }
+    }
     this._startPage = pages[0];
   }
 
@@ -285,20 +316,9 @@ export class PageStructureService {
       return 'Startpage has not been set';
     }
 
-    const mandatoryProperties = [
-      'questionId',
-      'templateType',
-      'shortName',
-      'title',
-      'helpQuestion',
-      'helpTooltip',
-      'mandatory',
-      'handover',
-      'handoverText'
-    ];
 
     for (const page of this._pages) {
-      for (const prop of mandatoryProperties) {
+      for (const prop of this.mandatoryProperties) {
         if (page[prop] === undefined || page[prop] == null) {
           return prop + ' has not been set';
         }
@@ -320,21 +340,10 @@ export class PageStructureService {
   }
 
   public getQuestionsJSON(): string {
-    const unusedProperties = [
-      'posX',
-      'posY',
-      'pixelPosX',
-      'pixelPosY',
-      'isSelected',
-      'currentlyDragged',
-      'draggingNewConnection',
-      'pagesConnected',
-      'connections'
-    ];
 
     const outPages = [];
     this.getPagesInFlow().forEach(page => {
-      outPages.push(this.removeObjectProperties({...page}, unusedProperties));
+      outPages.push(this.removeObjectProperties({...page}, this.unusedProperties));
     });
 
     return JSON.stringify(outPages);
@@ -357,6 +366,7 @@ export class PageStructureService {
     }
     return flowPages;
   }
+
 
   public getWorkflowJSON(): string {
     const usedProperties = [

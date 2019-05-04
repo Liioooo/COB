@@ -55,8 +55,8 @@ export class FileIOService {
       // const questionsPath = await getPath(this.electronService);
       // const workflowPath = await getPath(this.electronService);
 
-      const questionsData = (await readFile('C:\\Users\\Alex\\Desktop\\asdf.f')).toString();
-      const workflowData = (await readFile('C:\\Users\\Alex\\Desktop\\g.g')).toString();
+      const questionsData = (await readFile('C:\\Users\\alexa\\Desktop\\asdf.f')).toString();
+      const workflowData = (await readFile('C:\\Users\\alexa\\Desktop\\g.g')).toString();
 
       const pages: Page[] = JSON.parse(questionsData);
       const flow = JSON.parse(workflowData);
