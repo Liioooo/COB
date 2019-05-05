@@ -13,28 +13,6 @@ export class FileIOService {
 
   constructor(private pageStructure: PageStructureService, private electronService: ElectronService) { }
 
-  // public exportJSONs() {
-  //   console.log('isValid: ', this.pageStructure.getErrorMessage());
-  //
-  //   this.electronService.remote.dialog.showSaveDialog(null, (questionsPath) => {
-  //     try {
-  //       fs.writeFileSync(questionsPath, this.pageStructure.getQuestionsJSON(), 'utf-8');
-  //
-  //       this.electronService.remote.dialog.showSaveDialog(null, {
-  //         defaultPath: questionsPath,
-  //       }, (workflowPath) => {
-  //         try {
-  //           fs.writeFileSync(workflowPath, this.pageStructure.getWorkflowJSON(), 'utf-8');
-  //         } catch (e) {
-  //           console.log('Failed to save workflow file !', e);
-  //         }
-  //       });
-  //     } catch (e) {
-  //       console.log('Failed to save questions file !', e);
-  //     }
-  //   });
-  // }
-
   public async exportJSONs() {
     console.log('isValid: ', this.pageStructure.getErrorMessage());
 
@@ -57,16 +35,12 @@ export class FileIOService {
 
       const questionsData = (await readFile('C:\\Users\\alexa\\Desktop\\asdf.f')).toString();
       const workflowData = (await readFile('C:\\Users\\alexa\\Desktop\\g.g')).toString();
+      // TODO set startpage from workflow file
 
       const pages: Page[] = JSON.parse(questionsData);
       const flow = JSON.parse(workflowData);
 
       pages.forEach(p => {
-        p.posX = 0;
-        p.posY = 0;
-        p.pixelPosX = 0;
-        p.pixelPosY = 0;
-        p.connections = [];
         this.addProps(p.questionId, pages, flow);
       });
       this.pageStructure.pages = pages;
