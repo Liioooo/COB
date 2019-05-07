@@ -15,7 +15,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Neu',
+          label: 'New',
           accelerator: process.platform === 'darwin' ? 'Command+shift+N' : 'Ctrl+shift+N',
           registerAccelerator: false,
           click: () => {
@@ -40,7 +40,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {
           label: 'Export',
-          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+E',
           registerAccelerator: false,
           click: () => {
             win.webContents.send('menuClick', 'export');
@@ -48,7 +48,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {
           label: 'Import',
-          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+I',
           registerAccelerator: false,
           click: () => {
             win.webContents.send('menuClick', 'import');

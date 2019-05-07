@@ -22,8 +22,8 @@ export class FileIOService {
 
 
     try {
-      const questionsPath = await getSavePath(this.electronService);
-      const workflowPath = await getSavePath(this.electronService, {defaultPath: questionsPath});
+      const questionsPath = await getSavePath(this.electronService, {title: 'Save question properties file'});
+      const workflowPath = await getSavePath(this.electronService, {defaultPath: questionsPath, title: 'Save workflow properties file'});
 
       await writeFile(questionsPath, this.pageStructure.getQuestionsJSON());
       await writeFile(workflowPath, this.pageStructure.getWorkflowJSON());
@@ -32,10 +32,10 @@ export class FileIOService {
     }
   }
 
-  public async loadJSONs() {
+  public async importJSONs() {
     try {
-      const questionsPath = await getPath(this.electronService);
-      const workflowPath = await getPath(this.electronService);
+      const questionsPath = await getPath(this.electronService, {title: 'Open question properties file'});
+      const workflowPath = await getPath(this.electronService, {title: 'Open workflow properties file'});
 
       const questionsData = (await readFile(questionsPath)).toString();
       const workflowData = (await readFile(workflowPath)).toString();
@@ -83,4 +83,20 @@ export class FileIOService {
       console.log(e);
     }
   }
+
+  public async saveAs() {
+
+  }
+
+  public async save() {
+
+  }
+
+  public async open() {
+
+  }
+
+  public async new() {
+  }
+
 }
