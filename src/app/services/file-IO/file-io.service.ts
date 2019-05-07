@@ -33,11 +33,11 @@ export class FileIOService {
 
   public async loadJSONs() {
     try {
-      // const questionsPath = await getPath(this.electronService);
-      // const workflowPath = await getPath(this.electronService);
+      const questionsPath = await getPath(this.electronService);
+      const workflowPath = await getPath(this.electronService);
 
-      const questionsData = (await readFile('C:\\Users\\Alex\\Desktop\\asdf.f')).toString();
-      const workflowData = (await readFile('C:\\Users\\Alex\\Desktop\\g.g')).toString();
+      const questionsData = (await readFile(questionsPath)).toString();
+      const workflowData = (await readFile(workflowPath)).toString();
       // TODO set startpage from workflow file
 
       const readPages: Page[] = JSON.parse(questionsData);
