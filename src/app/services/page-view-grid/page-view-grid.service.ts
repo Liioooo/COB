@@ -285,5 +285,30 @@ export class PageViewGridService {
 
       return page.hasOwnProperty("questionId") ? page : null;
     }
+
+    public alignPage(toAlign: Page, lastPage?: Page, donePages?: Page[], difX?: number, difY?: number): void {
+      if (!donePages || donePages.length === 0) {
+        toAlign.posX = 1;
+        toAlign.posY = 2;
+        donePages = [];
+      } else if (donePages.indexOf(toAlign) > -1) {
+        return;
+      } else {
+        toAlign.posX = lastPage.posX + difX;
+        toAlign.posY = lastPage.posY + difY;
+      }
+      donePages.push(toAlign);
+
+      this.callNextAlign(toAlign, donePages, 6, 0, 'nextQuestion');
+      this.callNextAlign(toAlign, donePages, 6, 4, 'thanQuestion');
+      this.callNextAlign(toAlign, donePages, 6, 8, 'elseQuestion');
+    }
+
+    private callNextAlign(toAlign: Page, donePages: Page[], difX: number, difY: number, prop: string): void {
+      if (toAlign[prop]) {
+        this.alignPage(toAlign.connections.find(c => c.nextPage.questionId === toAlign[prop]).nextPage,
+          toAlign, donePages, difX, difY);
+      }
+    }
 }
 
