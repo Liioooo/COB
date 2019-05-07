@@ -46,6 +46,14 @@ export class PageStructureService {
     this._selectedPages = [];
   }
 
+  public clearAll() {
+      this._pages = [];
+      this._clipboard = [];
+      this._selectedPages = [];
+      this.results = [];
+      delete this._startPage;
+  }
+
   public clearSelection(): void {
     this._selectedPages = [];
     for (const page of this._pages) {

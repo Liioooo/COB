@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {ApplicationRef, Injectable} from '@angular/core';
 import {PageStructureService} from '../PageStructure/page-structure.service';
 import {ElectronService} from 'ngx-electron';
 import {Page} from '../../models/page-interface';
@@ -13,7 +13,8 @@ export class FileIOService {
   constructor(
     private pageStructure: PageStructureService,
     private electronService: ElectronService,
-    private pageViewGrid: PageViewGridService
+    private pageViewGrid: PageViewGridService,
+    private appRef: ApplicationRef
   ) { }
 
   public async exportJSONs() {
@@ -41,57 +42,45 @@ export class FileIOService {
       // TODO set startpage from workflow file
 
       const readPages: Page[] = JSON.parse(questionsData);
-      const flow = JSON.parse(workflowData);
+      const flow = JSON.parse(workflowData) as any[];
 
-      const pages: Page[] = [];
+      this.pageStructure.clearAll();
 
-      this.pageStructure.pages = [];
       for (const page of readPages) {
-        const p = this.pageStructure.getEmptyPage(0, 0);
-        this.addProps(p, page);
-        this.addProps(p, flow[p.questionId]);
-        pages.push(p);
+        this.pageStructure.pages.push({
+            ...this.pageStructure.getEmptyPage(0, 0),
+            ...page,
+            ...flow.find(p => p.questionId === page.questionId)
+        });
+      }
+      this.pageStructure.startPage = this.pageStructure.pages[0];
+
+      for (const page of this.pageStructure.pages) {
+        const nextQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.nextQuestion)];
+        const thanQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.thanQuestion)];
+        const elseQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.elseQuestion)];
+
+        if (nextQ) {
+          this.pageStructure.connectPages(page, nextQ);
+        }
+        if (thanQ) {
+          this.pageStructure.connectPages(page, thanQ);
+        }
+        if (elseQ) {
+          this.pageStructure.connectPages(page, elseQ);
+        }
       }
 
-      pages.forEach(p => {
-        this.addConnections(p.questionId, pages, flow);
-      });
-
-      this.pageViewGrid.alignPage(pages[0]);
-
-      for (const page of pages) {
+      this.pageViewGrid.alignPage(this.pageStructure.pages[0]);
+      for (const page of this.pageStructure.pages) {
         const pixelPos = this.pageViewGrid.convertGridPosToPixelPos(page.posX, page.posY);
         page.pixelPosX = pixelPos.x;
         page.pixelPosY = pixelPos.y;
       }
 
-      console.log(pages);
-      this.pageStructure.pages = pages;
+      this.appRef.tick();
     } catch (e) {
       console.log(e);
-    }
-  }
-
-  private addConnections(questionId: string, pages: Page[], flow: any[]): void {
-    const page = pages.find(p => p.questionId === questionId);
-    const flowPage = flow.find(p => p.questionId === questionId);
-    this.addConnection(page, pages, flowPage, 'nextQuestion');
-    this.addConnection(page, pages, flowPage, 'thanQuestion');
-    this.addConnection(page, pages, flowPage, 'elseQuestion');
-  }
-
-  private addConnection(page: Page, pages: Page[], flow: any, question: string): void {
-    if (flow[question]) {
-      const other = pages.find(p => p.questionId === flow[question]);
-      page.connections.push( { nextPage: other } );
-      other.prevConnected.push(page);
-      page[question] = flow[question];
-    }
-  }
-
-  private addProps(noProps: any, propsToAdd: any): void {
-    for (const prop in propsToAdd) {
-      noProps[prop] = propsToAdd[prop];
     }
   }
 }
