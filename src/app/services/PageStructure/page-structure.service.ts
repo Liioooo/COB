@@ -36,7 +36,7 @@ export class PageStructureService {
     'isSelected',
     'currentlyDragged',
     'draggingNewConnection',
-    'pagesConnected',
+    'prevConnected',
     'connections'
   ];
 
@@ -96,7 +96,7 @@ export class PageStructureService {
         return {nextPage: oldToNewPages[c.nextPage.questionId]};
       });
       page.connections = page.connections.filter(p => p.nextPage);
-      page.pagesConnected = page.pagesConnected
+      page.prevConnected = page.prevConnected
         .filter(p => p)
         .map(p => {
           return oldToNewPages[p.questionId];
@@ -141,7 +141,7 @@ export class PageStructureService {
     const newPage: Page = {
       questionId: newId,
       connections: [],
-      pagesConnected: [],
+      prevConnected: [],
       templateType: "none",
       posX,
       posY,
@@ -190,7 +190,7 @@ export class PageStructureService {
     }
     this._pages.forEach(page => {
       page.connections = page.connections.filter(c => c.nextPage.questionId !== rmPageId);
-      page.pagesConnected = page.pagesConnected.filter(c => c.questionId !== rmPageId);
+      page.prevConnected = page.prevConnected.filter(c => c.questionId !== rmPageId);
     });
     this._pages = this._pages.filter(page => page.questionId !== rmPageId);
     if (this._pages.length > 0) {
@@ -294,12 +294,15 @@ export class PageStructureService {
     p1.connections.push({
       nextPage: p2
     });
-    p2.pagesConnected.push(p1);
+    if (p1.connections.length === 1) {
+      p1.nextQuestion = p2.questionId;
+    }
+    p2.prevConnected.push(p1);
   }
 
   public deleteConnection(p1: Page, p2: Page) {
     p1.connections = p1.connections.filter(con => con.nextPage.questionId !== p2.questionId);
-    p2.pagesConnected = p2.pagesConnected.filter(page => page.questionId !== p1.questionId);
+    p2.prevConnected = p2.prevConnected.filter(page => page.questionId !== p1.questionId);
   }
 
 
@@ -334,7 +337,7 @@ export class PageStructureService {
         return 'Connection must not point to the startpage';
       }
     }
-    return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined ? '' :
+    return this._startPage.prevConnected.find(p => p !== this._startPage) === undefined ? '' :
       'Connection must not point to the startpage';
   }
 

@@ -282,5 +282,16 @@ export class PageViewGridService {
 
       return page.hasOwnProperty("questionId") ? page : null;
     }
+
+    private alignPage(toAlign: Page, lastPage?: Page, donePages?: Page[], difX?: number, difY?: number): void {
+      if (!donePages || donePages.length === 0) {
+        toAlign.posX = 1;
+        toAlign.posY = 1;
+      }
+
+      if (toAlign.nextQuestion) {
+        // this.alignPage(toAlign.connections.find())
+      }
+    }
 }
 
