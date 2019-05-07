@@ -35,7 +35,6 @@ export class ConditionChooserComponent implements OnChanges {
       this.page.thanQuestion = values.than;
       this.page.elseQuestion = values.else;
       this.page.condition = values.condition;
-      console.log(values);
     });
   }
 
