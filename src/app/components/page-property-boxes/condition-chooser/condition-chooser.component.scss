@@ -1,0 +1,12 @@
+section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+
+  mat-label {
+    text-align: left;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}

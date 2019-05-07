@@ -32,6 +32,12 @@
   <app-confirmation-rejection-proprties *ngSwitchCase="'ConfirmationRejection'" [page]="selectedPage"></app-confirmation-rejection-proprties>
   <app-advisor-login-proprties *ngSwitchCase="'AdvisorLogin'" [page]="selectedPage"></app-advisor-login-proprties>
 
+  <app-condition-chooser *ngIf="selectedPage.templateType === 'MonthlyInvestment' ||
+                                selectedPage.templateType === 'MultiSelectCheckbox' ||
+                                selectedPage.templateType === 'SingleSelectCheckbox' ||
+                                selectedPage.templateType === 'FamilySituation'"
+                                [page]="selectedPage"></app-condition-chooser>
+
   <button (click)="resetPage()" class="main-buttons" mat-raised-button color="warn">
     <mat-icon>settings_backup_restore</mat-icon>
     Reset
