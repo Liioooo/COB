@@ -132,6 +132,14 @@ export class PageStructureService {
   }
 
   public addEmptyPage(posX?: number, posY?: number): Page {
+    const newPage = this.getEmptyPage(posX, posY);
+
+    this.triggerScrollToPage(newPage);
+    this.addPage(newPage);
+    return newPage;
+  }
+
+  public getEmptyPage(posX?: number, posY?: number): Page {
     let num: number = this._pages.length;
     let newId: string;
     do {
@@ -154,8 +162,6 @@ export class PageStructureService {
       handoverText: '',
     };
 
-    this.triggerScrollToPage(newPage);
-    this.addPage(newPage);
     return newPage;
   }
 

@@ -40,23 +40,33 @@ export class FileIOService {
       const workflowData = (await readFile('C:\\Users\\Alex\\Desktop\\g.g')).toString();
       // TODO set startpage from workflow file
 
-      const pages: Page[] = JSON.parse(questionsData);
+      const readPages: Page[] = JSON.parse(questionsData);
       const flow = JSON.parse(workflowData);
 
+      const pages: Page[] = [];
+
       this.pageStructure.pages = [];
-      for (const page of pages) {
-        const p = this.pageStructure.addEmptyPage(0, 0);
+      for (const page of readPages) {
+        const p = this.pageStructure.getEmptyPage(0, 0);
         this.addProps(p, page);
         this.addProps(p, flow[p.questionId]);
-        const pixelPos = this.pageViewGrid.convertGridPosToPixelPos(p.posX, p.posY);
-        p.pixelPosX = pixelPos.x;
-        p.pixelPosY = pixelPos.y;
+        pages.push(p);
       }
 
-      this.pageStructure.pages.forEach(p => {
-        this.addConnections(p.questionId, this.pageStructure.pages, flow);
+      pages.forEach(p => {
+        this.addConnections(p.questionId, pages, flow);
       });
-      console.log(this.pageStructure.pages);
+
+      this.pageViewGrid.alignPage(pages[0]);
+
+      for (const page of pages) {
+        const pixelPos = this.pageViewGrid.convertGridPosToPixelPos(page.posX, page.posY);
+        page.pixelPosX = pixelPos.x;
+        page.pixelPosY = pixelPos.y;
+      }
+
+      console.log(pages);
+      this.pageStructure.pages = pages;
     } catch (e) {
       console.log(e);
     }
