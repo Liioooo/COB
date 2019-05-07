@@ -1,11 +1,9 @@
-@import "~github-markdown-css/github-markdown.css";
-
 body {
   box-sizing: border-box;
   max-width: 980px;
   margin: 0 auto;
   padding: 45px;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Franklin Gothic Book", sans-serif;
   user-select: none;
 }
 
@@ -13,4 +11,21 @@ body {
   body {
     padding: 15px;
   }
+}
+
+article{
+  margin: 10px;
+}
+
+.content {
+  display: none;
+}
+
+.title:hover{
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ul{
+  list-style-type: disc;
 }
