@@ -138,7 +138,7 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
       });
     }
     if (this.appDragablePage.isSelected) {
-      this.ngOnChanges(null);
+      //this.ngOnChanges(null);
     }
     this.mouseDown = false;
     this.firstTimeExternalDrag = true;
