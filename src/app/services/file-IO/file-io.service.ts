@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {PageStructureService} from '../PageStructure/page-structure.service';
 import {ElectronService} from 'ngx-electron';
 import {Page} from '../../models/page-interface';
-import {readFile, writeFile, getPath} from './file-system-promises';
+import {readFile, writeFile, getSavePath, getPath} from './file-system-promises';
 import {PageViewGridService} from '../page-view-grid/page-view-grid.service';
 
 @Injectable({
@@ -21,8 +21,8 @@ export class FileIOService {
 
 
     try {
-      const questionsPath = await getPath(this.electronService);
-      const workflowPath = await getPath(this.electronService, {defaultPath: questionsPath});
+      const questionsPath = await getSavePath(this.electronService);
+      const workflowPath = await getSavePath(this.electronService, {defaultPath: questionsPath});
 
       await writeFile(questionsPath, this.pageStructure.getQuestionsJSON());
       await writeFile(workflowPath, this.pageStructure.getWorkflowJSON());
