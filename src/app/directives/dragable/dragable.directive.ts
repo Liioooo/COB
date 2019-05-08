@@ -3,7 +3,6 @@ import {
     Directive,
     ElementRef,
     EventEmitter,
-    HostListener,
     Input, NgZone,
     OnChanges, OnDestroy,
     OnInit,

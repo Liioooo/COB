@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, DoCheck, NgZone, OnInit, ViewChild} from '@angular/core';
 import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
 import {PageStructureService} from "./services/PageStructure/page-structure.service";
 import {ElectronService} from "ngx-electron";
@@ -124,15 +124,19 @@ export class AppComponent implements OnInit {
             break;
           case "ArrowUp":
             this.pageViewGrid.moveSelection("UP");
+            this.changeDetRef.detectChanges();
             break;
           case "ArrowDown":
             this.pageViewGrid.moveSelection("DOWN");
+            this.changeDetRef.detectChanges();
             break;
           case "ArrowLeft":
             this.pageViewGrid.moveSelection("LEFT");
+            this.changeDetRef.detectChanges();
             break;
           case "ArrowRight":
             this.pageViewGrid.moveSelection("RIGHT");
+            this.changeDetRef.detectChanges();
             break;
         }
       }

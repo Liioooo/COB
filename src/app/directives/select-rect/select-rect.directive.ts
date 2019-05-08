@@ -1,9 +1,6 @@
 import {
-  ApplicationRef,
-  ChangeDetectorRef,
   Directive,
   ElementRef,
-  HostListener,
   Input,
   NgZone,
   OnInit,
@@ -33,8 +30,7 @@ export class SelectRectDirective implements OnInit {
     private renderer: Renderer2,
     private pageViewGrid: PageViewGridService,
     private pageStructure: PageStructureService,
-    private ngZone: NgZone,
-    private appRef: ApplicationRef
+    private ngZone: NgZone
   ) {
   }
 
@@ -100,8 +96,9 @@ export class SelectRectDirective implements OnInit {
         this.rectPosY = this.rectPosY - this.rectHeight;
       }
       if (this.rectHeight > 3 && this.rectWidth > 3) {
-        this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50 + this.el.nativeElement.scrollLeft, this.rectPosY + this.el.nativeElement.scrollTop, this.rectWidth, this.rectHeight);
-        this.appRef.tick();
+        this.ngZone.run(() => {
+          this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50 + this.el.nativeElement.scrollLeft, this.rectPosY + this.el.nativeElement.scrollTop, this.rectWidth, this.rectHeight);
+        });
       }
     }
     this.rectWidth = 0;
