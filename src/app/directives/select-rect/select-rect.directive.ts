@@ -99,8 +99,10 @@ export class SelectRectDirective implements OnInit {
         this.rectHeight = -this.rectHeight;
         this.rectPosY = this.rectPosY - this.rectHeight;
       }
-      this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50 + this.el.nativeElement.scrollLeft, this.rectPosY + this.el.nativeElement.scrollTop, this.rectWidth, this.rectHeight);
-      this.appRef.tick();
+      if (this.rectHeight > 3 && this.rectWidth > 3) {
+        this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50 + this.el.nativeElement.scrollLeft, this.rectPosY + this.el.nativeElement.scrollTop, this.rectWidth, this.rectHeight);
+        this.appRef.tick();
+      }
     }
     this.rectWidth = 0;
     this.rectHeight = 0;

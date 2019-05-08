@@ -362,7 +362,7 @@ export class PageStructureService {
       outPages.push(this.removeObjectProperties({...page}, this.unusedProperties));
     });
 
-    return JSON.stringify(outPages);
+    return JSON.stringify(outPages, null, 2);
   }
 
   private getPagesInFlow(): Page[] {
@@ -397,7 +397,7 @@ export class PageStructureService {
     this.getPagesInFlow().forEach(page => {
       outPages.push(this.keepObjectProperties({...page}, usedProperties));
     });
-    return JSON.stringify(outPages);
+    return JSON.stringify(outPages, null, 2);
   }
 
 

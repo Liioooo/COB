@@ -39,7 +39,6 @@ export class FileIOService {
 
       const questionsData = (await readFile(questionsPath)).toString();
       const workflowData = (await readFile(workflowPath)).toString();
-      // TODO set startpage from workflow file
 
       const readPages: Page[] = JSON.parse(questionsData);
       const flow = JSON.parse(workflowData) as any[];

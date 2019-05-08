@@ -55,6 +55,9 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
       fromEvent<MouseEvent>(window, 'mouseup').pipe(
           untilDestroyed(this)
       ).subscribe(e => this.onMouseUp());
+      fromEvent<MouseEvent>(el.nativeElement, 'mousedown').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.onMouseDown(e));
     });
   }
 
@@ -78,7 +81,6 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
     this.appDragablePage.pixelPosY = pos.y;
   }
 
-  @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     if (!this.el.nativeElement.children[0].children[1].contains(event.target as Node)) {
       return;
