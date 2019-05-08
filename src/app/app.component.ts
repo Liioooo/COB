@@ -1,12 +1,10 @@
-import {ChangeDetectorRef, Component, HostListener, NgZone, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, NgZone, OnInit, ViewChild} from "@angular/core";
 import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
 import {PageStructureService} from "./services/PageStructure/page-structure.service";
 import {ElectronService} from "ngx-electron";
 import {MatIconRegistry} from "@angular/material";
 import {SearchService} from "./services/search/search.service";
 import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animations";
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import * as fs from "fs";
 import {FileIOService} from './services/file-IO/file-io.service';
 
 @Component({
@@ -23,11 +21,8 @@ export class AppComponent implements OnInit {
   @ViewChild("mainView") mainView: any;
   @ViewChild("search") search;
 
-
-
   public showRightClickMenu: boolean = false;
   public rcPos: { x: number, y: number };
-
 
   constructor(
     public pageStructure: PageStructureService,
