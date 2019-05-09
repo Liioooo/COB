@@ -92,6 +92,7 @@ export class AppComponent implements OnInit {
             break;
           case "KeyF":
             this.searchService.toggle();
+            this.changeDetRef.detectChanges();
             break;
           case "KeyO":
             this.fileIO.open();
