@@ -2,10 +2,15 @@ import {app, BrowserWindow, Menu} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import {getTemplate} from './menu-bar';
+import {handleSquirrelEvents} from './setup-events';
 
 let win: BrowserWindow;
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
+
+if (handleSquirrelEvents(serve, app)) {
+  process.exit();
+}
 
 function createWindow() {
   win = new BrowserWindow({
