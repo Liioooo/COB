@@ -10,6 +10,8 @@ import {PageViewGridService} from '../page-view-grid/page-view-grid.service';
 })
 export class FileIOService {
 
+  private currentlyOpendFile: string;
+
   constructor(
     private pageStructure: PageStructureService,
     private electronService: ElectronService,
@@ -50,7 +52,7 @@ export class FileIOService {
             ...this.pageStructure.getEmptyPage(0, 0),
             ...page,
             ...flow.find(p => p.questionId === page.questionId)
-        });
+        } as Page);
       }
       this.pageStructure.startPage = this.pageStructure.pages[0];
 
@@ -79,23 +81,46 @@ export class FileIOService {
 
       this.appRef.tick();
     } catch (e) {
-      console.log(e);
+      this.pageStructure.clearAll();
+      this.electronService.remote.dialog.showErrorBox('Invalid Files', 'The files you a trying to import are invalid!!');
     }
   }
 
   public async saveAs() {
+    try {
+      const path = await getSavePath(this.electronService, {filters: [{extensions: ['cob'], name: 'COB-Projects'}]});
+      this.currentlyOpendFile = path;
+    } catch (e) {
 
+    }
   }
 
   public async save() {
-
+    if (!this.currentlyOpendFile) {
+      return;
+    }
   }
 
   public async open() {
+    try {
+      const path = await getPath(this.electronService, {filters: [{extensions: ['cob'], name: 'COB-Projects'}]});
+      this.currentlyOpendFile = path;
+    } catch (e) {
 
+    }
   }
 
   public async new() {
+    const result = this.electronService.remote.dialog.showMessageBox(this.electronService.remote.getCurrentWindow(), {
+      type: 'question',
+      title: 'New Project',
+      message: 'By creating a new project all unsaved changes to the current project will be lost',
+      buttons: ['Cancel', 'Ok']
+    });
+    if (result === 1) {
+      this.pageStructure.clearAll();
+      delete this.currentlyOpendFile;
+    }
   }
 
 }

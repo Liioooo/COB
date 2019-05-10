@@ -1,8 +1,7 @@
 import {PathLike} from "fs";
 import * as fs from "fs";
 import {ElectronService} from 'ngx-electron';
-import {SaveDialogOptions} from 'electron';
-import OpenDialogOptions = Electron.OpenDialogOptions;
+import {SaveDialogOptions, OpenDialogOptions} from 'electron';
 
 export function readFile(path: PathLike): Promise<Buffer> {
   return new Promise<Buffer>((resolve, reject) => {

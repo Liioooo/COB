@@ -193,6 +193,9 @@ export class AppComponent implements OnInit {
       case "openFile":
         this.fileIO.open();
         break;
+      case "newFile":
+        this.fileIO.new();
+        break;
     }
     this.changeDetRef.detectChanges();
   }
