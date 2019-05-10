@@ -28,6 +28,13 @@ div {
   app-splash-screen-properties {
     width: 220px;
   }
+
+  mat-icon {
+    &:before {
+      top: 4px;
+      position: relative;
+    }
+  }
 }
 
 .line {
