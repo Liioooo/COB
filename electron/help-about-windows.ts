@@ -20,7 +20,7 @@ export function openAbout(serve: boolean) {
     win.loadURL('http://localhost:4200/assets/docs/about.html');
   } else {
     win.loadURL(url.format({
-      pathname: path.join(__dirname, '../../dist/assets/docs/about.html'),
+      pathname: path.join(__dirname, '../assets/docs/about.html'),
       protocol: 'file:',
       slashes: true
     }));
@@ -49,7 +49,7 @@ export function openHelp(serve: boolean) {
     win.loadURL('http://localhost:4200/assets/docs/help.html');
   } else {
     win.loadURL(url.format({
-      pathname: path.join(__dirname, '../../dist/assets/docs/help.html'),
+      pathname: path.join(__dirname, '../assets/docs/help.html'),
       protocol: 'file:',
       slashes: true
     }));
