@@ -15,7 +15,7 @@
     "ng:serve": "ng serve",
     "ng:serve:web": "npm run postinstall:web && ng serve -o",
     "electron:serve-tsc": "tsc -p electron/tsconfig.json",
-    "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron ./dist --serve",
+    "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
     "test": "npm run postinstall:web && ng test",
     "e2e": "npm run postinstall:web && ng e2e",
     "electron:windows32": "npm run build && electron-packager ./dist COB --overwrite --asar --platform=win32 --arch=ia32 --icon=icons/icon256.ico --prune=true --out=release --version-string.ProductName='COB'",

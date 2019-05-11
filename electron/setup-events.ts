@@ -7,6 +7,10 @@ export function handleSquirrelEvents(serve: boolean, app: App) {
     return false;
   }
 
+  if (process.platform !== 'win32') {
+    return false;
+  }
+
   const appFolder = path.resolve(process.execPath, '..');
   const rootAtomFolder = path.resolve(appFolder, '..');
   const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
