@@ -51,5 +51,7 @@ export function handleSquirrelEvents(serve: boolean, app: App) {
     case '--squirrel-obsolete':
       app.quit();
       return true;
+    default:
+      return false;
   }
 }

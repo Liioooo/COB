@@ -28,6 +28,7 @@ function getInstallerConfig () {
     setupExe: `COBInstaller-win-${platform}.exe`,
     setupIcon: path.join(rootPath, 'icons', 'icon256.ico'),
     description: 'Create Question Files easily',
-    iconUrl: 'https://github.com/Liiioooo/COB/blob/master/icons/icon256.ico?raw=true'
+    iconUrl: 'https://github.com/Liiioooo/COB/blob/master/icons/icon256.ico?raw=true',
+    loadingGif: path.join(rootPath,'icons', 'icon256.png')
   });
 }
