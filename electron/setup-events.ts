@@ -14,7 +14,7 @@ export function handleSquirrelEvents(serve: boolean, app: App) {
   const appFolder = path.resolve(process.execPath, '..');
   const rootAtomFolder = path.resolve(appFolder, '..');
   const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
-  const exeName = path.resolve(path.join(rootAtomFolder, 'app-' + require(path.join(__dirname, '../package.json')).version + '/COB.exe'));
+  const exeName = path.resolve(path.join(rootAtomFolder, 'app-' + require(path.join(__dirname, 'package.json')).version + '/COB.exe'));
 
   const spawn = (command, args) => {
     let spawnedProcess;
