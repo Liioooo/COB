@@ -1,15 +1,12 @@
 const fs = require('fs');
 const packageFile = require('./package.json');
 
-const toWrite =
-`
+const toWrite = `
 {
   "name": "${packageFile.name}",
   "version": "${packageFile.version}",
   "main": "electron/main.js",
-  "dependencies": {
-    
-  }
+  "dependencies": ${JSON.stringify(packageFile.dependencies, null, 2)}
 }
 `;
 
