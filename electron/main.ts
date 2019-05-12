@@ -8,8 +8,17 @@ let win: BrowserWindow;
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
 
-if (handleSquirrelEvents(serve, app)) {
-  process.exit();
+if (!handleSquirrelEvents(serve, app)) {
+  try {
+    app.on('ready', createWindow);
+
+    app.on('activate', () => {
+      if (win === null) {
+        createWindow();
+      }
+    });
+
+  } catch (e) {}
 }
 
 function createWindow() {
@@ -45,16 +54,4 @@ function createWindow() {
 
   const menu = Menu.buildFromTemplate(getTemplate(win, serve));
   win.setMenu(menu);
-}
-
-try {
-  app.on('ready', createWindow);
-
-  app.on('activate', () => {
-    if (win === null) {
-      createWindow();
-    }
-  });
-
-} catch (e) {
 }

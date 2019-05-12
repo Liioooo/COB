@@ -14,7 +14,7 @@ export function handleSquirrelEvents(serve: boolean, app: App) {
   const appFolder = path.resolve(process.execPath, '..');
   const rootAtomFolder = path.resolve(appFolder, '..');
   const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
-  const exeName = path.resolve(path.join(rootAtomFolder, 'app-' + require(path.join(__dirname, 'package.json')).version + '/COB.exe'));
+  const exeName = path.resolve(path.join(rootAtomFolder, 'app-' + require(path.join(__dirname, '../package.json')).version + '/COB.exe'));
 
   const spawn = (command, args) => {
     let spawnedProcess;
@@ -38,14 +38,18 @@ export function handleSquirrelEvents(serve: boolean, app: App) {
       // Install desktop and start menu shortcuts
       spawnUpdate(['--createShortcut', exeName]);
 
-      setTimeout(app.quit, 1000);
+      createFileAssoc(exeName, rootAtomFolder, () => {
+        setTimeout(app.quit, 1000);
+      });
       return true;
 
     case '--squirrel-uninstall':
       // Remove desktop and start menu shortcuts
       spawnUpdate(['--removeShortcut', exeName]);
 
-      setTimeout(app.quit, 1000);
+      removeFileAssoc(() => {
+        setTimeout(app.quit, 1000);
+      });
       return true;
 
     case '--squirrel-obsolete':
@@ -54,4 +58,60 @@ export function handleSquirrelEvents(serve: boolean, app: App) {
     default:
       return false;
   }
+}
+
+function createFileAssoc(exeName: string, rootAtomFolder: string, finished: () => void) {
+  const Registry = require('winreg');
+
+  const fileKey = new Registry({
+    hive: Registry.HKCU,
+    key: '\\Software\\Classes\\.cob'
+  });
+  fileKey.create(err => {
+    const appKey = new Registry({
+      hive: Registry.HKCU,
+      key: '\\Software\\Classes\\Applications\\COB.exe'
+    });
+    appKey.create(err1 => {
+      const assoc = new Registry({
+        hive: Registry.HKCU,
+        key: '\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.cob'
+      });
+      assoc.create(err2 => {
+        const openKey = new Registry({
+          hive: Registry.HKCU,
+          key: `\\Software\\Classes\\Applications\\COB.exe\\shell\\open\\command`
+        });
+        openKey.set('', Registry.REG_SZ, `\"${exeName}\" %1`, err3 => {
+          const iconKey = new Registry({
+            hive: Registry.HKCU,
+            key: `\\Software\\Classes\\Applications\\COB.exe\\DefaultIcon`
+          });
+          iconKey.set('', Registry.REG_SZ, `${rootAtomFolder}\\app.ico`, err4 => {
+            const assocChoice = new Registry({
+              hive: Registry.HKCU,
+              key: '\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.cob\\UserChoice'
+            });
+            assocChoice.set('ProgId', Registry.REG_SZ, 'Applications\\COB.exe', err5 => { finished(); });
+          });
+        });
+      });
+    });
+  });
+}
+
+function removeFileAssoc(finished: () => void) {
+  const Registry = require('winreg');
+
+  const fileKey = new Registry({
+    hive: Registry.HKCU,
+    key: '\\Software\\Classes\\.cob'
+  });
+  fileKey.destroy(err => {
+    const appKey = new Registry({
+      hive: Registry.HKCU,
+      key: '\\Software\\Classes\\Applications\\COB.exe'
+    });
+    appKey.destroy(err1 => { finished(); });
+  });
 }
