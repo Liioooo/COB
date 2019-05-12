@@ -17,7 +17,14 @@ export class FileIOService {
     private electronService: ElectronService,
     private pageViewGrid: PageViewGridService,
     private appRef: ApplicationRef
-  ) { }
+  ) {
+    this.electronService.ipcRenderer.send('getOpenedPath');
+    this.electronService.ipcRenderer.once('getOpenedPathResponse', (event, data) => {
+      if (data !== null) {
+        this.openFile(data);
+      }
+    });
+  }
 
   public async exportJSONs() {
     console.log('isValid: ', this.pageStructure.getErrorMessage());
@@ -104,10 +111,13 @@ export class FileIOService {
   public async open() {
     try {
       const path = await getPath(this.electronService, {filters: [{extensions: ['cob'], name: 'COB-Projects'}]});
-      this.currentlyOpendFile = path;
-    } catch (e) {
+      this.openFile(path);
+    } catch (e) {}
+  }
 
-    }
+  public async openFile(path: string) {
+    this.currentlyOpendFile = path;
+    console.log(path);
   }
 
   public async new() {

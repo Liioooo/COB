@@ -1,6 +1,7 @@
-import {app, BrowserWindow, Menu} from 'electron';
+import {app, BrowserWindow, Menu, ipcMain} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import * as fs from 'fs';
 import {getTemplate} from './menu-bar';
 import {handleSquirrelEvents} from './setup-events';
 
@@ -9,6 +10,7 @@ const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
 
 if (!handleSquirrelEvents(serve, app)) {
+  setOpenedPath();
   try {
     app.on('ready', createWindow);
 
@@ -41,6 +43,7 @@ function createWindow() {
     win.webContents.openDevTools();
     win.loadURL('http://localhost:4200');
   } else {
+    win.webContents.openDevTools();
     win.loadURL(url.format({
       pathname: path.join(__dirname, '../index.html'),
       protocol: 'file:',
@@ -54,4 +57,14 @@ function createWindow() {
 
   const menu = Menu.buildFromTemplate(getTemplate(win, serve));
   win.setMenu(menu);
+}
+
+function setOpenedPath() {
+  let openedPath = args[0];
+  if (!fs.existsSync(openedPath)) {
+    openedPath = null;
+  }
+  ipcMain.on('getOpenedPath', () => {
+    win.webContents.send('getOpenedPathResponse', openedPath);
+  });
 }
