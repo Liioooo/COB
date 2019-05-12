@@ -43,7 +43,6 @@ function createWindow() {
     win.webContents.openDevTools();
     win.loadURL('http://localhost:4200');
   } else {
-    win.webContents.openDevTools();
     win.loadURL(url.format({
       pathname: path.join(__dirname, '../index.html'),
       protocol: 'file:',
