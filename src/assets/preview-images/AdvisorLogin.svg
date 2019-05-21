@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="Clean_page.svg">
+   sodipodi:docname="AdvisorLogin.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.12374369"
-     inkscape:cx="-1032.4186"
-     inkscape:cy="470.19669"
+     inkscape:cx="298.23033"
+     inkscape:cy="880.5253"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -61,6 +61,22 @@
        height="100"
        x="50"
        y="-250"
+       ry="12.111931" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#00472d;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5055-7"
+       width="500"
+       height="100"
+       x="150"
+       y="-50"
+       ry="12.111931" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#00472d;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5055-7-6"
+       width="500"
+       height="100"
+       x="150"
+       y="100"
        ry="12.111931" />
   </g>
 </svg>

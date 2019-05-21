@@ -1,4 +1,4 @@
-import {MenuItemConstructorOptions, BrowserWindow} from 'electron';
+import {MenuItemConstructorOptions, BrowserWindow, app} from 'electron';
 import {openAbout, openHelp} from './help-about-windows';
 
 export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstructorOptions[] {
@@ -40,7 +40,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {
           label: 'Export',
-          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+E',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+E' : 'Ctrl+shift+E',
           registerAccelerator: false,
           click: () => {
             win.webContents.send('menuClick', 'export');
@@ -48,7 +48,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {
           label: 'Import',
-          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+I',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+I' : 'Ctrl+shift+I',
           registerAccelerator: false,
           click: () => {
             win.webContents.send('menuClick', 'import');
@@ -76,9 +76,9 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         {
           label: 'Close',
           accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Alt+F4',
-          registerAccelerator: false,
+          registerAccelerator: true,
           click: () => {
-            win.webContents.send('menuClick', 'close');
+            app.quit();
           }
         }
       ]
@@ -141,6 +141,8 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {
           label: 'Clear Selection',
+          accelerator: 'CmdOrCtrl+D',
+          registerAccelerator: false,
           click: () => {
             win.webContents.send('menuClick', 'clearSelection');
           }
