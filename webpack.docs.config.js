@@ -10,13 +10,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.md$/,
+                test: /\.html$/,
                 use: [
                     {
                         loader: "html-loader",
-                    },
-                    {
-                        loader: "markdown-loader",
                     }
                 ]
             },
@@ -27,16 +24,25 @@ module.exports = {
                     'css-loader',
                     'sass-loader'
                 ]
-            }
+            },
+          {
+            test: /\.(svg|png|jpg|gif)$/,
+            use: [
+              {
+                loader: 'file-loader',
+                options: {} // produces {hash}.[ext] files by default
+              }
+            ]
+          }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "docs/html-templates/help-template.html",
+            template: "docs/help.html",
             filename: "./help.html",
         }),
         new HtmlWebpackPlugin({
-            template: "docs/html-templates/about-template.html",
+            template: "docs/about.html",
             filename: "./about.html",
         })
     ]
