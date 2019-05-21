@@ -26,8 +26,9 @@ div {
   border-radius: 2px;
   z-index: 5;
 
-  p {
-    font-size: 4px;
+  img {
+    width: 100%;
+    pointer-events: none;
   }
 }
 

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component, ElementRef,
   Input, NgZone, OnDestroy, OnInit,
   ViewChild
@@ -12,8 +11,7 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 @Component({
   selector: 'app-small-page-preview',
   templateUrl: './small-page-preview.component.html',
-  styleUrls: ['./small-page-preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./small-page-preview.component.scss']
 })
 export class SmallPagePreviewComponent implements OnDestroy, OnInit {
 
