@@ -22,8 +22,9 @@ article{
 }
 
 .title:hover{
-  font-weight: bold;
+  font-weight: bold !important;
   text-decoration: underline;
+  cursor: pointer
 }
 
 ul{
