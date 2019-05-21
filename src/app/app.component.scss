@@ -3,6 +3,10 @@
 .all {
   height: 100%;
 
+  mat-sidenav{
+    background: $blue-light;
+  }
+
   main {
     display: grid;
     grid-template-columns: 50px auto; //changing this will break the select rect, to fix edit select-rect.directive.ts line 87

@@ -1,16 +1,21 @@
-$small-page-preview-color: darken(white, 10);
-$left-sidebar-color: darken(white, 10);
+$blue-light: rgb(224, 238, 251);
+$blue-dark: rgb(36, 88, 146);
+$blue-med: rgb(175, 213, 238);
+$accent: rgb(204, 43, 47);
+
+$small-page-preview-color: $blue-med;
+$left-sidebar-color: rgb(36, 88, 146);
 $green-success: #2ecc71;
 $red-warning: #e74c3c;
 $mini-page-menu-button-background: #ffb53c;
 
-$page-selected-outline-color: red;
+$page-selected-outline-color: $accent;
 
 $right-click-menu-background: #ddd;
 $right-click-menu-hover: #bbb;
 
-$select-rect-background-color: rgba(255, 0, 0, .1);
-$select-rect-outline-color: red;
+$select-rect-background-color: rgba(204, 43, 47, .1);
+$select-rect-outline-color: rgba(204, 43, 47, .1);
 
 $connection-drag-starter-color: #8998ff;
 $connection-drag-starter-color-hover: #2cb5ff;
@@ -20,3 +25,4 @@ $connection-hover-color: green;
 $search-color: #f8f5f4;
 $search-color-dark: #eeebea;
 $search-color-dark-scroll: #D7D4D3;
+
