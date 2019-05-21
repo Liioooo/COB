@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, NgZone} from '@angular/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 import {Page} from '../../models/page-interface';
 
@@ -14,12 +14,13 @@ export class MiniPageMenuComponent {
   page: Page;
 
   constructor(
-      private pageStructure: PageStructureService
+      private pageStructure: PageStructureService,
+      private ngZone: NgZone
   ) {
   }
 
   public delete(): void {
-    this.pageStructure.removePage(this.page);
+    this.ngZone.run(() => this.pageStructure.removePage(this.page));
   }
 
   public copy(): void {
@@ -27,7 +28,7 @@ export class MiniPageMenuComponent {
   }
 
   public cut(): void {
-    this.pageStructure.cut([this.page]);
+    this.ngZone.run(() => this.pageStructure.cut([this.page]));
   }
 
 }

@@ -4,10 +4,10 @@ import {openAbout, openHelp} from './help-about-windows';
 export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstructorOptions[] {
   return [
     {
-      label: 'Datei',
+      label: 'File',
       submenu: [
         {
-          label: 'Öffnen',
+          label: 'Open',
           accelerator: process.platform === 'darwin' ? 'Command+O' : 'Ctrl+O',
           registerAccelerator: false,
           click: () => {
@@ -15,7 +15,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Neu',
+          label: 'New',
           accelerator: process.platform === 'darwin' ? 'Command+shift+N' : 'Ctrl+shift+N',
           registerAccelerator: false,
           click: () => {
@@ -23,7 +23,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Speichern',
+          label: 'Save',
           accelerator: process.platform === 'darwin' ? 'Command+S' : 'Ctrl+S',
           registerAccelerator: false,
           click: () => {
@@ -31,7 +31,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Speichern unter',
+          label: 'Save As...',
           accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
           registerAccelerator: false,
           click: () => {
@@ -40,7 +40,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {
           label: 'Export',
-          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+E',
           registerAccelerator: false,
           click: () => {
             win.webContents.send('menuClick', 'export');
@@ -48,7 +48,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {
           label: 'Import',
-          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+S',
+          accelerator: process.platform === 'darwin' ? 'Command+shift+S' : 'Ctrl+shift+I',
           registerAccelerator: false,
           click: () => {
             win.webContents.send('menuClick', 'import');
@@ -56,25 +56,25 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
         },
         {type: 'separator'},
         {
-          label: 'Minimieren',
+          label: 'Minimize',
           click: () => {
             win.minimize();
           }
         },
         {
-          label: 'Maximieren',
+          label: 'Maximize',
           click: () => {
             win.maximize();
           }
         },
         {
-          label: 'Verkleinern',
+          label: 'Unmaximize',
           click: () => {
             win.unmaximize();
           }
         },
         {
-          label: 'Schließen',
+          label: 'Close',
           accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Alt+F4',
           registerAccelerator: false,
           click: () => {
@@ -84,10 +84,10 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
       ]
     },
     {
-      label: 'Bearbeiten',
+      label: 'Edit',
       submenu: [
         {
-          label: 'Neue Seite',
+          label: 'New Page',
           accelerator: 'CmdOrCtrl+N',
           registerAccelerator: false,
           click: () => {
@@ -95,7 +95,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Löschen',
+          label: 'Delete',
           accelerator: process.platform === 'darwin' ? 'Command+backspace' : 'delete',
           registerAccelerator: false,
           click: () => {
@@ -103,7 +103,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Kopieren',
+          label: 'Copy',
           accelerator: 'CmdOrCtrl+C',
           registerAccelerator: false,
           click: () => {
@@ -111,7 +111,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Ausschneiden',
+          label: 'Cut',
           accelerator: 'CmdOrCtrl+X',
           registerAccelerator: false,
           click: () => {
@@ -119,7 +119,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Einfügen',
+          label: 'Paste',
           accelerator: 'CmdOrCtrl+V',
           registerAccelerator: false,
           click: () => {
@@ -129,10 +129,10 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
       ]
     },
     {
-      label: 'Auswahl',
+      label: 'Selection',
       submenu: [
         {
-          label: 'Alles Auswählen',
+          label: 'Select All',
           accelerator: 'CmdOrCtrl+A',
           registerAccelerator: false,
           click: () => {
@@ -140,7 +140,7 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
           }
         },
         {
-          label: 'Auswahl aufheben',
+          label: 'Clear Selection',
           click: () => {
             win.webContents.send('menuClick', 'clearSelection');
           }
@@ -148,10 +148,10 @@ export function getTemplate(win: BrowserWindow, serve: boolean): MenuItemConstru
       ]
     },
     {
-      label: 'Hilfe',
+      label: 'Help',
       submenu: [
         {
-          label: 'Hilfe',
+          label: 'Help',
           click: () => {
             openHelp(serve);
           }

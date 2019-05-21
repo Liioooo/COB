@@ -1,19 +1,24 @@
+@import "variables";
+//@import '/node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
 div {
   width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  background: $blue-light;
 
   .question-id {
     position: fixed;
     top: 0;
-    background-color: white;
+    background: $blue-dark;
     z-index: 10;
   }
 
   mat-checkbox {
     margin-top: 100px;
+    user-select: none;
   }
 
   app-slider-properties,
@@ -26,6 +31,13 @@ div {
   app-summary-properties,
   app-splash-screen-properties {
     width: 220px;
+  }
+
+  mat-icon {
+    &:before {
+      top: 4px;
+      position: relative;
+    }
   }
 }
 
@@ -40,8 +52,14 @@ div {
   width: 80%;
   margin: auto;
   margin-bottom: 1rem;
+  background: $blue-med;
 }
 
 mat-checkbox {
   margin: auto auto 1rem;
+}
+
+.white-icon {
+  color: white;
+  margin: 0px 5px 0px 5px;
 }

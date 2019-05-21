@@ -1,8 +1,7 @@
-import {ApplicationRef, ChangeDetectorRef, Injectable} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Page} from "../../models/page-interface";
 import {Observable, Subject} from "rxjs";
 import {SearchService} from "../search/search.service";
-import {falseIfMissing} from 'protractor/built/util';
 
 @Injectable({
   providedIn: "root"
@@ -17,10 +16,42 @@ export class PageStructureService {
   private _selectedPages: Page[];
   public results: Page[] = [];
 
+  private mandatoryProperties = [
+    'questionId',
+    'templateType',
+    'shortName',
+    'title',
+    'helpQuestion',
+    'helpTooltip',
+    'mandatory',
+    'handover',
+    'handoverText'
+  ];
+
+  private unusedProperties = [
+    'posX',
+    'posY',
+    'pixelPosX',
+    'pixelPosY',
+    'isSelected',
+    'currentlyDragged',
+    'draggingNewConnection',
+    'prevConnected',
+    'connections'
+  ];
+
   constructor(private searchService: SearchService) {
     this._pages = [];
     this._clipboard = [];
     this._selectedPages = [];
+  }
+
+  public clearAll() {
+      this._pages = [];
+      this._clipboard = [];
+      this._selectedPages = [];
+      this.results = [];
+      delete this._startPage;
   }
 
   public clearSelection(): void {
@@ -73,7 +104,7 @@ export class PageStructureService {
         return {nextPage: oldToNewPages[c.nextPage.questionId]};
       });
       page.connections = page.connections.filter(p => p.nextPage);
-      page.pagesConnected = page.pagesConnected
+      page.prevConnected = page.prevConnected
         .filter(p => p)
         .map(p => {
           return oldToNewPages[p.questionId];
@@ -109,6 +140,14 @@ export class PageStructureService {
   }
 
   public addEmptyPage(posX?: number, posY?: number): Page {
+    const newPage = this.getEmptyPage(posX, posY);
+
+    this.triggerScrollToPage(newPage);
+    this.addPage(newPage);
+    return newPage;
+  }
+
+  public getEmptyPage(posX?: number, posY?: number): Page {
     let num: number = this._pages.length;
     let newId: string;
     do {
@@ -118,7 +157,7 @@ export class PageStructureService {
     const newPage: Page = {
       questionId: newId,
       connections: [],
-      pagesConnected: [],
+      prevConnected: [],
       templateType: "none",
       posX,
       posY,
@@ -131,8 +170,6 @@ export class PageStructureService {
       handoverText: '',
     };
 
-    this.triggerScrollToPage(newPage);
-    this.addPage(newPage);
     return newPage;
   }
 
@@ -167,7 +204,7 @@ export class PageStructureService {
     }
     this._pages.forEach(page => {
       page.connections = page.connections.filter(c => c.nextPage.questionId !== rmPageId);
-      page.pagesConnected = page.pagesConnected.filter(c => c.questionId !== rmPageId);
+      page.prevConnected = page.prevConnected.filter(c => c.questionId !== rmPageId);
     });
     this._pages = this._pages.filter(page => page.questionId !== rmPageId);
     if (this._pages.length > 0) {
@@ -216,6 +253,18 @@ export class PageStructureService {
     return this._pages;
   }
 
+  set pages(pages: Page[]) {
+    this._pages = [];
+    for (const page of pages) {
+      const newPage = this.addEmptyPage();
+      // tslint:disable-next-line:forin
+      for (const prop in page) {
+        newPage[prop] = page[prop];
+      }
+    }
+    this._startPage = pages[0];
+  }
+
   get clipboard(): Page[] {
     return this._clipboard;
   }
@@ -259,12 +308,15 @@ export class PageStructureService {
     p1.connections.push({
       nextPage: p2
     });
-    p2.pagesConnected.push(p1);
+    if (p1.connections.length === 1) {
+      p1.nextQuestion = p2.questionId;
+    }
+    p2.prevConnected.push(p1);
   }
 
   public deleteConnection(p1: Page, p2: Page) {
     p1.connections = p1.connections.filter(con => con.nextPage.questionId !== p2.questionId);
-    p2.pagesConnected = p2.pagesConnected.filter(page => page.questionId !== p1.questionId);
+    p2.prevConnected = p2.prevConnected.filter(page => page.questionId !== p1.questionId);
   }
 
 
@@ -280,20 +332,9 @@ export class PageStructureService {
       return 'Startpage has not been set';
     }
 
-    const mandatoryProperties = [
-      'questionId',
-      'templateType',
-      'shortName',
-      'title',
-      'helpQuestion',
-      'helpTooltip',
-      'mandatory',
-      'handover',
-      'handoverText'
-    ];
 
     for (const page of this._pages) {
-      for (const prop of mandatoryProperties) {
+      for (const prop of this.mandatoryProperties) {
         if (page[prop] === undefined || page[prop] == null) {
           return prop + ' has not been set';
         }
@@ -310,29 +351,18 @@ export class PageStructureService {
         return 'Connection must not point to the startpage';
       }
     }
-    return this._startPage.pagesConnected.find(p => p !== this._startPage) === undefined ? '' :
+    return this._startPage.prevConnected.find(p => p !== this._startPage) === undefined ? '' :
       'Connection must not point to the startpage';
   }
 
   public getQuestionsJSON(): string {
-    const unusedProperties = [
-      'posX',
-      'posY',
-      'pixelPosX',
-      'pixelPosY',
-      'isSelected',
-      'currentlyDragged',
-      'draggingNewConnection',
-      'pagesConnected',
-      'connections'
-    ];
 
     const outPages = [];
     this.getPagesInFlow().forEach(page => {
-      outPages.push(this.removeObjectProperties({...page}, unusedProperties));
+      outPages.push(this.removeObjectProperties({...page}, this.unusedProperties));
     });
 
-    return JSON.stringify(outPages);
+    return JSON.stringify(outPages, null, 2);
   }
 
   private getPagesInFlow(): Page[] {
@@ -353,6 +383,7 @@ export class PageStructureService {
     return flowPages;
   }
 
+
   public getWorkflowJSON(): string {
     const usedProperties = [
       'questionId',
@@ -366,7 +397,7 @@ export class PageStructureService {
     this.getPagesInFlow().forEach(page => {
       outPages.push(this.keepObjectProperties({...page}, usedProperties));
     });
-    return JSON.stringify(outPages);
+    return JSON.stringify(outPages, null, 2);
   }
 
 

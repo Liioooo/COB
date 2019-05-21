@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": "/",
-    "outDir": "./dist",
-    "sourceMap": true,
+    "outDir": "../dist/electron",
+    "sourceMap": false,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,

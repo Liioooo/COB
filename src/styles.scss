@@ -2,6 +2,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
 @import '~@fortawesome/fontawesome-free-webfonts/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free-webfonts/scss/fa-solid';
 @import '~@fortawesome/fontawesome-free-webfonts/scss/fa-regular';
+@import "themeing";
 
 html, body {
   height: 100%;
@@ -21,5 +22,31 @@ body {
 .action-button {
   span {
     line-height: 28px !important;
+  }
+}
+
+.right-sidebar-edit-input {
+
+  color: white !important;
+
+  input {
+    caret-color: white !important;
+  }
+
+  .mat-form-field-label {
+    color: white !important;
+  }
+
+  .mat-form-field-ripple,
+  .mat-form-field-underline {
+    background-color: white !important;
+  }
+
+  .mat-form-field-required-marker {
+    color: rgba(0, 0, 0, 0);
+  }
+
+  .mat-error {
+    color: $red-warning;
   }
 }

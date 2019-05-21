@@ -1,12 +1,12 @@
 <section [formGroup]="form">
   <mat-label>Selection Options:</mat-label>
-  <div formArrayName="selectionOptions" *ngFor="let option of form.controls.selectionOptions.controls; let i = index">
+  <div formArrayName="selectionOptions" *ngFor="let option of form.controls.selectionOptions['controls']; let i = index">
     <mat-form-field>
       <ng-container [formGroupName]="i">
         <input matInput formControlName="label" [placeholder]="'Option ' + (i + 1)">
       </ng-container>
     </mat-form-field>
-    <button mat-icon-button (click)="removeOption(i)" [disabled]="form.controls.selectionOptions.controls.length === 1">
+    <button mat-icon-button (click)="removeOption(i)" [disabled]="form.controls.selectionOptions['controls'].length === 1">
       <mat-icon fontSet="fontawesome" fontIcon="fa-trash" class="fa-lg"></mat-icon>
     </button>
   </div>

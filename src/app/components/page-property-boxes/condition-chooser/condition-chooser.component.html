@@ -1,0 +1,40 @@
+<section [formGroup]="conditionForm">
+
+  <mat-label>Next Page Condition:</mat-label>
+
+  <mat-form-field>
+    <mat-label>Condition</mat-label>
+    <mat-select formControlName="condition">
+      <mat-option *ngFor="let option of page.selectionControls" [value]="option.value">
+        {{option.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Next</mat-label>
+    <mat-select formControlName="next">
+      <mat-option *ngFor="let connectedPage of page.connections" [value]="connectedPage.nextPage.questionId">
+        {{connectedPage.nextPage.questionId}}
+      </mat-option>
+      <mat-option value="">None</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Than</mat-label>
+    <mat-select formControlName="than">
+      <mat-option *ngFor="let connectedPage of page.connections" [value]="connectedPage.nextPage.questionId">
+        {{connectedPage.nextPage.questionId}}
+      </mat-option>
+      <mat-option value="">None</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Else</mat-label>
+    <mat-select formControlName="else">
+      <mat-option *ngFor="let connectedPage of page.connections" [value]="connectedPage.nextPage.questionId">
+        {{connectedPage.nextPage.questionId}}
+      </mat-option>
+      <mat-option value="">None</mat-option>
+    </mat-select>
+  </mat-form-field>
+</section>

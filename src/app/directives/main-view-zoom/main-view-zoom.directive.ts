@@ -1,9 +1,7 @@
 import {
     ApplicationRef,
-    ChangeDetectorRef,
     Directive,
     ElementRef,
-    HostListener,
     Input,
     NgZone,
     OnChanges,
@@ -37,21 +35,22 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     private el: ElementRef<HTMLDivElement>,
     private pageViewGrid: PageViewGridService,
     private pageStructure: PageStructureService,
-    private ngZone: NgZone,
-    private appRef: ApplicationRef
+    private ngZone: NgZone
   ) {
     this.ngZone.runOutsideAngular(() => {
       this.el.nativeElement.addEventListener('mousemove', (e: MouseEvent) => this.onMouseMove(e));
       this.el.nativeElement.addEventListener('scroll', () => this.onScroll());
       this.el.nativeElement.addEventListener('mousewheel', (e: WheelEvent) => this.onMouseWheel(e));
+      this.el.nativeElement.addEventListener('mouseup', () => this.onMouseUp());
       this.el.nativeElement.addEventListener('mousedown', (e: MouseEvent) => this.onMouseDown(e));
       window.addEventListener('keydown', (e: KeyboardEvent) => this.onKeyDown(e));
+      window.addEventListener('keyup', () => this.onKeyUp());
     });
   }
 
   @Input()
-
   zoomLevel: number;
+
   ngOnInit(): void {
     this.el.nativeElement.style.zoom = this.zoomLevel + '';
     this.setViewPos();
@@ -88,14 +87,15 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
   onMouseWheel(event: WheelEvent) {
     this.setViewPos();
     if (event.ctrlKey) {
-      this.oldScrollX = this.el.nativeElement.scrollLeft;
-      this.oldScrollY = this.el.nativeElement.scrollTop;
-      if (event.deltaY < 0) {
-        this.pageViewGrid.zoomLarger();
-      } else {
-        this.pageViewGrid.zoomSmaller();
-      }
-      this.appRef.tick();
+      this.ngZone.run(() => {
+        this.oldScrollX = this.el.nativeElement.scrollLeft;
+        this.oldScrollY = this.el.nativeElement.scrollTop;
+        if (event.deltaY < 0) {
+          this.pageViewGrid.zoomLarger();
+        } else {
+          this.pageViewGrid.zoomSmaller();
+        }
+      });
     }
   }
 
@@ -119,13 +119,11 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
     }
   }
 
-  @HostListener('mouseup')
   onMouseUp() {
     this.movingMouseDown = false;
     this.el.nativeElement.style.cursor = 'default';
   }
 
-  @HostListener('window:keyup')
   onKeyUp() {
     if (this.keyboardMoveIntervalSubscription) {
       this.keyboardMoveIntervalSubscription.unsubscribe();
