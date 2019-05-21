@@ -1,10 +1,8 @@
 <div [ngSwitch]="selectedPage.templateType" *ngIf="selectedPage; else notChosen">
   <div class="question-id">
     <app-edit [currentPage]="selectedPage" (valueChange)="selectedPage.questionId = $event" class="line">
+      <mat-icon fontSet="fontawesome" fontIcon="fa-edit" class="fa-lg white-icon"></mat-icon>
       <h2 class="white-icon">{{selectedPage?.questionId}}</h2>
-      <mat-icon class="white-icon">edit</mat-icon>
-      <h2 class="white-icon">{{selectedPage?.questionId}}</h2>
-      <mat-icon fontSet="fontawesome" fontIcon="fa-edit" class="fa-lg"></mat-icon>
     </app-edit>
   </div>
   <br>

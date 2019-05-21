@@ -30,7 +30,7 @@ module.exports = {
             use: [
               {
                 loader: 'file-loader',
-                options: {} // produces {hash}.[ext] files by default
+                options: {}
               }
             ]
           }

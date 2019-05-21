@@ -5,16 +5,13 @@ Array.from(document.getElementsByClassName("title")).forEach(function(element) {
 });
 
 function toggleContent() {
-  console.log("got here");
     let nextElement = next(this);
     if (nextElement.style.display === 'none') {
       this.style.fontWeight = 'bold';
       nextElement.style.display = 'block';
-      console.log("block");
     } else {
       this.style.fontWeight = 'normal';
       nextElement.style.display = 'none';
-      console.log("none");
     }
 }
 
