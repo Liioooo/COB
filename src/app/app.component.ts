@@ -1,12 +1,10 @@
-import {ChangeDetectorRef, Component, HostListener, NgZone, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, DoCheck, NgZone, OnInit, ViewChild} from '@angular/core';
 import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
 import {PageStructureService} from "./services/PageStructure/page-structure.service";
 import {ElectronService} from "ngx-electron";
 import {MatIconRegistry} from "@angular/material";
 import {SearchService} from "./services/search/search.service";
 import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animations";
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import * as fs from "fs";
 import {FileIOService} from './services/file-IO/file-io.service';
 
 @Component({
@@ -23,11 +21,8 @@ export class AppComponent implements OnInit {
   @ViewChild("mainView") mainView: any;
   @ViewChild("search") search;
 
-
-
   public showRightClickMenu: boolean = false;
   public rcPos: { x: number, y: number };
-
 
   constructor(
     public pageStructure: PageStructureService,
@@ -52,39 +47,57 @@ export class AppComponent implements OnInit {
 
   onKeyPressed(event: KeyboardEvent) {
     if (event.ctrlKey) {
-      switch (event.code) {
-        case "KeyN":
-          const pos = this.pageViewGrid.getPosForNewPage();
-          this.pageStructure.addEmptyPage(pos.x, pos.y);
-          this.changeDetRef.detectChanges();
-          break;
-        case "KeyC":
-          this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
-          this.changeDetRef.detectChanges();
-          break;
-        case "KeyX":
-          this.pageStructure.cut(this.pageStructure.selectedPages);
-          this.changeDetRef.detectChanges();
-          break;
-        case "KeyV":
-          const pos0 = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.clipboard, 0, 0, false);
-          this.pageStructure.pasteClipboard(pos0.x, pos0.y);
-          this.changeDetRef.detectChanges();
-          break;
-        case "KeyA":
-          this.pageStructure.selectedPages = [...this.pageStructure.pages];
-          this.changeDetRef.detectChanges();
-          break;
-        case "KeyD":
-          this.pageStructure.clearSelection();
-          this.changeDetRef.detectChanges();
-          break;
-        case "KeyF":
-          this.searchService.toggle();
-          break;
-        case "KeyS":
-          this.fileIO.exportJSONs();
-          break;
+      if (event.shiftKey) {
+        switch (event.code) {
+          case 'KeyE':
+              this.fileIO.exportJSONs();
+              break;
+          case 'KeyI':
+            this.fileIO.importJSONs();
+            break;
+          case 'KeyS':
+            this.fileIO.saveAs();
+            break;
+          case 'KeyN':
+            this.fileIO.new();
+            break;
+        }
+      } else {
+        switch (event.code) {
+          case "KeyN":
+            const pos = this.pageViewGrid.getPosForNewPage();
+            this.pageStructure.addEmptyPage(pos.x, pos.y);
+            this.changeDetRef.detectChanges();
+            break;
+          case "KeyC":
+            this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
+            this.changeDetRef.detectChanges();
+            break;
+          case "KeyX":
+            this.pageStructure.cut(this.pageStructure.selectedPages);
+            this.changeDetRef.detectChanges();
+            break;
+          case "KeyV":
+            const pos0 = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.clipboard, 0, 0, false);
+            this.pageStructure.pasteClipboard(pos0.x, pos0.y);
+            this.changeDetRef.detectChanges();
+            break;
+          case "KeyA":
+            this.pageStructure.selectedPages = [...this.pageStructure.pages];
+            this.changeDetRef.detectChanges();
+            break;
+          case "KeyD":
+            this.pageStructure.clearSelection();
+            this.changeDetRef.detectChanges();
+            break;
+          case "KeyF":
+            this.searchService.toggle();
+            this.changeDetRef.detectChanges();
+            break;
+          case "KeyO":
+            this.fileIO.open();
+            break;
+        }
       }
     } else if (event.shiftKey) {
         switch (event.code) {
@@ -112,15 +125,19 @@ export class AppComponent implements OnInit {
             break;
           case "ArrowUp":
             this.pageViewGrid.moveSelection("UP");
+            this.changeDetRef.detectChanges();
             break;
           case "ArrowDown":
             this.pageViewGrid.moveSelection("DOWN");
+            this.changeDetRef.detectChanges();
             break;
           case "ArrowLeft":
             this.pageViewGrid.moveSelection("LEFT");
+            this.changeDetRef.detectChanges();
             break;
           case "ArrowRight":
             this.pageViewGrid.moveSelection("RIGHT");
+            this.changeDetRef.detectChanges();
             break;
         }
       }
@@ -165,7 +182,19 @@ export class AppComponent implements OnInit {
         this.fileIO.exportJSONs();
         break;
       case "import":
-        // fileIO import
+        this.fileIO.importJSONs();
+        break;
+      case "saveAs":
+        this.fileIO.saveAs();
+        break;
+      case "save":
+        this.fileIO.save();
+        break;
+      case "openFile":
+        this.fileIO.open();
+        break;
+      case "newFile":
+        this.fileIO.new();
         break;
     }
     this.changeDetRef.detectChanges();

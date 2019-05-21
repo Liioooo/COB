@@ -1,8 +1,8 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, ElementRef,
-    Input, NgZone, OnDestroy, OnInit,
-    ViewChild
+  ChangeDetectionStrategy,
+  Component, ElementRef,
+  Input, NgZone, OnDestroy, OnInit,
+  ViewChild
 } from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
@@ -58,16 +58,17 @@ export class SmallPagePreviewComponent implements OnDestroy, OnInit {
       if (this.distance(this.startMousePosX, this.startMousePosY, event.clientX, event.clientY) > 5) {
         return;
       }
-      if (event.ctrlKey) {
-        this.pageStructure.switchSelection(this.page);
-      } else {
-        if (this.pageStructure.selectedPages.length === 1 && this.page.isSelected) {
+      this.ngZone.run(() => {
+        if (event.ctrlKey) {
           this.pageStructure.switchSelection(this.page);
         } else {
-          this.pageStructure.selectedPages = [this.page];
+          if (this.pageStructure.selectedPages.length === 1 && this.page.isSelected) {
+            this.pageStructure.switchSelection(this.page);
+          } else {
+            this.pageStructure.selectedPages = [this.page];
+          }
         }
-      }
-      // this.changeDetRef.detectChanges();
+      });
     }
   }
 

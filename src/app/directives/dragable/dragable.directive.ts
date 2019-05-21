@@ -3,7 +3,6 @@ import {
     Directive,
     ElementRef,
     EventEmitter,
-    HostListener,
     Input, NgZone,
     OnChanges, OnDestroy,
     OnInit,
@@ -55,6 +54,9 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
       fromEvent<MouseEvent>(window, 'mouseup').pipe(
           untilDestroyed(this)
       ).subscribe(e => this.onMouseUp());
+      fromEvent<MouseEvent>(el.nativeElement, 'mousedown').pipe(
+          untilDestroyed(this)
+      ).subscribe(e => this.onMouseDown(e));
     });
   }
 
@@ -78,7 +80,6 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
     this.appDragablePage.pixelPosY = pos.y;
   }
 
-  @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     if (!this.el.nativeElement.children[0].children[1].contains(event.target as Node)) {
       return;
@@ -131,14 +132,13 @@ export class DragableDirective implements OnInit, OnChanges, OnDestroy {
     this.el.nativeElement.style.zIndex = '1';
     this.pageStructure.pages.forEach(page => page.currentlyDragged = false);
     if (this.mouseDown) {
-      // if (this.mouseDown && this.lastDragMouseX && this.lastDragMouseY && this.dragStartMouseX && this.dragStartMouseY) {
+      if (this.appDragablePage.isSelected) {
+        this.ngOnChanges(null);
+      }
       this.dragEnded.emit({
         x: this.lastDragMouseX - this.dragStartMouseX,
         y: this.lastDragMouseY - this.dragStartMouseY
       });
-    }
-    if (this.appDragablePage.isSelected) {
-      this.ngOnChanges(null);
     }
     this.mouseDown = false;
     this.firstTimeExternalDrag = true;

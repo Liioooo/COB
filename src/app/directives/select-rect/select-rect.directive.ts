@@ -1,4 +1,11 @@
-import {ChangeDetectorRef, Directive, ElementRef, HostListener, Input, NgZone, OnInit, Renderer2} from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  NgZone,
+  OnInit,
+  Renderer2
+} from '@angular/core';
 import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.service';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
@@ -23,8 +30,7 @@ export class SelectRectDirective implements OnInit {
     private renderer: Renderer2,
     private pageViewGrid: PageViewGridService,
     private pageStructure: PageStructureService,
-    private ngZone: NgZone,
-    private changeDetRef: ChangeDetectorRef
+    private ngZone: NgZone
   ) {
   }
 
@@ -36,11 +42,11 @@ export class SelectRectDirective implements OnInit {
     this.renderer.appendChild(this.el.nativeElement, this.selectRect);
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('mousemove', (e: MouseEvent) => this.onMouseMove(e));
+      window.addEventListener('mousedown', (e: MouseEvent) => this.onMouseDown(e));
       window.addEventListener('mouseup', () => this.onMouseUp());
     });
   }
 
-  @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     if (event.target === this.el.nativeElement.firstChild && !event.altKey && event.button === 0) {
       this.mouseDown = true;
@@ -89,8 +95,11 @@ export class SelectRectDirective implements OnInit {
         this.rectHeight = -this.rectHeight;
         this.rectPosY = this.rectPosY - this.rectHeight;
       }
-      this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50 + this.el.nativeElement.scrollLeft, this.rectPosY + this.el.nativeElement.scrollTop, this.rectWidth, this.rectHeight);
-      this.changeDetRef.detectChanges();
+      if (this.rectHeight > 3 && this.rectWidth > 3) {
+        this.ngZone.run(() => {
+          this.pageStructure.selectedPages = this.pageViewGrid.getPagesInRect(this.rectPosX - 50 + this.el.nativeElement.scrollLeft, this.rectPosY + this.el.nativeElement.scrollTop, this.rectWidth, this.rectHeight);
+        });
+      }
     }
     this.rectWidth = 0;
     this.rectHeight = 0;

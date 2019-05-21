@@ -18,6 +18,7 @@ import {RightClickMenuComponent} from './components/right-click-menu/right-click
 import {DraggableArrowComponent} from './components/draggable-arrow/draggable-arrow.component';
 import { SearchComponent } from './components/search/search.component';
 import {PagePropertyBoxesModule} from "./page-proprty-boxes.module";
+import { OutsideNgZoneEventDirective } from './directives/outside-ng-zone-event/outside-ng-zone-event.directive';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {PagePropertyBoxesModule} from "./page-proprty-boxes.module";
     MiniPageMenuComponent,
     RightClickMenuComponent,
     DraggableArrowComponent,
-    SearchComponent
+    SearchComponent,
+    OutsideNgZoneEventDirective
   ],
   imports: [
     BrowserModule,

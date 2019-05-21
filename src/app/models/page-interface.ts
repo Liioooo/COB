@@ -13,7 +13,7 @@ export interface Page {
   elseQuestion?: string;
 
 
-  pagesConnected: Page[];
+  prevConnected: Page[];
 
   posX?: number;
   posY?: number;
