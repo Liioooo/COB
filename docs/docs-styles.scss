@@ -1,32 +1,39 @@
-body {
-  box-sizing: border-box;
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 45px;
-  font-family: "Franklin Gothic Book", sans-serif;
-  user-select: none;
-}
-
-@media (max-width: 767px) {
+.help{
   body {
-    padding: 15px;
+    box-sizing: border-box;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+    font-family: "Franklin Gothic Book", sans-serif;
+    user-select: none;
+  }
+
+  @media (max-width: 767px) {
+    body {
+      padding: 15px;
+    }
+  }
+
+  article{
+    margin: 10px;
+  }
+
+  .content {
+    display: none;
+  }
+
+  .title:hover{
+    font-weight: bold !important;
+    text-decoration: underline;
+    cursor: pointer
+  }
+
+  ul{
+    list-style-type: disc;
   }
 }
+.about{
+  font-family: "Franklin Gothic Book", sans-serif;
+  margin-left: 2rem;
 
-article{
-  margin: 10px;
-}
-
-.content {
-  display: none;
-}
-
-.title:hover{
-  font-weight: bold !important;
-  text-decoration: underline;
-  cursor: pointer
-}
-
-ul{
-  list-style-type: disc;
 }
