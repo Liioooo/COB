@@ -5,9 +5,9 @@ $accent: rgb(204, 43, 47);
 
 $small-page-preview-color: $blue-med;
 $left-sidebar-color: rgb(36, 88, 146);
-$green-success: #2ecc71;
-$red-warning: #e74c3c;
-$mini-page-menu-button-background: #ffb53c;
+$green-success: #2BCC57;
+$red-warning: $accent;
+$mini-page-menu-button-background: $blue-dark;
 
 $page-selected-outline-color: $accent;
 
@@ -17,10 +17,10 @@ $right-click-menu-hover: #bbb;
 $select-rect-background-color: rgba(204, 43, 47, .1);
 $select-rect-outline-color: rgba(204, 43, 47, .1);
 
-$connection-drag-starter-color: #8998ff;
-$connection-drag-starter-color-hover: #2cb5ff;
-$connection-color: red;
-$connection-hover-color: green;
+$connection-drag-starter-color: lighten($blue-dark, 20);
+$connection-drag-starter-color-hover: $blue-dark;
+$connection-color: lighten($blue-dark, 20);
+$connection-hover-color: $blue-dark;
 
 $search-color: #f8f5f4;
 $search-color-dark: #eeebea;
