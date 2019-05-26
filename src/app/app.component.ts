@@ -117,8 +117,10 @@ export class AppComponent implements OnInit {
       } else if (!event.altKey) {
         switch (event.code) {
           case "Delete":
-            this.pageStructure.removeSelectedPages();
-            this.changeDetRef.detectChanges();
+            if (!this.pageStructure.editingPageInSidebar) {
+              this.pageStructure.removeSelectedPages();
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "Escape":
             if (this.searchService.show) { this.searchService.toggle(); }
