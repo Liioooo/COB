@@ -108,7 +108,8 @@ export class PageStructureService {
         .filter(p => p)
         .map(p => {
           return oldToNewPages[p.questionId];
-      });
+        })
+        .filter(p => !!p);
     }
 
     if (firstNewPage) {
