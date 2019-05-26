@@ -144,6 +144,9 @@ export class AppComponent implements OnInit {
   }
 
   private moveSelected(x: number, y: number): void {
+    if (this.pageStructure.editingPageInSidebar) {
+      return;
+    }
     const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, x, y, true);
     this.pageStructure.selectedPages.forEach(selPage => {
       selPage.posX += pos.x;

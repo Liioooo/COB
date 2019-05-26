@@ -3,7 +3,7 @@
   <form [formGroup]="newIdForm" (ngSubmit)="saveChanges()">
     <mat-form-field class="right-sidebar-edit-input">
       <mat-label>New ID</mat-label>
-      <input required matInput  [style]="elemStyles" formControlName="email" [errorStateMatcher]="errorStateMatcher">
+      <input required matInput  [style]="elemStyles" formControlName="email" [errorStateMatcher]="errorStateMatcher" (focus)="onFocus()" (blur)="onBlur()">
       <mat-error *ngIf="newIdForm.controls.email.errors">
           <p class="error-message" *ngIf="newIdForm.controls.email.errors.duplicateId">ID <strong>already</strong> exists.</p>
           <p class="error-message" *ngIf="newIdForm.controls.email.errors.required">This field is <strong>required.</strong></p>

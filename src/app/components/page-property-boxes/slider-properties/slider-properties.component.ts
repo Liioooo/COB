@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleC
 import {Page} from '../../../models/page-interface';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
+import {PageStructureService} from '../../../services/PageStructure/page-structure.service';
 
 @Component({
   selector: 'app-slider-properties',
@@ -17,7 +18,7 @@ export class SliderPropertiesComponent implements OnChanges, OnDestroy {
   public sliderControlForm: FormGroup;
   private subscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private pageStructure: PageStructureService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
       if (this.subscription) {
@@ -52,4 +53,12 @@ export class SliderPropertiesComponent implements OnChanges, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
+
+  onFocus() {
+    this.pageStructure.editingPageInSidebar = true;
+  }
+
+  onBlur() {
+    this.pageStructure.editingPageInSidebar = false;
+  }
 }

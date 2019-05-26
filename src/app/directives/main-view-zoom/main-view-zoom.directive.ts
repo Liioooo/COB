@@ -134,8 +134,10 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
   }
 
   onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+    if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown') && this.pageStructure.editingPageInSidebar === false) {
       event.preventDefault();
+    } else {
+      return;
     }
     if (event.altKey) {
       switch (event.key) {
