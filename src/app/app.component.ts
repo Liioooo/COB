@@ -141,6 +141,14 @@ export class AppComponent implements OnInit {
             this.pageViewGrid.moveSelection("RIGHT");
             this.changeDetRef.detectChanges();
             break;
+          case "Space":
+            event.preventDefault();
+            if (this.pageStructure.pages.length !== 0) {
+              this.pageStructure.selectedPages = [this.pageStructure.pages[0]];
+              this.pageStructure.triggerScrollToPage(this.pageStructure.pages[0]);
+              this.changeDetRef.detectChanges();
+            }
+            break;
         }
       }
   }

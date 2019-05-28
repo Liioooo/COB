@@ -1,6 +1,7 @@
 import './docs-styles.scss';
 
 Array.from(document.getElementsByClassName("title")).forEach(function(element) {
+  next(element).style.display = "none";
   element.addEventListener("click", toggleContent);
 });
 
