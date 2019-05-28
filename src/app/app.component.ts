@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, DoCheck, NgZone, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
 import {PageStructureService} from "./services/PageStructure/page-structure.service";
 import {ElectronService} from "ngx-electron";
@@ -145,11 +145,14 @@ export class AppComponent implements OnInit {
             this.changeDetRef.detectChanges();
             break;
           case "Space":
-            event.preventDefault();
-            if (this.pageStructure.pages.length !== 0) {
-              this.pageStructure.selectedPages = [this.pageStructure.pages[0]];
-              this.pageStructure.triggerScrollToPage(this.pageStructure.pages[0]);
-              this.changeDetRef.detectChanges();
+            console.log(this.pageStructure.editingPageInSidebar);
+            if (!this.pageStructure.editingPageInSidebar) {
+              event.preventDefault();
+              if (this.pageStructure.pages.length !== 0 && this.pageStructure.selectedPages.length === 0) {
+                this.pageStructure.selectedPages = [this.pageStructure.pages[0]];
+                this.pageStructure.triggerScrollToPage(this.pageStructure.pages[0]);
+                this.changeDetRef.detectChanges();
+              }
             }
             break;
         }
@@ -231,6 +234,10 @@ export class AppComponent implements OnInit {
     } else {
       this.showRightClickMenu = false;
     }
+  }
+
+  sidebarOpenedChange(open: boolean) {
+    this.pageStructure.editingPageInSidebar = open;
   }
 }
 

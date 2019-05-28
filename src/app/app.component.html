@@ -1,6 +1,7 @@
 <mat-sidenav-container class="all">
   <mat-sidenav mode="side" position="end"
-               [opened]="pageStructure.isOneSelected">
+               [opened]="pageStructure.isOneSelected"
+                (openedChange)="sidebarOpenedChange($event)">
     <app-right-sidebar [selectedPage]="pageStructure.selectedPages[0]"></app-right-sidebar>
   </mat-sidenav>
 

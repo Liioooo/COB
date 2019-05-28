@@ -63,14 +63,6 @@ export class EditComponent implements OnInit, OnChanges {
     this.state = false;
   }
 
-  onFocus() {
-    this.pageStructure.editingPageInSidebar = true;
-  }
-
-  onBlur() {
-    this.pageStructure.editingPageInSidebar = false;
-  }
-
 }
 
 class IdErrorStateMatcher implements ErrorStateMatcher {

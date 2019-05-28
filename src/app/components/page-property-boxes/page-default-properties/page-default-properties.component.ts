@@ -18,7 +18,7 @@ export class PageDefaultPropertiesComponent implements OnChanges, OnDestroy {
     public form: FormGroup;
     private subscription: Subscription;
 
-    constructor(private formBuilder: FormBuilder, private pageStructure: PageStructureService) { }
+    constructor(private formBuilder: FormBuilder) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.subscription) {
@@ -49,14 +49,6 @@ export class PageDefaultPropertiesComponent implements OnChanges, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
-    }
-
-    onFocus() {
-        this.pageStructure.editingPageInSidebar = true;
-    }
-
-    onBlur() {
-        this.pageStructure.editingPageInSidebar = false;
     }
 
 }

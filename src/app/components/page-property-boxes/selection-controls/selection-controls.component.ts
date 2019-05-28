@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleC
 import {Page} from '../../../models/page-interface';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {PageStructureService} from '../../../services/PageStructure/page-structure.service';
 
 @Component({
   selector: 'app-selection-controls',
@@ -18,7 +17,7 @@ export class SelectionControlsComponent implements OnChanges, OnDestroy {
   public form: FormGroup;
   private subscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private pageStructure: PageStructureService) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.subscription) {
@@ -83,14 +82,6 @@ export class SelectionControlsComponent implements OnChanges, OnDestroy {
          label: [option.label || '']
       });
     });
-  }
-
-  onFocus() {
-    this.pageStructure.editingPageInSidebar = true;
-  }
-
-  onBlur() {
-    this.pageStructure.editingPageInSidebar = false;
   }
 
 }

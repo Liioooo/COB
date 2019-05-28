@@ -1,14 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageStructureService} from "../../services/PageStructure/page-structure.service";
 import {MatCheckboxChange} from "@angular/material";
-import {EditComponent} from "../edit/edit.component";
-
 @Component({
   selector: 'app-right-sidebar',
   templateUrl: './right-sidebar.component.html',
-  styleUrls: ['./right-sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./right-sidebar.component.scss']
 })
 export class RightSidebarComponent {
 
