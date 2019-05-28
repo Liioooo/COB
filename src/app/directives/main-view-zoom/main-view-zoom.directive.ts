@@ -18,6 +18,9 @@ import {interval, Subscription} from 'rxjs';
 })
 export class AppMainViewZoomDirective implements OnInit, OnChanges {
 
+  @Input()
+  public sideNavElement: ElementRef;
+
   private oldScrollX: number;
   private oldScrollY: number;
 
@@ -134,7 +137,7 @@ export class AppMainViewZoomDirective implements OnInit, OnChanges {
   }
 
   onKeyDown(event: KeyboardEvent) {
-    if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown') && this.pageStructure.editingPageInSidebar === false) {
+    if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown') && !this.sideNavElement.nativeElement.contains(event.target as Node)) {
       event.preventDefault();
     } else {
       return;

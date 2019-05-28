@@ -221,9 +221,6 @@ export class PageViewGridService {
     }
 
     public moveSelection(direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') {
-      if (this.pageStructure.editingPageInSidebar || this.pageStructure.selectedPages.length === 0) {
-        return;
-      }
       const destinationPage = this.findPage(direction);
       if (destinationPage !== null) {
         this.pageStructure.clearSelection();

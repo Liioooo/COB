@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
 import {PageStructureService} from "./services/PageStructure/page-structure.service";
 import {ElectronService} from "ngx-electron";
@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild("mainView") mainView: any;
   @ViewChild("search") search;
+  @ViewChild("sideNav", {read: ElementRef}) sidebarElement: ElementRef<HTMLElement>;
 
   public showRightClickMenu: boolean = false;
   public rcPos: { x: number, y: number };
@@ -70,21 +71,29 @@ export class AppComponent implements OnInit {
             this.changeDetRef.detectChanges();
             break;
           case "KeyC":
-            this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              this.pageStructure.addToClipboard(this.pageStructure.selectedPages);
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "KeyX":
-            this.pageStructure.cut(this.pageStructure.selectedPages);
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              this.pageStructure.cut(this.pageStructure.selectedPages);
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "KeyV":
-            const pos0 = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.clipboard, 0, 0, false);
-            this.pageStructure.pasteClipboard(pos0.x, pos0.y);
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              const pos0 = this.pageViewGrid.getNextGridPositionMultiPix(this.pageStructure.clipboard, 0, 0, false);
+              this.pageStructure.pasteClipboard(pos0.x, pos0.y);
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "KeyA":
-            this.pageStructure.selectedPages = [...this.pageStructure.pages];
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              this.pageStructure.selectedPages = [...this.pageStructure.pages];
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "KeyD":
             this.pageStructure.clearSelection();
@@ -97,56 +106,57 @@ export class AppComponent implements OnInit {
           case "KeyO":
             this.fileIO.open();
             break;
-          case "KeyO":
-            this.fileIO.open();
-            break;
         }
       }
     } else if (event.shiftKey) {
         switch (event.code) {
           case "ArrowUp":
-            this.moveSelected(0, -1);
+            this.moveSelected(0, -1, event);
             break;
           case "ArrowDown":
-            this.moveSelected(0, 1);
+            this.moveSelected(0, 1, event);
             break;
           case "ArrowLeft":
-            this.moveSelected(-1, 0);
+            this.moveSelected(-1, 0, event);
             break;
           case "ArrowRight":
-            this.moveSelected(1, 0);
+            this.moveSelected(1, 0, event);
             break;
         }
       } else if (!event.altKey) {
         switch (event.code) {
           case "Delete":
-            if (!this.pageStructure.editingPageInSidebar) {
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
               this.pageStructure.removeSelectedPages();
               this.changeDetRef.detectChanges();
             }
             break;
-          case "Escape":
-            if (this.searchService.show) { this.searchService.toggle(); }
-            break;
           case "ArrowUp":
-            this.pageViewGrid.moveSelection("UP");
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              this.pageViewGrid.moveSelection("UP");
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "ArrowDown":
-            this.pageViewGrid.moveSelection("DOWN");
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              this.pageViewGrid.moveSelection("DOWN");
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "ArrowLeft":
-            this.pageViewGrid.moveSelection("LEFT");
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              this.pageViewGrid.moveSelection("LEFT");
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "ArrowRight":
-            this.pageViewGrid.moveSelection("RIGHT");
-            this.changeDetRef.detectChanges();
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              this.pageViewGrid.moveSelection("RIGHT");
+              this.changeDetRef.detectChanges();
+            }
             break;
-          case "Space":
-            console.log(this.pageStructure.editingPageInSidebar);
-            if (!this.pageStructure.editingPageInSidebar) {
+          case "KeyX":
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
               event.preventDefault();
               if (this.pageStructure.pages.length !== 0 && this.pageStructure.selectedPages.length === 0) {
                 this.pageStructure.selectedPages = [this.pageStructure.pages[0]];
@@ -155,12 +165,17 @@ export class AppComponent implements OnInit {
               }
             }
             break;
+          case "Space":
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+              event.preventDefault();
+            }
+            break;
         }
       }
   }
 
-  private moveSelected(x: number, y: number): void {
-    if (this.pageStructure.editingPageInSidebar) {
+  private moveSelected(x: number, y: number, event: KeyboardEvent): void {
+    if (this.sidebarElement.nativeElement.contains(event.target as Node)) {
       return;
     }
     const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, x, y, true);
