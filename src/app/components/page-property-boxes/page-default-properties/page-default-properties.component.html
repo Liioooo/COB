@@ -1,18 +1,18 @@
 <section [formGroup]="form">
   <mat-form-field>
-    <input matInput placeholder="Title" formControlName="title">
+    <input matInput placeholder="Title" formControlName="title" (focus)="onFocus()" (blur)="onBlur()">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Short Name" formControlName="shortName">
+    <input matInput placeholder="Short Name" formControlName="shortName" (focus)="onFocus()" (blur)="onBlur()">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Help Question" formControlName="helpQuestion">
+    <input matInput placeholder="Help Question" formControlName="helpQuestion" (focus)="onFocus()" (blur)="onBlur()">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Help Tooltip" formControlName="helpTooltip">
+    <input matInput placeholder="Help Tooltip" formControlName="helpTooltip" (focus)="onFocus()" (blur)="onBlur()">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Handover Text" formControlName="handoverText">
+    <input matInput placeholder="Handover Text" formControlName="handoverText" (focus)="onFocus()" (blur)="onBlur()">
   </mat-form-field>
   <div>
     <mat-checkbox formControlName="mandatory">mandatory</mat-checkbox>

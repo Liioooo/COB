@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="AdvisorLogin.svg">
+   sodipodi:docname="SplashScreen.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -59,36 +59,30 @@
        style="fill:#ffffff;fill-opacity:1;stroke:#00472d;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect5055"
        width="700"
-       height="100"
+       height="414.4762"
        x="50"
-       y="-250"
-       ry="12.111931" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:#00472d;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5055-7"
-       width="500"
-       height="100"
-       x="150"
-       y="-50"
-       ry="12.111931" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:#00472d;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5055-7-6"
-       width="500"
-       height="100"
-       x="150"
-       y="100"
-       ry="12.111931" />
+       y="-210.2381"
+       ry="50.201069" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="228.37549"
-       y="-186.55304"
+       x="220.77321"
+       y="11.77946"
        id="text5181"><tspan
          sodipodi:role="line"
          id="tspan5179"
-         x="228.37549"
-         y="-186.55304"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:52.91666794px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332">AdvisorLogin</tspan></text>
-  </g>
+         x="220.77321"
+         y="11.77946"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:52.91666794px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332">SplashScreen</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot839"
+       style="fill:black;fill-opacity:1;stroke:none;font-family:'Berlin Sans FB Demi';font-style:normal;font-weight:normal;font-size:17.33333333px;line-height:1.25;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:'Berlin Sans FB Demi';font-stretch:normal;font-variant:normal"><flowRegion
+         id="flowRegion841"><rect
+           id="rect843"
+           width="2202.8572"
+           height="1128.5714"
+           x="434.28571"
+           y="864.85944" /></flowRegion><flowPara
+         id="flowPara845"></flowPara></flowRoot>  </g>
 </svg>

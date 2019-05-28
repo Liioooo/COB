@@ -3,6 +3,7 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validat
 import {DuplicateIDValidator} from '../../validators/DuplicateIDValidator';
 import {Page} from '../../models/page-interface';
 import {ErrorStateMatcher} from '@angular/material';
+import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
 @Component({
   selector: 'app-edit',
@@ -25,7 +26,8 @@ export class EditComponent implements OnInit, OnChanges {
   public newIdForm: FormGroup;
 
   constructor(
-    private duplicateIdValidator: DuplicateIDValidator
+    private duplicateIdValidator: DuplicateIDValidator,
+    private pageStructure: PageStructureService
   ) {
       this.errorStateMatcher = new IdErrorStateMatcher();
   }
@@ -59,6 +61,14 @@ export class EditComponent implements OnInit, OnChanges {
 
     this.valueChange.emit(content ? content : this.newIdForm.controls.email.value);
     this.state = false;
+  }
+
+  onFocus() {
+    this.pageStructure.editingPageInSidebar = true;
+  }
+
+  onBlur() {
+    this.pageStructure.editingPageInSidebar = false;
   }
 
 }

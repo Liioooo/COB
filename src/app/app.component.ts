@@ -120,8 +120,10 @@ export class AppComponent implements OnInit {
       } else if (!event.altKey) {
         switch (event.code) {
           case "Delete":
-            this.pageStructure.removeSelectedPages();
-            this.changeDetRef.detectChanges();
+            if (!this.pageStructure.editingPageInSidebar) {
+              this.pageStructure.removeSelectedPages();
+              this.changeDetRef.detectChanges();
+            }
             break;
           case "Escape":
             if (this.searchService.show) { this.searchService.toggle(); }
@@ -142,11 +144,22 @@ export class AppComponent implements OnInit {
             this.pageViewGrid.moveSelection("RIGHT");
             this.changeDetRef.detectChanges();
             break;
+          case "Space":
+            event.preventDefault();
+            if (this.pageStructure.pages.length !== 0) {
+              this.pageStructure.selectedPages = [this.pageStructure.pages[0]];
+              this.pageStructure.triggerScrollToPage(this.pageStructure.pages[0]);
+              this.changeDetRef.detectChanges();
+            }
+            break;
         }
       }
   }
 
   private moveSelected(x: number, y: number): void {
+    if (this.pageStructure.editingPageInSidebar) {
+      return;
+    }
     const pos = this.pageViewGrid.getNextGridPositionMulti(this.pageStructure.selectedPages, x, y, true);
     this.pageStructure.selectedPages.forEach(selPage => {
       selPage.posX += pos.x;

@@ -15,6 +15,7 @@ export class PageStructureService {
   private _clipboard: Page[];
   private _selectedPages: Page[];
   public results: Page[] = [];
+  private _editingPageInSidebar: boolean = false;
 
   private mandatoryProperties = [
     'questionId',
@@ -115,7 +116,8 @@ export class PageStructureService {
         .filter(p => p)
         .map(p => {
           return oldToNewPages[p.questionId];
-      });
+        })
+        .filter(p => !!p);
     }
 
     if (firstNewPage) {
@@ -436,21 +438,11 @@ export class PageStructureService {
   }
 
   public getCOBJSONQuestions(): string {
-  // public getCOBJSON(): string {
     const outPages = [];
 
     this._pages.forEach(page => {
       const outPage = this.removeObjectProperties({...page}, this.recursiveProperties);
-      // const outPage = this.keepObjectProperties({...page}, this.recursiveProperties);
-      // if (outPage && outPage.connections) {
-      //   if (outPage.connections.length > 1) {
-      //     outPage.con0 = outPage.connections.find(c => c.nextPage !== outPage.nextPage).questionId;
-      //   }
-      //   if (outPage.connections.length > 2) {
-      //     outPage.con1 = outPage.connections.find(c => c.nextPage !== outPage.nextPage && c.nextPage !== outPage.con0).questionId;
-      //   }
-      // }
-      // outPage.connections = undefined;
+
       outPages.push(outPage);
     });
 
@@ -485,5 +477,14 @@ export class PageStructureService {
     });
 
     return JSON.stringify(outPages, null, 2);
+  }
+
+
+  get editingPageInSidebar(): boolean {
+    return this._editingPageInSidebar;
+  }
+
+  set editingPageInSidebar(value: boolean) {
+    this._editingPageInSidebar = value;
   }
 }

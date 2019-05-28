@@ -3,7 +3,7 @@
   <div formArrayName="selectionOptions" *ngFor="let option of form.controls.selectionOptions['controls']; let i = index">
     <mat-form-field>
       <ng-container [formGroupName]="i">
-        <input matInput formControlName="label" [placeholder]="'Option ' + (i + 1)">
+        <input matInput formControlName="label" [placeholder]="'Option ' + (i + 1)" (focus)="onFocus()" (blur)="onBlur()">
       </ng-container>
     </mat-form-field>
     <button mat-icon-button (click)="removeOption(i)" [disabled]="form.controls.selectionOptions['controls'].length === 1">
