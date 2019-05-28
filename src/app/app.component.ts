@@ -50,8 +50,8 @@ export class AppComponent implements OnInit {
       if (event.shiftKey) {
         switch (event.code) {
           case 'KeyE':
-              this.fileIO.exportJSONs();
-              break;
+            this.fileIO.exportJSONs();
+            break;
           case 'KeyI':
             this.fileIO.importJSONs();
             break;
@@ -93,6 +93,9 @@ export class AppComponent implements OnInit {
           case "KeyF":
             this.searchService.toggle();
             this.changeDetRef.detectChanges();
+            break;
+          case "KeyO":
+            this.fileIO.open();
             break;
           case "KeyO":
             this.fileIO.open();

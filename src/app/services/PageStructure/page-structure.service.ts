@@ -40,6 +40,13 @@ export class PageStructureService {
     'connections'
   ];
 
+  private recursiveProperties = [
+    'currentlyDragged',
+    'draggingNewConnection',
+    'prevConnected',
+    'connections'
+  ];
+
   constructor(private searchService: SearchService) {
     this._pages = [];
     this._clipboard = [];
@@ -311,6 +318,12 @@ export class PageStructureService {
     if (p1.connections.length === 1) {
       p1.nextQuestion = p2.questionId;
     }
+    if (p1.connections.length === 2) {
+      p1.thanQuestion = p2.questionId;
+    }
+    if (p1.connections.length === 3) {
+      p1.elseQuestion = p2.questionId;
+    }
     p2.prevConnected.push(p1);
   }
 
@@ -416,5 +429,61 @@ export class PageStructureService {
       out[prop] = obj[prop];
     }
     return out;
+  }
+
+  public getCOBJSON(): string {
+    return '[' + this.getCOBJSONQuestions() + ',' + this.getCOBJSONQWorkflow() + ']';
+  }
+
+  public getCOBJSONQuestions(): string {
+  // public getCOBJSON(): string {
+    const outPages = [];
+
+    this._pages.forEach(page => {
+      const outPage = this.removeObjectProperties({...page}, this.recursiveProperties);
+      // const outPage = this.keepObjectProperties({...page}, this.recursiveProperties);
+      // if (outPage && outPage.connections) {
+      //   if (outPage.connections.length > 1) {
+      //     outPage.con0 = outPage.connections.find(c => c.nextPage !== outPage.nextPage).questionId;
+      //   }
+      //   if (outPage.connections.length > 2) {
+      //     outPage.con1 = outPage.connections.find(c => c.nextPage !== outPage.nextPage && c.nextPage !== outPage.con0).questionId;
+      //   }
+      // }
+      // outPage.connections = undefined;
+      outPages.push(outPage);
+    });
+
+    return JSON.stringify(outPages, null, 2);
+  }
+
+  public getCOBJSONQWorkflow(): string {
+    const usedProperties = [
+      'questionId',
+      'condition',
+      'elseQuestion',
+      'thanQuestion',
+      'nextQuestion',
+      "con0",
+      "con1",
+      "connections"
+    ];
+
+    const outPages = [];
+    this._pages.forEach(page => {
+      const outPage = this.keepObjectProperties({...page}, usedProperties);
+      if (outPage && outPage.connections) {
+        if (outPage.connections.length > 1) {
+          outPage.con0 = outPage.connections.find(c => c.nextPage !== outPage.nextPage).questionId;
+        }
+        if (outPage.connections.length > 2) {
+          outPage.con1 = outPage.connections.find(c => c.nextPage !== outPage.nextPage && c.nextPage !== outPage.con0).questionId;
+        }
+      }
+      outPage.connections = undefined;
+      outPages.push(outPage);
+    });
+
+    return JSON.stringify(outPages, null, 2);
   }
 }

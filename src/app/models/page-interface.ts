@@ -3,6 +3,8 @@ export interface Page {
   templateType: 'none' | 'AdvisorLogin' | 'SingleSelectCheckbox' | 'SplashScreen' | 'Slider' | 'FamilySituation' |
     'MultiSelectCheckbox' | 'MonthlyInvestment' | 'Summary' | 'ConfirmationRejection';
 
+
+  // diese sonderbare Struktur hat historische Gründe
   connections: {
     nextPage: Page;
   }[];

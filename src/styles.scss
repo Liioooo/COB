@@ -50,3 +50,7 @@ body {
     color: $red-warning;
   }
 }
+
+.mat-checkbox-label {
+  user-select: none !important;
+}

@@ -52,53 +52,61 @@ export class FileIOService {
       const readPages: Page[] = JSON.parse(questionsData);
       const flow = JSON.parse(workflowData) as any[];
 
-      this.pageStructure.clearAll();
-
-      for (const page of readPages) {
-        this.pageStructure.pages.push({
-            ...this.pageStructure.getEmptyPage(0, 0),
-            ...page,
-            ...flow.find(p => p.questionId === page.questionId)
-        } as Page);
-      }
-      this.pageStructure.startPage = this.pageStructure.pages[0];
-
-      for (const page of this.pageStructure.pages) {
-        const nextQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.nextQuestion)];
-        const thanQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.thanQuestion)];
-        const elseQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.elseQuestion)];
-
-        if (nextQ) {
-          this.pageStructure.connectPages(page, nextQ);
-        }
-        if (thanQ) {
-          this.pageStructure.connectPages(page, thanQ);
-        }
-        if (elseQ) {
-          this.pageStructure.connectPages(page, elseQ);
-        }
-      }
-
-      this.pageViewGrid.alignPage(this.pageStructure.pages[0]);
-      for (const page of this.pageStructure.pages) {
-        const pixelPos = this.pageViewGrid.convertGridPosToPixelPos(page.posX, page.posY);
-        page.pixelPosX = pixelPos.x;
-        page.pixelPosY = pixelPos.y;
-      }
-
-      this.appRef.tick();
+      this.includeJSONs(readPages, flow, true);
     } catch (e) {
       this.pageStructure.clearAll();
       this.electronService.remote.dialog.showErrorBox('Invalid Files', 'The files you a trying to import are invalid!!');
     }
   }
 
+  private includeJSONs(readPages: Page[], flow: any[], autoAlign: boolean) {
+    this.pageStructure.clearAll();
+
+    for (const page of readPages) {
+      this.pageStructure.pages.push({
+        ...this.pageStructure.getEmptyPage(0, 0),
+        ...page,
+        ...flow.find(p => p.questionId === page.questionId)
+      } as Page);
+    }
+    this.pageStructure.startPage = this.pageStructure.pages[0];
+
+    for (const page of this.pageStructure.pages) {
+      const nextQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.nextQuestion)];
+      const thanQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.thanQuestion)];
+      const elseQ = this.pageStructure.pages[this.pageStructure.pages.findIndex(p => p.questionId === page.elseQuestion)];
+
+      if (nextQ) {
+        this.pageStructure.connectPages(page, nextQ);
+      }
+      if (thanQ) {
+        this.pageStructure.connectPages(page, thanQ);
+      }
+      if (elseQ) {
+        this.pageStructure.connectPages(page, elseQ);
+      }
+    }
+
+    if (autoAlign) {
+      this.pageViewGrid.alignPage(this.pageStructure.pages[0]);
+      for (const page of this.pageStructure.pages) {
+        const pixelPos = this.pageViewGrid.convertGridPosToPixelPos(page.posX, page.posY);
+        page.pixelPosX = pixelPos.x;
+        page.pixelPosY = pixelPos.y;
+      }
+    }
+
+    this.appRef.tick();
+  }
+
   public async saveAs() {
     try {
       const path = await getSavePath(this.electronService, {filters: [{extensions: ['cob'], name: 'COB-Projects'}]});
+      await writeFile(path, this.pageStructure.getCOBJSON());
       this.currentlyOpendFile = path;
+      console.log('saved');
     } catch (e) {
-
+      console.log(e);
     }
   }
 
@@ -117,7 +125,12 @@ export class FileIOService {
 
   public async openFile(path: string) {
     this.currentlyOpendFile = path;
-    console.log(path);
+    const file = JSON.parse((await readFile(path)).toString());
+
+    const questions = file[0];
+    const flow = file[1];
+
+    this.includeJSONs(questions, flow, false);
   }
 
   public async new() {
