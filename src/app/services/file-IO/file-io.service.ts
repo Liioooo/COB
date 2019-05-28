@@ -20,7 +20,7 @@ export class FileIOService {
   ) {
     this.electronService.ipcRenderer.send('getOpenedPath');
     this.electronService.ipcRenderer.once('getOpenedPathResponse', (event, data) => {
-      if (data !== null) {
+      if (data !== null && data !== '.') {
         this.openFile(data);
       }
     });
