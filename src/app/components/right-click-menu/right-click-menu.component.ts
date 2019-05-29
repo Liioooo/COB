@@ -23,7 +23,7 @@ export class RightClickMenuComponent implements OnChanges {
   @Input()
   position: { x: number, y: number };
 
-  @ViewChild('main')
+  @ViewChild('main', { static: true })
   private container: ElementRef<HTMLDivElement>;
 
   @Output()

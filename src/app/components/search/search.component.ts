@@ -10,7 +10,7 @@ import {PageStructureService} from '../../services/PageStructure/page-structure.
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
-  @ViewChild("searchInput") searchInput;
+  @ViewChild("searchInput", { static: true }) searchInput;
 
 
 

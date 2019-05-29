@@ -10,7 +10,7 @@ import {PageViewGridService} from '../../services/page-view-grid/page-view-grid.
 })
 export class MainViewComponent {
 
-  @ViewChild('container')
+  @ViewChild('container', { static: true })
   private container: ElementRef<HTMLDivElement>;
   private currentPageWithConnectionDrag: Page;
 
