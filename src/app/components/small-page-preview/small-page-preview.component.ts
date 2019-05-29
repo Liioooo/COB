@@ -15,7 +15,7 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 })
 export class SmallPagePreviewComponent implements OnDestroy, OnInit {
 
-  @ViewChild('pageDiv')
+  @ViewChild('pageDiv', { static: true })
   pageDiv: ElementRef<HTMLDivElement>;
 
   @Input()

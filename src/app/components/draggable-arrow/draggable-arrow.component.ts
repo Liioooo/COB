@@ -23,7 +23,7 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 })
 export class DraggableArrowComponent implements OnChanges, OnDestroy, OnInit {
 
-  @ViewChild('svgElement')
+  @ViewChild('svgElement', { static: true })
   private svgElement: ElementRef<SVGElement>;
 
   @Input()

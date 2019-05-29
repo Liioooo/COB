@@ -2,25 +2,20 @@ import {ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild} fro
 import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
 import {PageStructureService} from "./services/PageStructure/page-structure.service";
 import {ElectronService} from "ngx-electron";
-import {MatIconRegistry} from "@angular/material";
+import { MatIconRegistry } from "@angular/material/icon";
 import {SearchService} from "./services/search/search.service";
-import {fadeInOnEnterAnimation, fadeOutOnLeaveAnimation} from "angular-animations";
 import {FileIOService} from './services/file-IO/file-io.service';
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
-  animations: [
-    fadeInOnEnterAnimation({duration: 50}),
-    fadeOutOnLeaveAnimation({duration: 50})
-  ]
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild("mainView") mainView: any;
-  @ViewChild("search") search;
-  @ViewChild("sideNav", {read: ElementRef}) sidebarElement: ElementRef<HTMLElement>;
+  @ViewChild("mainView", { static: true }) mainView: any;
+  @ViewChild("search", { static: false }) search;
+  @ViewChild("sideNav", { read: ElementRef, static: true }) sidebarElement: ElementRef<HTMLElement>;
 
   public showRightClickMenu: boolean = false;
   public rcPos: { x: number, y: number };

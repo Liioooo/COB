@@ -1,4 +1,4 @@
-import {app, BrowserWindow, Menu, ipcMain} from 'electron';
+import {app, BrowserWindow, Menu, ipcMain, protocol} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
@@ -9,10 +9,22 @@ let win: BrowserWindow;
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
 
+protocol.registerSchemesAsPrivileged([{scheme: "jsmod", privileges: {standard: true, secure: true}}]);
+
 if (!handleSquirrelEvents(serve, app)) {
   setOpenedPath();
   try {
-    app.on('ready', createWindow);
+    app.on('ready', () => {
+      protocol.registerBufferProtocol('jsmod', (request, callback) => {
+        fs.readFile(path.join(__dirname, '../' + request.url.replace('jsmod://', '').replace(/\/$/, '')), (err, data) => {
+          callback({
+            mimeType: 'text/javascript',
+            data
+          });
+        });
+      });
+      createWindow();
+    });
 
     app.on('activate', () => {
       if (win === null) {
@@ -30,8 +42,6 @@ function createWindow() {
     minWidth: 750,
     minHeight: 500,
     webPreferences: {
-      // devTools: false should be set in production
-      // devTools: false
       nodeIntegration: true
     }
   });

@@ -2,7 +2,7 @@ import {Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output,
 import {FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {DuplicateIDValidator} from '../../validators/DuplicateIDValidator';
 import {Page} from '../../models/page-interface';
-import {ErrorStateMatcher} from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
 
 @Component({

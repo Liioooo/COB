@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Page} from '../../models/page-interface';
 import {PageStructureService} from "../../services/PageStructure/page-structure.service";
-import {MatCheckboxChange} from "@angular/material";
+import { MatCheckboxChange } from "@angular/material/checkbox";
 @Component({
   selector: 'app-right-sidebar',
   templateUrl: './right-sidebar.component.html',
