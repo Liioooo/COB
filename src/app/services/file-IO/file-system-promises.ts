@@ -27,6 +27,10 @@ export function getSavePath(es: ElectronService, options: SaveDialogOptions = {}
   return new Promise<string>((resolve, reject) => {
     try {
       es.remote.dialog.showSaveDialog(null, options, (filename: string) => {
+        if (!filename) {
+          reject(Error('no file selected'));
+          return;
+        }
         resolve(filename);
       });
     } catch (e) {
@@ -39,6 +43,10 @@ export function getPath(es: ElectronService, options: OpenDialogOptions = {}): P
   return new Promise<string>((resolve, reject) => {
     try {
       es.remote.dialog.showOpenDialog(null, options, (filename: string[]) => {
+        if (filename.length === 0) {
+          reject(Error('no file selected'));
+          return;
+        }
         resolve(filename[0]);
       });
     } catch (e) {
