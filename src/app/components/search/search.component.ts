@@ -12,8 +12,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   @ViewChild("searchInput", { static: true }) searchInput;
 
-
-
   constructor(public searchService: SearchService, public pageStructureService: PageStructureService) { }
 
   ngOnInit() {

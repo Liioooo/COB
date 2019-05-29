@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild} fro
 import {PageViewGridService} from "./services/page-view-grid/page-view-grid.service";
 import {PageStructureService} from "./services/PageStructure/page-structure.service";
 import {ElectronService} from "ngx-electron";
-import {MatIconRegistry} from "@angular/material";
+import { MatIconRegistry } from "@angular/material/icon";
 import {SearchService} from "./services/search/search.service";
 import {FileIOService} from './services/file-IO/file-io.service';
 
