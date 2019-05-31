@@ -101,6 +101,9 @@ export class AppComponent implements OnInit {
           case "KeyO":
             this.fileIO.open();
             break;
+          case "KeyS":
+            this.fileIO.save();
+            break;
         }
       }
     } else if (event.shiftKey) {

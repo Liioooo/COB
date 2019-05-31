@@ -111,8 +111,11 @@ export class FileIOService {
   }
 
   public async save() {
-    if (!this.currentlyOpendFile) {
-      return;
+    if (this.currentlyOpendFile) {
+      try {
+        await writeFile(this.currentlyOpendFile, this.pageStructure.getCOBJSON());
+        console.log('saved');
+      } catch (e) {}
     }
   }
 
@@ -124,13 +127,13 @@ export class FileIOService {
   }
 
   public async openFile(path: string) {
-    this.currentlyOpendFile = path;
     const file = JSON.parse((await readFile(path)).toString());
 
     const questions = file[0];
     const flow = file[1];
 
     this.includeJSONs(questions, flow, false);
+    this.currentlyOpendFile = path;
   }
 
   public async new() {
