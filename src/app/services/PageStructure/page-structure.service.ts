@@ -15,7 +15,6 @@ export class PageStructureService {
   private _clipboard: Page[];
   private _selectedPages: Page[];
   public results: Page[] = [];
-  private _editingPageInSidebar: boolean = false;
 
   private mandatoryProperties = [
     'questionId',
@@ -477,14 +476,5 @@ export class PageStructureService {
     });
 
     return JSON.stringify(outPages, null, 2);
-  }
-
-
-  get editingPageInSidebar(): boolean {
-    return this._editingPageInSidebar;
-  }
-
-  set editingPageInSidebar(value: boolean) {
-    this._editingPageInSidebar = value;
   }
 }

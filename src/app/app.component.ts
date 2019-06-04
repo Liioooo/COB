@@ -129,25 +129,29 @@ export class AppComponent implements OnInit {
             }
             break;
           case "ArrowUp":
-            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node) && !this.searchService.show) {
+              event.preventDefault();
               this.pageViewGrid.moveSelection("UP");
               this.changeDetRef.detectChanges();
             }
             break;
           case "ArrowDown":
-            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node) && !this.searchService.show) {
+              event.preventDefault();
               this.pageViewGrid.moveSelection("DOWN");
               this.changeDetRef.detectChanges();
             }
             break;
           case "ArrowLeft":
-            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node) && !this.searchService.show) {
+              event.preventDefault();
               this.pageViewGrid.moveSelection("LEFT");
               this.changeDetRef.detectChanges();
             }
             break;
           case "ArrowRight":
-            if (!this.sidebarElement.nativeElement.contains(event.target as Node)) {
+            if (!this.sidebarElement.nativeElement.contains(event.target as Node) && !this.searchService.show) {
+              event.preventDefault();
               this.pageViewGrid.moveSelection("RIGHT");
               this.changeDetRef.detectChanges();
             }
@@ -246,10 +250,6 @@ export class AppComponent implements OnInit {
     } else {
       this.showRightClickMenu = false;
     }
-  }
-
-  sidebarOpenedChange(open: boolean) {
-    this.pageStructure.editingPageInSidebar = open;
   }
 }
 
