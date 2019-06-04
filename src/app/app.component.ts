@@ -95,8 +95,7 @@ export class AppComponent implements OnInit {
             this.changeDetRef.detectChanges();
             break;
           case "KeyF":
-            this.searchService.toggle();
-            this.changeDetRef.detectChanges();
+            this.ngZone.run(() => this.searchService.toggle());
             break;
           case "KeyO":
             this.fileIO.open();

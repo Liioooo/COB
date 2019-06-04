@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SearchService} from '../../services/search/search.service';
 import {Page} from '../../models/page-interface';
 import {PageStructureService} from '../../services/PageStructure/page-structure.service';
